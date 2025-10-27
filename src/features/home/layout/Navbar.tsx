@@ -1,5 +1,5 @@
 import { Code } from 'lucide-react'
-import ThemeToggler from '../../../../ui/Theme/ThemeToggler'
+import ThemeToggler from '../../../ui/Theme/ThemeToggler'
 import Link from 'next/link'
 
 function Navbar() {
