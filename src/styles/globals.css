@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme {
+  --color-dark-white: #E1E1E1;
+  --color-dark-hoverwhite: #CFCFCF;
+  --color-dark-border: #161616;
+  --color-dark-inputfield: #161616;
+  --color-dark-activeborder: #838383;
+  --color-dark-gray: #181818;
+  --color-dark-hovergray: #202020;
+  --color-dark-textgray: rgb(100, 116, 139);
+  --color-dark-inputborder: #252525;
+  --color-dark-black: #0A0A0A;
+  --color-light-white: #FFFFFF;
+  --color-light-black: #171717;
+  --color-light-hoverblack: #2E2E2E;
+  --color-light-border: #F2F2F2;
+  --color-light-inputfield: #FFFFFF;
+  --color-light-activeborder: #8A8A8A;
+  --color-light-gray: #F1F2F2;
+  --color-light-hovergray: #F5F5F5;
+  --color-light-textgray: rgb(100, 116, 139);
+  --breakpoint-xss: 340px;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
