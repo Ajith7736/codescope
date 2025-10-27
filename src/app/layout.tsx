@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { ThemeProvider } from "next-themes";
 
 
+
 const jetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '700', '800'],
