@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function Home() {
 
   return (
-    <div className="dark:text-dark-white dark:bg-dark-black flex flex-col ">
+    <div className="dark:text-dark-white dark:bg-dark-black flex flex-col">
       <Navbar />
       <Content />
     </div>

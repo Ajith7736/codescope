@@ -1,11 +1,11 @@
 import React from 'react'
 
-function loading() {
+function Loading() {
     return (
-        <div>
+        <div className='w-screen h-screen flex justify-center items-center'>
             Loading...
         </div>
     )
 }
 
-export default loading
+export default Loading;

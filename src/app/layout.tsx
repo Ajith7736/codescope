@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "../styles/globals.css";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/sonner";
 
 
 
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   description: "AI powered web application for code analysis",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -27,6 +28,9 @@ export default function RootLayout({
       <body
         className={`${jetBrainsMono.className} antialiased bg-light-white dark:bg-dark-black`}
       >
+        <Toaster richColors position="top-right" style={{
+          borderRadius: 50
+        }} />
         <ThemeProvider defaultTheme="system" attribute="class">
           {children}
         </ThemeProvider>
