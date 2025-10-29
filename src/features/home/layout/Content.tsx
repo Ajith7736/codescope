@@ -1,11 +1,14 @@
+
 import { DottedGlowBackground } from '../components/Backgrounds/dotted-glow-background'
 import { Code, Github, Shield, TrendingUp } from "lucide-react"
 import Card from '../components/card/Card'
-import { CardProps } from '@/types/type'
+import { CardProps, Session } from '@/types/type'
 import Demo from '../components/Demo'
 import Footer from './Footer'
+import Link from 'next/link'
 
-function Content() {
+function Content({ session }: { session: Session | null }) {
+
 
     const cards: CardProps[] = [
         {
@@ -53,7 +56,7 @@ function Content() {
                     </div>
                     <div className="dark:text-dark-hoverwhite text-light-textgray text-center md:text-lg xss:text-base font-bold">Analyze your codebase for architecture issues, Security vunerabilities and performance bottlenecks.Get AI-Powered refactoring suggestions in seconds.</div>
                     <div className='flex gap-5 mt-5'>
-                        <button className='bg-light-black dark:bg-dark-white dark:text-dark-black rounded-md cursor-pointer hover:bg-light-hoverblack transition duration-300 dark:hover:bg-dark-hoverwhite  text-light-white p-3 shadow-light-activeborder shadow-md dark:shadow-none xss:text-base md:text-base font-extrabold'>Start Your Analysis</button>
+                        <Link href={session ? "/Dashboard" : "/Signup"}><button className='bg-light-black dark:bg-dark-white dark:text-dark-black rounded-md cursor-pointer hover:bg-light-hoverblack transition duration-300 dark:hover:bg-dark-hoverwhite  text-light-white p-3 shadow-light-activeborder shadow-md dark:shadow-none xss:text-base md:text-base font-extrabold'>Start Your Analysis</button></Link>
                         <button className='p-2 rounded-md cursor-pointer hover:bg-light-hovergray transition duration-300 dark:hover:bg-dark-hovergray dark:bg-dark-hovergray/40 dark:backdrop-blur-2xl xss:text-sm md:text-base'>Github</button>
                     </div>
                 </div>

@@ -5,8 +5,7 @@ import React from 'react'
 function page() {
 
   const { data: session } = useSession();
-
-  console.log(session);
+ 
 
   return (
     <div>

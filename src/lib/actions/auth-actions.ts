@@ -2,21 +2,22 @@
 
 import { headers } from "next/headers";
 import { auth } from "../auth"
-import { betterAuth } from "better-auth";
-import { redirect } from "next/navigation";
-
-
 
 
 export const signUp = async (email: string, password: string, name: string): Promise<{ success: boolean, message: string }> => {
     try {
         await auth.api.signUpEmail({
             body: {
-                email, password, name, callbackURL: "/Dashboard"
+                email,
+                password,
+                name,
+                callbackURL: "/Dashboard"
             }
         })
-        return { success: true, message: "Signed Up Successfully" };
-
+        return {
+            success: true,
+            message: "Credential Added \n Verification Email Sent to your Email"
+        }
     } catch (error) {
         const e = error as Error
         return {
@@ -39,7 +40,7 @@ export const signIn = async (email: string, password: string) => {
         const e = error as Error
         return {
             success: false,
-            message: { error: e.message || "An unknown error occuered" }
+            message: e.message || "An unknown error occuered"
         }
     }
 }
