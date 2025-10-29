@@ -9,15 +9,18 @@ import { Signinprops } from '@/types/type'
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 function page() {
     const { data: session, isPending } = useSession();
 
-    if (session) {
-        redirect("/Dashboard")
-    }
+    useEffect(() => {
+        if (session) {
+            redirect("/Dashboard")
+        }
+    }, [session])
 
     const {
         register,

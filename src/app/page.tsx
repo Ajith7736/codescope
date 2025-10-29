@@ -2,11 +2,19 @@
 import { useSession } from "@/lib/auth-client";
 import Content from "../features/home/layout/Content";
 import Navbar from "../features/home/layout/Navbar";
-import Image from "next/image";
 import Loading from "./loading";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const { data: session, isPending } = useSession()
+
+  useEffect(() => {
+    if(session){
+      redirect("/Dashboard")
+    }
+  }, [session])
+  
 
   if (isPending) return <Loading />
   return (

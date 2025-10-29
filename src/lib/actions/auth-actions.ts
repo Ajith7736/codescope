@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { auth } from "../auth"
+import { redirect } from "next/navigation";
 
 
 export const signUp = async (email: string, password: string, name: string): Promise<{ success: boolean, message: string }> => {
@@ -32,9 +33,10 @@ export const signIn = async (email: string, password: string) => {
     try {
         await auth.api.signInEmail({
             body: {
-                email, password, callbackURL: "/Dashboard"
+                email, password
             }
         })
+        redirect("/Dashboard")
         return { success: true, message: "Signed In Successfully" };
     } catch (error) {
         const e = error as Error
@@ -45,14 +47,6 @@ export const signIn = async (email: string, password: string) => {
     }
 }
 
-
-// export const EmailVerification = betterAuth({
-//     emailVerification: {
-//         sendVerificationEmail: async ({ user, url, token }, requuest) => {
-//             await sendEmail
-//         }
-//     }
-// })
 
 
 export const signOut = async () => {

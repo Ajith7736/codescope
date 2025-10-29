@@ -7,18 +7,23 @@ import { useSession } from '@/lib/auth-client'
 import { Inputs } from '@/types/type'
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { toast } from 'sonner'
 import Loading from '@/app/loading'
 import { Authproviders } from '@/lib/Authproviders'
+import { redirect } from 'next/navigation'
+import { useEffect } from 'react'
 
 function Page() {
   const { data: session, isPending } = useSession();
 
-  if (session) {
-    redirect("/Dashboard")
-  }
+  useEffect(() => {
+    if(session){
+      redirect("/Dashboard")
+    }
+  }, [session])
+  
+  
 
   const {
     register,
