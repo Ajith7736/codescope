@@ -17,4 +17,14 @@ export type Inputs = {
     password: string
 }
 
+export type Signinprops = {
+    email : string,
+    password : string
+}
+
+export type VerifyEmailProps = {
+    user : string,
+    url : string
+}
+
 export type Session = typeof auth.$Infer.Session;

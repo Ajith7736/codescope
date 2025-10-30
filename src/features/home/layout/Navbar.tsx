@@ -2,21 +2,19 @@
 import { Code } from 'lucide-react'
 import ThemeToggler from '../../../ui/Theme/ThemeToggler'
 import Link from 'next/link'
-import { authClient, useSession } from '@/lib/auth-client'
+import { useSession } from '@/lib/auth-client'
 import { Session } from '@/types/type';
 import { signOut } from '@/lib/actions/auth-actions';
-import { useRouter } from 'next/navigation'
 
 
 function Navbar() {
 
     const { data: session }: { data: Session | null } = useSession();
-    const router = useRouter();
+
 
     const handlesignout = async () => {
         await signOut();
-        router.refresh();
-        router.push("/Signup")
+        window.location.href = "/Signup"
     }
 
     return (

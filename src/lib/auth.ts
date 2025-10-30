@@ -2,14 +2,29 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "@/generated/prisma/client";
 import { nextCookies } from "better-auth/next-js";
+import { SendEmail } from "./actions/email-actions";
+
 
 const prisma = new PrismaClient();
 export const auth = betterAuth({
+    emailVerification: {
+        sendVerificationEmail: async ({ user, url }) => {
+            await SendEmail({
+                to: user.email,
+                subject: "Verify your email address",
+                url,
+                name : user.name
+            });
+        },
+        sendOnSignUp: true,
+        autoSignInAfterVerification: true
+    },
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
     emailAndPassword: {
-        enabled: true
+        enabled: true,
+        requireEmailVerification: true
     },
     socialProviders: {
         github: {

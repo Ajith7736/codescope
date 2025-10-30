@@ -1,7 +1,8 @@
 "use client"
 
+import Loading from '@/app/loading';
 import { authClient } from '@/lib/auth-client';
-import React from 'react'
+import React, { useState } from 'react'
 import { toast } from 'sonner';
 
 function Authcard({ img, provider }: { img: React.ReactElement, provider: "google" | "github" }) {
