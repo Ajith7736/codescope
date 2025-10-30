@@ -18,6 +18,7 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  projects      Project[]
 
   @@unique([email])
   @@map("user")
@@ -68,3 +69,33 @@ model Verification {
   @@map("verification")
 }
 
+model Project {
+  id String @id @default(uuid())
+  projectname String 
+  files File[]
+  anaylsis Analysis[]
+  userId String
+  user User @relation(fields: [userId],references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model File {
+  id String @id @default(uuid())
+  filename String 
+  content String
+  projectId String
+  project Project @relation(fields: [projectId],references: [id],onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Analysis {
+  id String @id @default(uuid())
+  type String
+  status String @default("pending")
+  result Json?
+  summary String?
+  projectId String
+  project Project @relation(fields: [projectId] , references: [id] , onDelete: Cascade)
+  createdAt DateTime @default(now())
+  completedAt DateTime? 
+}
