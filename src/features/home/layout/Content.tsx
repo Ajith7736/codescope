@@ -60,9 +60,6 @@ function Content({ session }: { session: Session | null }) {
                         <button className='p-2 rounded-md cursor-pointer hover:bg-light-hovergray transition duration-300 dark:hover:bg-dark-hovergray dark:bg-dark-hovergray/40 dark:backdrop-blur-2xl xss:text-sm md:text-base'>Github</button>
                     </div>
                 </div>
-
-
-
             </div>
 
             <div className='w-full p-5 flex flex-col md:flex-wrap gap-5 md:flex-row md:items-center justify-center'>

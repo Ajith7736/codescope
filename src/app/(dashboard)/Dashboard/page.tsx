@@ -2,7 +2,6 @@
 import Nav from '@/features/dashboard/components/Nav';
 import Sidebar from '@/features/dashboard/components/Sidebar';
 import { useSession } from '@/lib/auth-client'
-import { PanelLeft } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import { useState } from 'react'
 

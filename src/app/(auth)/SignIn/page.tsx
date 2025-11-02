@@ -25,7 +25,6 @@ function page() {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors, isSubmitting },
     } = useForm<Signinprops>()
 
@@ -39,6 +38,7 @@ function page() {
         const { success, message } = await signIn(data.email, data.password);
         if (success) {
             toast.success(message)
+            redirect("/Dashboard")
         } else {
             toast.error(message)
         }
