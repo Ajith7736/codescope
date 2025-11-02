@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTheme, UseThemeProps } from 'next-themes';
-import { SunDim, Moon } from 'lucide-react';
+import { SunDim, Moon, Sun } from 'lucide-react';
 import { motion } from 'motion/react';
 
 function ThemeToggler() {
@@ -24,7 +24,7 @@ function ThemeToggler() {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ ease: "easeInOut", delay: 0 }}>
                 {theme === "light" ?
-                    <SunDim onClick={() => setTheme("dark")} /> :
+                    <Sun size={19} onClick={() => setTheme("dark")} /> :
                     <Moon size={19} onClick={() => setTheme("light")} />
                 }
             </motion.div>
