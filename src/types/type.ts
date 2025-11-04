@@ -30,8 +30,7 @@ export type VerifyEmailProps = {
 
 export interface Linkprops {
     icon : React.ReactElement,
-    link : Route,
-    name : string
+    name : "dashboard" | "analysis" | "projects"
 }
 
 export type Session = typeof auth.$Infer.Session;
