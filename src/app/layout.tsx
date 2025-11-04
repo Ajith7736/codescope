@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import ToastWrapper from "@/lib/ToastWrapper";
+import { PageProvider } from "@/context/PageProvider";
 
 
 
@@ -30,9 +31,11 @@ export default async function RootLayout({
         className={`${jetBrainsMono.className} antialiased bg-light-white dark:bg-dark-black`}
       >
         <ThemeProvider defaultTheme="system" attribute="class">
-          <ToastWrapper>
-            {children}
-          </ToastWrapper>
+          <PageProvider>
+            <ToastWrapper>
+              {children}
+            </ToastWrapper>
+          </PageProvider>
         </ThemeProvider>
       </body>
     </html>
