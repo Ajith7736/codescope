@@ -1,5 +1,4 @@
 import { auth } from "@/lib/auth"
-import type { Route } from "next"
 
 export interface CardProps {
     logo: React.ReactElement,
@@ -31,6 +30,13 @@ export type VerifyEmailProps = {
 export interface Linkprops {
     icon : React.ReactElement,
     name : "dashboard" | "analysis" | "projects"
+}
+
+export interface DashCardProps {
+    icon : React.ReactElement,
+    number : string,
+    title : string,
+    style? : string
 }
 
 export type Session = typeof auth.$Infer.Session;
