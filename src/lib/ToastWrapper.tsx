@@ -1,10 +1,10 @@
 "use client"
 
-import { ReactNode } from 'react'
+
 import { Toaster } from 'sonner'
 import { useTheme, UseThemeProps } from 'next-themes'
 
-function ToastWrapper({ children }: { children: ReactNode }) {
+function ToastWrapper({ children }: { children: React.ReactNode }) {
 
     const { resolvedTheme }: UseThemeProps = useTheme();
 

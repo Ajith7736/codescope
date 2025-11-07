@@ -26,9 +26,9 @@ function page() {
 
 
   return (
-    <div className='flex'>
+    <div className='flex min-h-screen'>
       <Sidebar showsidebar={showsidebar} setshowsidebar={setshowsidebar} />
-      <div className='bg-light-white flex flex-col dark:bg-dark-black md:flex-1 xss:w-full min-h-screen p-5 gap-5'>
+      <div className='bg-light-white flex flex-col dark:bg-dark-black md:flex-1 xss:w-full max-h-screen gap-5'>
         <Nav handlesidebar={handlesidebar} />
         <Activity mode={currentpage === "dashboard" ? 'visible' : 'hidden'}>
           <DashContent />

@@ -5,7 +5,7 @@ import { PanelLeft } from 'lucide-react'
 function Nav({ handlesidebar }: { handlesidebar: () => void }) {
     const { currentpage } = usePage();
     return (
-        <div className='flex items-center gap-3'>
+        <div className='flex items-center gap-3 mx-5 mt-5'>
             <button><PanelLeft onClick={handlesidebar} className='size-5 cursor-pointer' /></button>
             <div className='xss:text-xs md:text-sm capitalize'>{currentpage}</div>
         </div>
