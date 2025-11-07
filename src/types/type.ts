@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth"
+import { AppRoute } from "next/dist/build/swc/types"
 
 export interface CardProps {
     logo: React.ReactElement,
@@ -29,7 +30,8 @@ export type VerifyEmailProps = {
 
 export interface Linkprops {
     icon : React.ReactElement,
-    name : "dashboard" | "analysis" | "projects"
+    name : "dashboard" | "analysis" | "projects",
+    route : string
 }
 
 export interface DashCardProps {

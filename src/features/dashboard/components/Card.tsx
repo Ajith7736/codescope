@@ -5,7 +5,7 @@ import React from 'react'
 
 function Card({ item }: { item: DashCardProps }) {
     return (
-        <div className='dark:bg-dark-hovergray flex flex-col p-7 xss:gap-3 md:gap-4 xss:w-[18rem] md:w-52  items-center rounded-md'>
+        <div className='dark:bg-dark-hovergray bg-light-hovergray/90 flex flex-col p-7 xss:gap-3 md:gap-4 xss:w-[18rem] md:w-52  items-center rounded-md'>
             <div className={`${item.style} rounded-md p-5`}>{item.icon}</div>
             <SecondTitle>{item.number}</SecondTitle>
             <SmallText>{item.title}</SmallText>

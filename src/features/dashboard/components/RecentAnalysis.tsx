@@ -7,7 +7,7 @@ import React from 'react'
 
 function RecentAnalysis() {
     return (
-        <div className='bg-dark-gray border dark:border-dark-activeborder/20 rounded-md'>
+        <div className='bg-light-gray dark:bg-dark-gray border border-dark-activeborder/20 rounded-md'>
             <div className='p-8 border border-dark-activeborder/20 border-t-0 border-x-0'>
                 <SecondTitle>Recent Analysis</SecondTitle>
             </div>
