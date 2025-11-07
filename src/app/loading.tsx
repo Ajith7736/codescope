@@ -16,7 +16,7 @@ function Loading() {
     if(!isClient) return null;
 
     return (
-        <div className='absolute w-screen h-screen flex justify-center items-center'>
+        <div className='absolute w-screen h-screen dark:bg-dark-black bg-light-white flex justify-center items-center'>
             <Trefoil
                 size="40"
                 stroke="4"

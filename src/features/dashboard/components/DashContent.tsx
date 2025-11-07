@@ -11,10 +11,13 @@ import React from 'react'
 import RecentProject from './RecentProject'
 import Card from './Card'
 import RecentAnalysis from './RecentAnalysis'
+import Link from 'next/link'
+import { usePage } from '@/context/PageProvider'
+import { redirect } from 'next/navigation'
 
 function DashContent() {
 
-
+  const { currentpage, setcurrentpage } = usePage()
   const card: DashCardProps[] = [
     {
       icon: <Folder />,
@@ -30,27 +33,26 @@ function DashContent() {
     },
     {
       icon: <TriangleAlert />,
-      number: "1,245",
-      title: "Files Analyzed",
+      number: "42",
+      title: "Issues Found",
       style: "bg-orange-500/30 text-orange-600"
     },
     {
       icon: <CircleCheckBig />,
-      number: "1,245",
-      title: "Files Analyzed",
+      number: "1,203",
+      title: "Issues Resolved",
       style: "bg-green-500/30 text-green-600"
-    },
-  ]
+    },]
 
   return (
     <div className='flex flex-col overflow-auto transition-all duration-300'>
-      <div className='bg-light-white dark:bg-dark-gray p-5 flex justify-between items-center'>
+      <div className='bg-light-gray dark:bg-dark-gray p-5 flex justify-between items-center'>
         <div className='lg:w-full xss:w-[40vw]'>
           <SecondTitle>Dashboard</SecondTitle>
           <SmallText>Welcome Back! Here's your code analysis overview.</SmallText>
         </div>
         <div>
-          <Button icons={<Plus className='size-4' />}>New Project</Button>
+          <Button onClick={() => redirect("/Dashboard/Projects")} icons={<Plus className='size-4' />}>New Project</Button>
         </div>
       </div>
       <div className='p-5 flex flex-col md:flex-row md:flex-wrap md:justify-center gap-5 items-center'>
