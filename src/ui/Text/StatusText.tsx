@@ -3,10 +3,10 @@ import React from 'react'
 function StatusText({ variant }: { variant: "healthy" | "warning" | "excellent" }) {
 
     const variants = {
-        healthy: "bg-blue-500/40 text-blue-400",
-        warning: "bg-orange-500/40 text-orange-400",
-        excellent: "bg-green-500/40 text-green-400",
-        critical: "bg-red-500/40 text-red-400"
+        healthy: "bg-blue-500/30 text-blue-600",
+        warning: "bg-orange-500/30 text-orange-600",
+        excellent: "bg-green-500/30 text-green-600",
+        critical: "bg-red-500/30 text-red-600"
     }
 
     return (

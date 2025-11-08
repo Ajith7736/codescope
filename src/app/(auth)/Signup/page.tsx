@@ -11,17 +11,18 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { toast } from 'sonner'
 import Loading from '@/app/loading'
 import { Authproviders } from '@/lib/Authproviders'
-import { redirect } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 function Page() {
   const { data: session, isPending } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if(session){
       redirect("/Dashboard")
     }
-  }, [session])
+  }, [session,router])
   
   
 
@@ -41,12 +42,10 @@ function Page() {
     const { message, success }  = await signUp(data.email, data.password, data.name);
     if (success) {
       toast.success(message)
-      redirect("/SignIn")
     } else {
       toast.error(message)
     }
   }
-
 
 
   const required: { value: boolean, message: string } = {
@@ -82,7 +81,7 @@ function Page() {
           <input type='submit' value="Submit" disabled={isSubmitting} className='bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full' />
         }
       </form>
-      <div className='flex w-[20rem] items-center justify-between gap-3'>
+      <div className='flex w-[20rem] items-center gap-3'>
         <div className='w-full h-px bg-light-activeborder dark:bg-dark-activeborder/50'></div>
         <div className='xss:text-xs  font-bold  text-light-activeborder dark:text-dark-activeborder '>OR</div>
         <div className='w-full h-px bg-light-activeborder dark:bg-dark-activeborder/50'></div>
