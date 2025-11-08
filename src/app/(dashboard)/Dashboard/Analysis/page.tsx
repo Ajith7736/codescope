@@ -1,4 +1,4 @@
-import AnalysisContent from '@/features/analysis/components/AnalysisContent'
+import AnalysisContent from '@/features/dashboard/analysis/components/AnalysisContent'
 import React from 'react'
 
 function Page() {

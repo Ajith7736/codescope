@@ -1,5 +1,4 @@
-import ProjectContent from '@/features/projects/components/ProjectContent'
-import React from 'react'
+import ProjectContent from '@/features/dashboard/projects/components/ProjectContent'
 
 function page() {
     return (
