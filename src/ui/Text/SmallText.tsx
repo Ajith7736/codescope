@@ -1,8 +1,8 @@
 import React  from 'react'
 
-function SmallText({children} : {children : React.ReactNode}) {
+function SmallText({children , textcolor } : {children : React.ReactNode , textcolor? : string}) {
   return (
-     <p className='xss:text-xs lg:text-sm'>
+     <p className={`xss:text-xs lg:text-sm ${textcolor}`}>
         {children}
      </p>
   )

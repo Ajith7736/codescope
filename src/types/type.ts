@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth"
 import { AppRoute } from "next/dist/build/swc/types"
+import React from "react"
 
 export interface CardProps {
     logo: React.ReactElement,
@@ -42,3 +43,9 @@ export interface DashCardProps {
 }
 
 export type Session = typeof auth.$Infer.Session;
+
+export interface AnalysisProps {
+    icon : React.ReactElement,
+    score : number,
+    type : string
+}

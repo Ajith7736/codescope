@@ -1,5 +1,4 @@
 "use client"
-import React, { useEffect } from 'react'
 import { motion } from "motion/react"
 import { useRouter } from 'next/navigation'
 import { signOut } from '@/lib/actions/auth-actions';
@@ -7,13 +6,11 @@ import { useSession } from '@/lib/auth-client';
 
 
 function UserBlock() {
-    const router = useRouter();
-    const { refetch} = useSession();
+    const { refetch } = useSession();
     const handlelogout = async () => {
         await signOut();
         refetch();
     }
-
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className=' bg-light-hovergray dark:bg-dark-gray border shadow-md border-light-activeborder/20 p-1 w-52 text-sm'>

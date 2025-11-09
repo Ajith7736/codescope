@@ -4,7 +4,6 @@ import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
 import StatusText from '@/ui/Text/StatusText'
 import { Code } from 'lucide-react'
-import React from 'react'
 
 function RecentProject() {
     return (
