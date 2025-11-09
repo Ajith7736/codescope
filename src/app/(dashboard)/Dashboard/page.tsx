@@ -1,7 +1,5 @@
 import DashContent from '@/features/dashboard/components/DashContent';
 
-
-
 function page() {
   return (
     <>

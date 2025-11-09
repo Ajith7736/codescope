@@ -9,7 +9,7 @@ import Loading from '@/app/loading'
 import Image from 'next/image'
 import { usePage } from '@/context/PageProvider'
 import UserBlock from './UserBlock'
-import {  useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setshowsidebar: React.Dispatch<React.SetStateAction<boolean>> }) {
     const isLargescreen = useMediaQuery({ minWidth: 768 })
@@ -19,6 +19,7 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
     const [showuserblock, setshowuserblock] = useState<boolean>(false);
     const { setcurrentpage } = usePage();
     const router = useRouter();
+    const pathname = usePathname();
 
 
     useOutsideClick(sideref, () => {
@@ -35,15 +36,15 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
         {
             icon: <LayoutDashboard className='xss:size-4 md:size-5' />,
             name: "dashboard",
-            route : "/Dashboard"
+            route: "/Dashboard"
         }, {
             icon: <Computer className='xss:size-4 md:size-5' />,
             name: "projects",
-            route : "/Dashboard/Projects"
+            route: "/Dashboard/Projects"
         }, {
             icon: <ListCheck className='xss:size-4 md:size-5' />,
             name: "analysis",
-            route : "/Dashboard/Analysis"
+            route: "/Dashboard/Analysis"
         }
     ]
 
@@ -84,11 +85,26 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                 </div>
             </div>
             <div className={`text-center flex items-center xss:gap-4 ${showsidebar && 'hover:bg-light-activeborder/10 lg:gap-6  hover:dark:bg-dark-hovergray'} min-w-4 rounded-lg cursor-pointer transition-all duration-300 xss:p-2 md:p-1.5 lg:p-2`}>
-                {session?.user.image ? <Image height={20} width={20} src={session?.user.image} alt="profile pic" className='rounded-full size-7' /> : <div>
-                    <div className="relative w-8 h-8 overflow-hidden bg-gray-300 rounded-full dark:bg-gray-600">
-                        <svg className="absolute w-10 h-10 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
-                    </div>
-                </div>}
+                {session?.user.image ?
+                    <Image
+                        height={20}
+                        width={20}
+                        src={session?.user.image}
+                        alt="profile pic"
+                        className='rounded-full size-7'
+                        onClick={() => {
+                            if (!showsidebar) setshowsidebar(true)
+                        }}
+                    />
+                    :
+                    <div
+                        onClick={() => {
+                            if (!showsidebar) setshowsidebar(true)
+                        }}>
+                        <div className="relative w-8 h-8 overflow-hidden bg-gray-300 rounded-full dark:bg-gray-600">
+                            <svg className="absolute w-10 h-10 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
+                        </div>
+                    </div>}
                 <div className={`overflow-hidden ${showsidebar ? 'md:visible ' : 'md:invisible'} min-w-fit transition-all duration-300 easeInOut flex flex-col items-start text-xs`}>
                     <div>
                         {session?.user.name}
