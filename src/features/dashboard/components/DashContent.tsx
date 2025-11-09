@@ -1,23 +1,16 @@
+"use client"
 import { DashCardProps } from '@/types/type'
 import Button from '@/ui/Buttons/Button'
-import ActionText from '@/ui/Text/ActionText'
-import IssuesText from '@/ui/Text/IssuesText'
-import ProjectText from '@/ui/Text/ProjectText'
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
-import StatusText from '@/ui/Text/StatusText'
-import { CircleCheckBig, Code, File, Folder, Github, Plus, Shield, TriangleAlert, Upload } from 'lucide-react'
-import React from 'react'
+import { CircleCheckBig, File, Folder, Plus, TriangleAlert } from 'lucide-react'
 import RecentProject from './RecentProject'
 import Card from './Card'
 import RecentAnalysis from './RecentAnalysis'
-import Link from 'next/link'
 import { usePage } from '@/context/PageProvider'
 import { redirect } from 'next/navigation'
 
 function DashContent() {
-
-  const { currentpage, setcurrentpage } = usePage()
   const card: DashCardProps[] = [
     {
       icon: <Folder />,
@@ -45,8 +38,8 @@ function DashContent() {
     },]
 
   return (
-    <div className='flex flex-col overflow-auto transition-all duration-300'>
-      <div className='bg-light-gray dark:bg-dark-gray p-5 flex justify-between items-center'>
+    <div className='flex flex-col bg-light-gray/40 h-screen overflow-auto transition-all duration-300'>
+      <div className='bg-light-white border border-light-activeborder/20 border-t-0 border-x-0 dark:bg-dark-gray p-5 flex justify-between items-center'>
         <div className='lg:w-full xss:w-[40vw]'>
           <SecondTitle>Dashboard</SecondTitle>
           <SmallText>Welcome Back! Here's your code analysis overview.</SmallText>

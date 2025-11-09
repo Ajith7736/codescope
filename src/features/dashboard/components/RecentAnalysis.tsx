@@ -3,7 +3,7 @@ import ProjectText from '@/ui/Text/ProjectText'
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
 import { Shield } from 'lucide-react'
-import React from 'react'
+
 
 function RecentAnalysis() {
     return (

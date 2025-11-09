@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { useMediaQuery } from 'react-responsive'
 import { useOutsideClick } from '@/hooks/Outsideclick'
-import { signOut, useSession } from '@/lib/auth-client'
+import { useSession } from '@/lib/auth-client'
 import { Linkprops } from '@/types/type'
 import Loading from '@/app/loading'
 import Image from 'next/image'
@@ -50,7 +50,7 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
     if (isPending) return <Loading />
 
     return (
-        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={` bg-light-gray flex flex-col justify-between p-4 dark:bg-dark-gray md:static xss:absolute border border-l-0 border-b-0 border-t-0 border-light-activeborder/20 dark:border-dark-activeborder/10   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
+        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between p-4 dark:bg-dark-gray md:static xss:absolute border border-l-0 border-b-0 border-t-0 border-light-activeborder/20 dark:border-dark-activeborder/10   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
             <div>
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
