@@ -4,7 +4,7 @@ import ProjectText from '@/ui/Text/ProjectText'
 
 function Overall({item} : {item : AnalysisProps}) {
     return (
-        <div className='flex flex-col w-fit items-center'>
+        <div className='flex flex-col gap-2 w-fit items-center'>
             <div className='bg-light-white/40 p-5 rounded-md  backdrop-blur-2xl'>
                 {item.icon}
             </div>

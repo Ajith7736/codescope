@@ -5,7 +5,6 @@ let filecount = 0;
 let RepoContent = '';
 
 async function getRepofiles(owner: string, repo: string, folderdata: GithubRepoItem[] | GithubRepoItem) {
-
     const items = Array.isArray(folderdata) ? folderdata : [folderdata];
     for (const file of items) {
         if (file.type === 'file' && file.download_url) {
@@ -42,11 +41,22 @@ export async function POST(req: Request) {
         })
         const folderdata: GithubRepoItem[] = await res.json();
         await getRepofiles(owner, repo, folderdata)
-        console.log(RepoContent);
+         const languagesres = await fetch(`https://api.github.com/repos/${owner}/${repo}/languages`, {
+            headers: {
+                Authorization: `token ${process.env.GITHUB_TOKEN}`,
+                "User-Agent": "Codescope-App"
+            }
+        })
+        const languages = await languagesres.json();
+
+        const mostused = Object.keys(languages).reduce((a,b) => languages[a] > languages[b] ? a : b);
+
+
         if (res.status >= 400) {
             return NextResponse.json({ message: "Could find the repo" }, { status: res.status })
         }
-        return NextResponse.json({ message: "success" , RepoContent }, { status: res.status })
+        
+        return NextResponse.json({ message: "success" , RepoContent , mostused  }, { status: res.status })
     } catch (err) {
         console.log(err)
         return NextResponse.json({ message: "Server Error" }, { status: 500 })

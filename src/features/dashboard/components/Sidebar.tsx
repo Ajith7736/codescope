@@ -20,6 +20,7 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
     const { setcurrentpage } = usePage();
     const router = useRouter();
     const pathname = usePathname();
+    const page = pathname.split("/")[pathname.split("/").length - 1];
 
 
     useOutsideClick(sideref, () => {
@@ -60,7 +61,7 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                     </div>
                     {!isLargescreen && <CircleX size={16} className='cursor-pointer' onClick={() => setshowsidebar(false)} />}
                 </div>
-                <div className='relative flex flex-col mt-10 gap-3 xss:text-sm md:text-base'>
+                <div className='relative flex flex-col mt-10 gap-3 xss:text-sm'>
                     {Links.map((link) => {
                         return <div
                             key={link.name}
@@ -68,12 +69,12 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                                 if (!isLargescreen) setshowsidebar(false)
                                 router.push(link.name === "projects" ? "/Dashboard/Projects" : link.name === "dashboard" ? "/Dashboard" : "/Dashboard/Analysis")
                             }}
-                            className={`${showsidebar ? 'hover:bg-light-activeborder/10' : 'hover:bg-none'} cursor-pointer flex p-2 gap-5 rounded-md items-center `}>
+                            className={`${showsidebar ? `${page.toLowerCase() === link.name ? 'text-white bg-light-activeborder/10' : 'hover:text-white text-light-activeborder' } hover:bg-light-activeborder/10` : `hover:bg-none ${page.toLowerCase() === link.name ? 'text-white' : 'text-light-activeborder'}`}   cursor-pointer flex p-2 gap-5 rounded-md items-center transition-hover duration-300`}>
                             <div className='flex group' >
                                 <button className='cursor-pointer'>
                                     {link.icon}
                                 </button>
-                                {!showsidebar && <motion.button className='fixed invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity duration-400 left-20 bg-light-hovergray border dark:bg-dark-gray border-light-gray dark:border-dark-activeborder/10 rounded-md shadow-md px-2 py-1 w-fit capitalize'>
+                                {!showsidebar && <motion.button className='fixed text-white invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity duration-400 left-20 bg-light-hovergray border dark:bg-dark-gray border-light-gray dark:border-dark-activeborder/10 rounded-md shadow-md px-2 py-1 w-fit capitalize'>
                                     {link.name}
                                 </motion.button>}
                             </div>
