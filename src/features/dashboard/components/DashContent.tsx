@@ -7,7 +7,6 @@ import { CircleCheckBig, File, Folder, Plus, TriangleAlert } from 'lucide-react'
 import RecentProject from './RecentProject'
 import Card from './Card'
 import RecentAnalysis from './RecentAnalysis'
-import { usePage } from '@/context/PageProvider'
 import { redirect } from 'next/navigation'
 
 function DashContent() {
