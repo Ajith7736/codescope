@@ -38,7 +38,7 @@ function DashContent() {
     },]
 
   return (
-    <div className='flex flex-col bg-light-gray/40 dark:bg-dark-black h-screen overflow-auto transition-all duration-300'>
+    <div className='flex flex-col outline-none bg-light-gray/40 dark:bg-dark-black h-screen overflow-auto transition-all duration-300'>
       <div className='bg-light-white border border-light-activeborder/20 border-t-0 border-x-0 dark:bg-dark-gray p-5 flex justify-between items-center'>
         <div className='lg:w-full xss:w-[40vw]'>
           <SecondTitle>Dashboard</SecondTitle>
