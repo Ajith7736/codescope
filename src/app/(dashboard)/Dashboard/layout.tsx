@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     return <div className='flex min-h-screen'>
         <Sidebar showsidebar={showsidebar} setshowsidebar={setshowsidebar} />
-        <div className='bg-light-white outline-none flex flex-col dark:bg-dark-black md:flex-1 xss:w-full max-h-screen gap-5'>
+        <div className='bg-light-white outline-none flex flex-col dark:bg-dark-black md:flex-1 xss:w-full max-h-screen '>
             <Nav handlesidebar={() => setshowsidebar(!showsidebar)} />
             {children}
         </div>

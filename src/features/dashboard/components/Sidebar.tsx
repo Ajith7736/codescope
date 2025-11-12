@@ -17,7 +17,6 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
     const userref = useRef<HTMLButtonElement>(null);
     const { data: session, isPending } = useSession();
     const [showuserblock, setshowuserblock] = useState<boolean>(false);
-    const { setcurrentpage } = usePage();
     const router = useRouter();
     const pathname = usePathname();
     const page = pathname.split("/")[pathname.split("/").length - 1];
@@ -52,7 +51,7 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
     if (isPending) return <Loading />
 
     return (
-        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between p-4 dark:bg-dark-gray md:static xss:absolute border border-l-0 border-b-0 border-t-0 border-light-activeborder/20 dark:border-dark-activeborder/10   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
+        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} dark:bg-dark-gray md:static xss:absolute border border-l-0 border-b-0 border-t-0 border-light-activeborder/20 dark:border-dark-activeborder/10   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
             <div>
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
@@ -85,14 +84,14 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                     })}
                 </div>
             </div>
-            <div className={`text-center flex items-center xss:gap-4 ${showsidebar && 'hover:bg-light-activeborder/10 lg:gap-6  hover:dark:bg-dark-hovergray'} min-w-4 rounded-lg cursor-pointer transition-all duration-300 xss:p-2 md:p-1.5 lg:p-2`}>
+            <div className={`text-center flex items-center xss:gap-4 md:gap-3 ${showsidebar && 'hover:bg-light-activeborder/10 lg:gap-6  hover:dark:bg-dark-hovergray justify-center'} min-w-4 rounded-lg cursor-pointer transition-all duration-300 xss:p-2 md:p-1.5 lg:p-2`}>
                 {session?.user.image ?
                     <Image
-                        height={20}
-                        width={20}
+                        height={15}
+                        width={15}
                         src={session?.user.image}
                         alt="profile pic"
-                        className='rounded-full size-7'
+                        className='rounded-full size-6.5'
                         onClick={() => {
                             if (!showsidebar) setshowsidebar(true)
                         }}
@@ -115,7 +114,7 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                     </div>
                 </div>
                 <button ref={userref} className={`overflow-hidden ${showsidebar ? ' md:opacity-100' : 'md:opacity-0'} transition-all duration-300 ease-in-out flex flex-col items-start text-xs`}>
-                    <ChevronsUpDown size={18} onClick={() => setshowuserblock(!showuserblock)} />
+                    <ChevronsUpDown  className='size-4' onClick={() => setshowuserblock(!showuserblock)} />
                     <div className='fixed left-60 bottom-20'>
                         {showuserblock && <UserBlock />}
                     </div>
