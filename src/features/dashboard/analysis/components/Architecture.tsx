@@ -10,7 +10,7 @@ function Architecture() {
             <div className='p-5 flex justify-between items-center'>
                 <div>
                     <SecondTitle>Architecture Analysis</SecondTitle>
-                    <SmallText textcolor='text-black/60'>3 issues found</SmallText>
+                    <SmallText textcolor='text-black/60 dark:text-light-white/60'>3 issues found</SmallText>
                 </div>
                 <div>
                     <h1 className='text-xl md:text-2xl font-extrabold text-blue-500'>78/100</h1>

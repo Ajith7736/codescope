@@ -70,32 +70,37 @@ model Verification {
 }
 
 model Project {
-  id String @id @default(uuid())
-  projectname String 
-  files File[]
-  anaylsis Analysis[]
-  userId String
-  user User @relation(fields: [userId],references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-}
-
-model File {
-  id String @id @default(uuid())
-  filename String 
-  content String
-  projectId String
-  project Project @relation(fields: [projectId],references: [id],onDelete: Cascade)
-  createdAt DateTime @default(now())
+  id          String     @id @default(uuid())
+  projectname String
+  projectcode String
+  anaylsis    Analysis[]
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  
 }
 
 model Analysis {
-  id String @id @default(uuid())
-  type String
-  status String @default("pending")
-  result Json?
-  summary String?
-  projectId String
-  project Project @relation(fields: [projectId] , references: [id] , onDelete: Cascade)
-  createdAt DateTime @default(now())
-  completedAt DateTime? 
+  id          String   @id @default(uuid())
+  type        String
+  totalissues Int
+  status      String   @default("pending")
+  issues      Issues[]
+  summary     String?
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model Issues {
+  id            String   @id @default(uuid())
+  severity      String
+  issuetitle    String
+  issuedesc     String
+  issuelocation String
+  suggesstedfix String
+  analysisId    String
+  analysis      Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
 }

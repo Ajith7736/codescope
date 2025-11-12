@@ -9,6 +9,9 @@ function ProjectContent() {
   const [Error, setError] = useState<string>("")
   const [Owner, setOwner] = useState("")
   const [Repo, setRepo] = useState("")
+  const [projectdata, setprojectdata] = useState("")
+  const [mostused, setmostused] = useState("")
+  const [isloading, setisloading] = useState(false)
 
   useEffect(() => {
     if (link.includes("https://github.com/")) {
@@ -32,6 +35,7 @@ function ProjectContent() {
   }, [link])
 
   const getgithubdata = async (owner: string, repo: string) => {
+    await setisloading(true)
     try {
       const res = await fetch("/api/fetch-repo", {
         method: "POST",
@@ -41,20 +45,25 @@ function ProjectContent() {
         body: JSON.stringify({ owner, repo })
       })
 
+      const data = await res.json()
+      setprojectdata(data.RepoContent)
+      setmostused(data.mostused)
+
     } catch (err) {
       console.error("Something went wrong")
     }
+    await setisloading(false)
   }
 
 
   return (
-    <div className='m-7 h-screen gap-3 flex flex-col items-center'>
-      <div className='flex flex-col gap-3 items-center'>
+    <div className='m-7 h-screen gap-8 flex flex-col items-center'>
+      <div className='flex flex-col gap-4 items-center'>
         <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className='bg-light-gray border dark:bg-dark-inputfield border-light-activeborder/20 p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm' placeholder='Paste the Github Repo Link here' />
         {Error && <div className='text-sm text-red-500'>{Error}</div>}
-        <input type='submit' value={"Add Project"} className='text-sm bg-light-black hover:bg-light-hoverblack text-light-white dark:bg-dark-white dark:text-dark-black hover:dark:bg-dark-hoverwhite cursor-pointer p-2 rounded-md' disabled={Error.length > 0} onClick={() => getgithubdata(Owner, Repo)} />
+        <input type='submit' value={isloading ? "Loading..." : "Add Project"} className='text-sm bg-light-black hover:bg-light-hoverblack text-light-white dark:bg-dark-white dark:text-dark-black hover:dark:bg-dark-hoverwhite cursor-pointer p-2 rounded-md' disabled={Error.length > 0} onClick={() => getgithubdata(Owner, Repo)} />
       </div>
-      <div className='bg-light-gray/40 dark:bg-dark-gray xss:w-100 md:w-190'>
+      <div className='bg-light-gray/40 dark:bg-dark-gray xss:w-100 md:w-110 lg:w-190'>
         <div className='border p-5 rounded-t-md font-extrabold border-light-activeborder/20'>
           Your Projects
         </div>
@@ -64,6 +73,11 @@ function ProjectContent() {
             <ChevronRight strokeWidth={1} />
           </div>
         </div>
+      </div>
+      <div>
+        {projectdata && <>
+          {projectdata}
+        </>}
       </div>
     </div>
   )

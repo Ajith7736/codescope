@@ -42,7 +42,7 @@ function AnalysisContent() {
 
   return (
     <div className='h-screen bg-light-gray/50 dark:bg-dark-black overflow-auto flex flex-col items-center'>
-      <div className='p-5 w-full border bg-light-white dark:bg-dark-gray flex justify-between items-center border-light-activeborder/20 border-t-0 border-x-0'>
+      <div className='p-5 border w-full bg-light-white dark:bg-dark-gray flex justify-between items-center border-light-activeborder/20 border-t-0 border-x-0'>
         <div>
           <SecondTitle>Ecommerce Application</SecondTitle>
           <div className='flex gap-2'>
@@ -57,8 +57,8 @@ function AnalysisContent() {
       <div className='flex flex-col items-center'>
         <OverallCard />
       </div>
-      <div className='border m-5 dark:bg-dark-gray xss:w-md md:w-xl xl:w-4xl border-light-activeborder/20 rounded-md'>
-        <div className='py-4 border border-x-0 border-t-0 border-light-activeborder/20 flex xss:gap-4 md:gap-8 xl:gap-25 xss:text-sm md:text-base justify-center'>
+      <div className='border m-5 dark:bg-dark-gray xss:w-[440px] md:w-md lg:w-xl xl:w-4xl border-light-activeborder/20 rounded-md'>
+        <div className='py-4 border border-x-0 border-t-0 border-light-activeborder/20 flex xss:gap-4 md:gap-4 xl:gap-25 xss:text-sm lg:text-base justify-center'>
           {Analysis.map((item) => {
             return <button key={item.type} onClick={() => setcurrentanalysis(item.type)} className={`flex ${item.type === currentanalysis && item.active} ${item.hover} gap-1 items-center cursor-pointer p-2 rounded-md`}>{item.icon} {item.type}</button>
           })}
