@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [isclient, setisclient] = useState(false);
     const [showsidebar, setshowsidebar] = useState(false)
-    const { data: session , isPending} = useSession();
+    const { data: session} = useSession();
 
 
 
@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, [])
 
     useEffect(() => {
-        if (!session && !isPending) {
+        if (!session) {
             redirect("/Signup");
         }
     }, [session])
