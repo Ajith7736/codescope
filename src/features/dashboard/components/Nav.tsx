@@ -13,7 +13,7 @@ function Nav({ handlesidebar }: { handlesidebar: () => void }) {
         <div className='flex items-center p-5 gap-3 bg-light-white/10 dark:bg-dark-black/10 backdrop-blur-3xl'>
             <button><PanelLeft onClick={handlesidebar} className='size-5 cursor-pointer' /></button>
             <div className='flex gap-2'>
-                <Link href={"/Dashboard"} className={`xss:text-xs  capitalize ${path === "Dashboard" ? "text-white" : "text-light-activeborder"}`}> Dashboard</Link>
+                <Link href={"/Dashboard"} className={`xss:text-xs  capitalize ${path === "Dashboard" ? "text-black dark:text-white" : "text-light-activeborder"}`}> Dashboard</Link>
                 {formattedpath.length > 2 && <div className='xss:text-xs  capitalize cursor-default'>&gt; {formattedpath[2]}</div>}
             </div>
         </div>

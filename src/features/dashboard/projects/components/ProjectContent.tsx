@@ -67,7 +67,7 @@ function ProjectContent() {
         <div className='border p-5 rounded-t-md font-extrabold border-light-activeborder/20'>
           Your Projects
         </div>
-        <div className='p-8 cursor-pointer border rounded-b-md border-light-activeborder/20 hover:bg-light-activeborder/10 border-t-0'>
+        <div className='p-8 cursor-pointer border rounded-b-md border-light-activeborder/20 hover:bg-light-activeborder/10 transition-all duration-300 border-t-0'>
           <div className='flex justify-between'>
             <h1>Ecommerce Application</h1>
             <ChevronRight strokeWidth={1} />

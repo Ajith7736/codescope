@@ -13,7 +13,7 @@ function RecentProject() {
                 <ActionText>View All</ActionText>
             </div>
             <div>
-                <div className='p-8 hover:bg-light-activeborder/10 hover:dark:bg-dark-hovergray cursor-pointer'>
+                <div className='p-8 hover:bg-light-activeborder/10 hover:dark:bg-dark-hovergray transition-all duration-300 cursor-pointer'>
                     <div className='flex gap-4 items-center justify-between'>
                         <div className='flex gap-2'>
                             <div className='bg-blue-500 text-white h-10 rounded-md w-10 flex items-center justify-center'><Code aria-label="Code project" /></div>

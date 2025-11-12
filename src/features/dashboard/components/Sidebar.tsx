@@ -68,7 +68,7 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                                 if (!isLargescreen) setshowsidebar(false)
                                 router.push(link.name === "projects" ? "/Dashboard/Projects" : link.name === "dashboard" ? "/Dashboard" : "/Dashboard/Analysis")
                             }}
-                            className={`${showsidebar ? `${page.toLowerCase() === link.name ? 'text-white bg-light-activeborder/10' : 'hover:text-white text-light-activeborder' } hover:bg-light-activeborder/10` : `hover:bg-none ${page.toLowerCase() === link.name ? 'text-white' : 'text-light-activeborder'}`}   cursor-pointer flex p-2 gap-5 rounded-md items-center transition-hover duration-300`}>
+                            className={`${showsidebar ? `${page.toLowerCase() === link.name ? 'dark:text-white text-black bg-light-activeborder/10' : 'dark:hover:text-white hover:text-black text-light-activeborder' } hover:bg-light-activeborder/10` : `hover:bg-none ${page.toLowerCase() === link.name ? 'text-white' : 'text-light-activeborder'}`}   cursor-pointer flex p-2 gap-5 rounded-md items-center transition-hover duration-300`}>
                             <div className='flex group' >
                                 <button className='cursor-pointer'>
                                     {link.icon}
