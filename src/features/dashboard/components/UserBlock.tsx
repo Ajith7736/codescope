@@ -6,7 +6,7 @@ import { useSession } from '@/lib/auth-client';
 
 
 function UserBlock() {
-    const { data , refetch } = useSession();
+    const { refetch } = useSession();
     const handlelogout = async () => {
         await signOut();
         await refetch();
