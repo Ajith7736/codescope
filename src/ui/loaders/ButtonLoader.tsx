@@ -1,6 +1,6 @@
 import { Ring2 } from 'ldrs/react'
 import { useTheme } from 'next-themes'
-import React from 'react'
+
 
 function ButtonLoader({ size, stroke, invert }: { size?: number, stroke?: number, invert?: boolean }) {
     const { theme } = useTheme();
