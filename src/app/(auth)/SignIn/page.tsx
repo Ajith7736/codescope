@@ -6,6 +6,8 @@ import { useSession } from '@/lib/auth-client'
 import { Authproviders } from '@/lib/Authproviders'
 import { delay } from '@/lib/delay'
 import { Signinprops } from '@/types/type'
+import ButtonLoader from '@/ui/loaders/ButtonLoader'
+import { Ring2 } from 'ldrs/react'
 import { ArrowLeft, LoaderCircle } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -15,7 +17,6 @@ import { toast } from 'sonner'
 
 function page() {
     const { data: session, isPending } = useSession();
-
     useEffect(() => {
         if (session) {
             redirect("/Dashboard")
@@ -59,7 +60,7 @@ function page() {
                     {...register("password", { required })} id='password' placeholder='Enter your password' className={`bg-light-hovergray dark:bg-dark-inputfield border ${(errors.password) ? 'border-red-500/30 focus:outline-red-400/50' : 'border-light-activeborder/60 dark:border-dark-inputborder'}  focus:outline focus:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
                 {errors.password && <div className='w-[20rem] text-xs text-red-500'>{errors.password.message}</div>}
                 {isSubmitting ? <button className='flex justify-center bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full'>
-                    <LoaderCircle size={20} className='animate-spin text-center text-white dark:text-black' />
+                    <ButtonLoader size={20} invert={true}/>
                 </button> :
                     <input type='submit' value="Submit" disabled={isSubmitting} className='bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full' />
                 }
