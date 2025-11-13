@@ -1,12 +1,17 @@
 "use client"
 
-import { authClient } from '@/lib/auth-client';
-import React from 'react'
+import { authClient, useSession } from '@/lib/auth-client';
+import ButtonLoader from '@/ui/loaders/ButtonLoader';
+import { Ring2 } from 'ldrs/react';
+import React, { useState } from 'react'
 
 
 function Authcard({ img, provider }: { img: React.ReactElement, provider: "google" | "github" }) {
+    const { data: session } = useSession();
+    const [isloading, setisloading] = useState(false);
 
     const handlesocial = async () => {
+        setisloading(true);
         await authClient.signIn.social({
             provider,
             callbackURL: "/Dashboard"
@@ -15,17 +20,23 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
 
     return (
         <div>
-            <button
-                type='button'
-                onClick={handlesocial}
+            {!session && isloading ? <button
                 className="group h-12 px-6 border cursor-pointer  bg-light-gray dark:bg-dark-gray border-light-activeborder/30 dark:border-dark-activeborder/30 rounded-md w-[20rem] transition duration-300 hover:border-light-activeborder dark:hover:border-dark-activeborder ">
-                <div className="relative flex items-center space-x-4 justify-around">
-                    {img}
-                    <span className="block capitalize  w-max font-semibold tracking-wide text-light-activeborder group-hover:text-light-black dark:text-dark-activeborder text-sm xss:text-xs  transition duration-300 dark:group-hover:text-dark-white">Continue
-                        with {provider}
-                    </span>
-                </div>
+                <ButtonLoader />
             </button>
+                :
+                <button
+                    type='button'
+                    onClick={handlesocial}
+                    className="group h-12 px-6 border cursor-pointer  bg-light-gray dark:bg-dark-gray border-light-activeborder/30 dark:border-dark-activeborder/30 rounded-md w-[20rem] transition duration-300 hover:border-light-activeborder dark:hover:border-dark-activeborder ">
+                    <div className="relative flex items-center space-x-4 justify-around">
+                        {img}
+                        <span className="block capitalize  w-max font-semibold tracking-wide text-light-activeborder group-hover:text-light-black dark:text-dark-activeborder text-sm xss:text-xs  transition duration-300 dark:group-hover:text-dark-white">Continue
+                            with {provider}
+                        </span>
+                    </div>
+                </button>
+            }
         </div>
     )
 }

@@ -13,18 +13,21 @@ import Loading from '@/app/loading'
 import { Authproviders } from '@/lib/Authproviders'
 import { redirect, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { Ring2 } from 'ldrs/react'
+import 'ldrs/react/Ring2.css'
+import ButtonLoader from '@/ui/loaders/ButtonLoader'
 
 function Page() {
   const { data: session, isPending } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if(session){
+    if (session) {
       redirect("/Dashboard")
     }
-  }, [session,router])
-  
-  
+  }, [session, router])
+
+
 
   const {
     register,
@@ -39,7 +42,7 @@ function Page() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await delay();
-    const { message, success }  = await signUp(data.email, data.password, data.name);
+    const { message, success } = await signUp(data.email, data.password, data.name);
     if (success) {
       toast.success(message)
     } else {
@@ -76,7 +79,7 @@ function Page() {
           {...register("password", { required, pattern })} id='password' placeholder='Enter your password' className={`bg-light-hovergray dark:bg-dark-inputfield border ${(errors.password && password === "") ? 'border-red-500/30 focus:outline-red-400/50' : password !== "" ? strengthcolor : 'border-light-activeborder/60 dark:border-dark-inputborder'}  focus:outline focus:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
         {errors.password && <div className='w-[20rem] text-xs text-red-500'>{errors.password.message}</div>}
         {isSubmitting ? <button className='flex justify-center bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full'>
-          <LoaderCircle size={20} className='animate-spin text-center text-white dark:text-black' />
+          <ButtonLoader size={20} invert/>
         </button> :
           <input type='submit' value="Submit" disabled={isSubmitting} className='bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full' />
         }

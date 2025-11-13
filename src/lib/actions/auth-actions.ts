@@ -46,6 +46,7 @@ export const signIn = async (email: string, password: string) => {
 }
 
 
+
 export const signOut = async () => {
     await auth.api.signOut({
         headers: await headers(),
