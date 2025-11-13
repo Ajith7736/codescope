@@ -9,7 +9,7 @@ function Button({ variant = "default", icons, children , onClick }: { variant?: 
     }
 
     return (
-        <button onClick={onClick && onClick} className={`${variants[variant]} p-2 rounded-md xss:text-sm flex items-center gap-2 w-36 justify-center`}>{icons} {children}</button>
+        <button onClick={onClick && onClick} className={`${variants[variant]} p-2 rounded-md xss:text-sm flex items-center gap-2 w-36 justify-center transition-all duration-300`}>{icons} {children}</button>
     )
 }
 
