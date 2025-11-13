@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Trefoil } from 'ldrs/react'
-import 'ldrs/react/Trefoil.css'
+import { Ring } from 'ldrs/react'
+import 'ldrs/react/Ring.css'
 import { useTheme } from 'next-themes'
 
 
@@ -10,19 +10,19 @@ function Loading() {
     const { resolvedTheme } = useTheme()
 
     useEffect(() => {
-      setisClient(true)
+        setisClient(true)
     }, [])
 
-    if(!isClient) return null;
+    if (!isClient) return null;
 
     return (
         <div className='absolute w-screen h-screen z-10 dark:bg-dark-black bg-light-white flex justify-center items-center'>
-            <Trefoil
+            <Ring
                 size="40"
-                stroke="4"
-                strokeLength="0.15"
-                speed="1.4"
-                color={ resolvedTheme === "dark" ? "white" : "black"}
+                stroke="5"
+                bgOpacity="0"
+                speed="2"
+                color={resolvedTheme === "dark" ? "white" : "black"}
             />
         </div>
     )

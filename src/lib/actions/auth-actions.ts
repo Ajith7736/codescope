@@ -32,7 +32,8 @@ export const signIn = async (email: string, password: string) => {
     try {
         await auth.api.signInEmail({
             body: {
-                email, password, callbackURL: "/Dashboard"            }
+                email, password, callbackURL: "/Dashboard"
+            }
         })
         return { success: true, message: "Signed In Successfully" };
     } catch (error) {
@@ -50,3 +51,5 @@ export const signOut = async () => {
         headers: await headers(),
     })
 }
+
+

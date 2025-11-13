@@ -1,27 +1,22 @@
-"use client"
-import { useSession } from "@/lib/auth-client";
+import { headers } from "next/headers";
 import Content from "../features/home/layout/Content";
 import Navbar from "../features/home/layout/Navbar";
-import Loading from "./loading";
+import { auth } from "@/lib/auth"; 
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
 
-export default function Home() {
-  const { data: session, isPending } = useSession()
+export default async function Home() {
+  const session = await auth.api.getSession({
+    headers : await headers(),
+  });
 
-  useEffect(() => {
-    if(session){
-      redirect("/Dashboard")
-    }
-  }, [session])
-  
+  if(session){
+    redirect("/Dashboard")
+  }
 
-  if (isPending) return <Loading />
   return (
     <div className="dark:text-dark-white dark:bg-dark-black flex flex-col">
       <Navbar />
       <Content session={session} />
     </div>
-
   );
 }
