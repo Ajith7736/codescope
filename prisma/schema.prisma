@@ -73,6 +73,7 @@ model Project {
   id          String     @id @default(uuid())
   projectname String
   projectcode String
+  ownername   String 
   anaylsis    Analysis[]
   userId      String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)

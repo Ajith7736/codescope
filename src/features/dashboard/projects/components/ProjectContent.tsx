@@ -1,7 +1,9 @@
 "use client"
-import Button from '@/ui/Buttons/Button'
+import { useSession } from '@/lib/auth-client'
+import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 
 function ProjectContent() {
@@ -10,6 +12,7 @@ function ProjectContent() {
   const [Owner, setOwner] = useState("")
   const [Repo, setRepo] = useState("")
   const [projectdata, setprojectdata] = useState("")
+  const { data: session } = useSession();
   const [mostused, setmostused] = useState("")
   const [isloading, setisloading] = useState(false)
 
@@ -42,15 +45,22 @@ function ProjectContent() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ owner, repo })
+        body: JSON.stringify({ owner, repo, userId: session?.user.id })
       })
 
       const data = await res.json()
-      setprojectdata(data.RepoContent)
-      setmostused(data.mostused)
+
+      if (res.status === 200) {
+        setprojectdata(data.RepoContent)
+        setmostused(data.mostused)
+        return;
+      } else if (res.status >= 400) {
+        toast.error(data.message);
+      }
+
 
     } catch (err) {
-      console.error("Something went wrong")
+      toast.error("Something went wrong")
     }
     await setisloading(false)
   }
@@ -61,7 +71,7 @@ function ProjectContent() {
       <div className='flex flex-col gap-4 items-center'>
         <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className='bg-light-gray border dark:bg-dark-inputfield border-light-activeborder/20 p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm' placeholder='Paste the Github Repo Link here' />
         {Error && <div className='text-sm text-red-500'>{Error}</div>}
-        <input type='submit' value={isloading ? "Loading..." : "Add Project"} className='text-sm bg-light-black hover:bg-light-hoverblack text-light-white dark:bg-dark-white dark:text-dark-black hover:dark:bg-dark-hoverwhite cursor-pointer p-2 rounded-md' disabled={Error.length > 0} onClick={() => getgithubdata(Owner, Repo)} />
+        {isloading ? <button className='w-[110px] bg-light-black text-light-white dark:bg-dark-white   cursor-pointer p-2 rounded-md flex justify-center'><ButtonLoader invert /></button> : <input type='submit' value={isloading ? "Loading..." : "Add Project"} className='text-sm bg-light-black hover:bg-light-hoverblack text-light-white dark:bg-dark-white dark:text-dark-black hover:dark:bg-dark-hoverwhite cursor-pointer p-2 rounded-md' disabled={Error.length > 0} onClick={() => getgithubdata(Owner, Repo)} />}
       </div>
       <div className='bg-light-gray/40 dark:bg-dark-gray xss:w-100 md:w-110 lg:w-190'>
         <div className='border p-5 rounded-t-md font-extrabold border-light-activeborder/20'>
@@ -75,9 +85,6 @@ function ProjectContent() {
         </div>
       </div>
       <div>
-        {projectdata && <>
-          {projectdata}
-        </>}
       </div>
     </div>
   )

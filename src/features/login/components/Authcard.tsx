@@ -2,7 +2,6 @@
 
 import { authClient, useSession } from '@/lib/auth-client';
 import ButtonLoader from '@/ui/loaders/ButtonLoader';
-import { Ring2 } from 'ldrs/react';
 import React, { useState } from 'react'
 
 

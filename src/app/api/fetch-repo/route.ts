@@ -1,3 +1,4 @@
+import prisma from "@/lib/server/db/db";
 import { GithubRepoItem } from "@/types/type";
 import { NextResponse } from "next/server";
 
@@ -31,7 +32,7 @@ async function getRepofiles(owner: string, repo: string, folderdata: Pick<Github
 
 export async function POST(req: Request) {
     try {
-        const { owner, repo } = await req.json();
+        const { owner, repo , userId } : {owner : string , repo : string , userId : string}= await req.json();
         const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents`, {
             headers: {
                 Authorization: `token ${process.env.GITHUB_TOKEN}`,
@@ -52,9 +53,17 @@ export async function POST(req: Request) {
 
 
         if (res.status >= 400) {
-            return NextResponse.json({ message: "Could find the repo" }, { status: res.status })
+            return NextResponse.json({ message: "Couldn't find the repositary" }, { status: res.status })
         }
 
+        await prisma.project.create({
+            data : {
+                projectname : repo,
+                ownername : owner,
+                projectcode : RepoContent,
+                userId : userId
+            }
+        })
         return NextResponse.json({ message: "success", RepoContent, mostused }, { status: res.status })
     } catch (err) {
         console.log(err)

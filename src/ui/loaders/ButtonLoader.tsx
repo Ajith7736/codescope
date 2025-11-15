@@ -1,5 +1,6 @@
 import { Ring2 } from 'ldrs/react'
 import { useTheme } from 'next-themes'
+import 'ldrs/react/Ring2.css'
 
 
 function ButtonLoader({ size, stroke, invert }: { size?: number, stroke?: number, invert?: boolean }) {
