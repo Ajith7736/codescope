@@ -44,7 +44,6 @@ export async function POST(req: Request) {
                     })
 
                     if (!res.ok) {
-                        console.log("couldnt fetch", res)
                         return;
                     }
 
