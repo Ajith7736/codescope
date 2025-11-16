@@ -1,6 +1,6 @@
 import prisma from "@/lib/server/db/db";
 import { AI_EXCLUSION_MEGA_REGEX } from "@/lib/server/utils/regex";
-import { GithubRepoItem, GithubTree } from "@/types/type";
+import { GithubTree } from "@/types/type";
 import { NextResponse } from "next/server";
 
 
@@ -66,9 +66,7 @@ export async function POST(req: Request) {
                     }
                 })
                 if (!res.ok) {
-                    const err = await res.text();
-                    console.log("file fetch failed : ", err);
-                    return;
+                    NextResponse.json({message : "Failed to fetch data please try again later"},{status : 400})
                 }
 
                 const filecontent = await res.text();
@@ -90,19 +88,21 @@ export async function POST(req: Request) {
         })
 
         const languages = await langres.json();
-        const mostused = Object.keys(languages).reduce((a, b) => languages[a] > languages[b] ? a : b);
+        const mostused : string = Object.keys(languages).reduce((a, b) => languages[a] > languages[b] ? a : b);
 
 
-        // await prisma.project.create({
-        //     data : {
-        //         projectname : repo,
-        //         ownername : owner,
-        //         projectcode : RepoContent,
-        //         userId : userId
-        //     }
-        // })
+        const project = await prisma.project.create({
+            data : {
+                projectname : repo,
+                ownername : owner,
+                projectcode : RepoContent,
+                mostused,
+                totalfiles : tree.length,
+                userId : userId
+            }
+        })
 
-        return NextResponse.json({ message: "success" , RepoContent , mostused , Totalfile : tree.length}, { status: 200 })
+        return NextResponse.json({ message: "success" , project }, { status: 200 })
         // return NextResponse.json({ message: "success", RepoContent, mostused }, { status: res.status })
     } catch (err) {
         console.log(err)

@@ -75,6 +75,7 @@ model Project {
   projectcode String
   ownername   String 
   mostused    String
+  totalfiles  Int
   anaylsis    Analysis[]
   userId      String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
