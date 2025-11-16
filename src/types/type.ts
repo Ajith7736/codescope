@@ -66,3 +66,12 @@ export interface GithubRepoItem {
         html: string;
     };
 }
+
+export interface GithubTree {
+    path: string,
+    mode: string,
+    type: "tree" | "blob",
+    sha: string,
+    size: number,
+    url: string,
+}

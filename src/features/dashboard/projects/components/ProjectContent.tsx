@@ -15,6 +15,7 @@ function ProjectContent() {
   const { data: session } = useSession();
   const [mostused, setmostused] = useState("")
   const [isloading, setisloading] = useState(false)
+  const [filestructure, setfilestructure] = useState("")
 
   useEffect(() => {
     if (link.includes("https://github.com/")) {
@@ -60,8 +61,9 @@ function ProjectContent() {
         return;
       }
 
-      setprojectdata(data.RepoContent)
-      setmostused(data.mostused)
+      // setprojectdata(data.RepoContent)
+      // setmostused(data.mostused)
+      // setfilestructure(data.fileStructure)
 
     } catch (err) {
       toast.error("Something went wrong")
@@ -90,6 +92,10 @@ function ProjectContent() {
         </div>
       </div>
       <div>
+        {filestructure !== "" && 
+        <>
+        <pre className='text-sm'>{filestructure}</pre>
+        </>}
       </div>
     </div>
   )

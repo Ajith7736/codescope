@@ -16,7 +16,6 @@ function ThemeToggler() {
 
     return (
         <button className='dark:hover:bg-dark-hovergray hover:bg-light-hovergray p-1 dark:p-1.5 cursor-pointer rounded-xl transition-transform duration-300'>
-
             <motion.div
                 key={theme}
                 initial={{ rotate: 90, opacity: 0 }}

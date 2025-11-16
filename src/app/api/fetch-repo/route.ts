@@ -1,13 +1,18 @@
 import prisma from "@/lib/server/db/db";
-import { GithubRepoItem } from "@/types/type";
+import { AI_EXCLUSION_MEGA_REGEX } from "@/lib/server/utils/regex";
+import { GithubRepoItem, GithubTree } from "@/types/type";
 import { NextResponse } from "next/server";
 
 
 
 export async function POST(req: Request) {
     try {
+        const MAX_FILESIZE = 500 * 1024;
+        const MAX_TOTALSIZE = 20 * 1024 * 1024;
         const { owner, repo, userId }: { owner: string, repo: string, userId: string } = await req.json();
-        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents`, {
+
+
+        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
             headers: {
                 Authorization: `token ${process.env.GITHUB_TOKEN}`,
                 "User-Agent": "Codescope-App"
@@ -15,61 +20,76 @@ export async function POST(req: Request) {
         })
 
         if (!res.ok) {
-            return NextResponse.json({ message: "Failed to fetch repo" }, { status: res.status })
+            return NextResponse.json({ message: "Repo not found" }, { status: 404 })
         }
 
-        const repodata: GithubRepoItem[] = await res.json();
+        const resdata = await res.json();
+        const branch = await resdata.default_branch;
 
-        let filecount: number = 0;
-        const RepoContentArray: string[] = [];
-        const fileStructureArray: string[] = [`|-${repo}`];
+        const treeres = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`)
+        const data = await treeres.json();
+        const tree: GithubTree[] = await data.tree;
 
-        const getrepofiles = async (repodata: GithubRepoItem[] | GithubRepoItem, prefix = " ") => {
-            const items = Array.isArray(repodata) ? repodata : [repodata]
-            const tasks = items.map(async (item) => {
-                if (item.type === "file" && item.download_url) {
-                    const res = await fetch(item.download_url);
-                    const filedata = await res.text();
-                    RepoContentArray.push(`
-                        \n----${item.path}----\n\n-----${item.name}---\n\n${filedata}
-                        `)
-                    fileStructureArray.push(`${prefix}|-${item.name}`)
-                    filecount++;
-                } else if (item.type === "dir") {
-                    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${item.path}`, {
-                        headers: {
-                            Authorization: `token ${process.env.GITHUB_TOKEN}`,
-                            "User-Agent": "Codescope-App"
-                        }
-                    })
+        let RepoContentArray: string[] = [`Repo Name : ${repo}`]
 
-                    if (!res.ok) {
-                        return;
+        let totalsize = 0;
+
+        const ValidFiles = tree.filter((item) => {
+
+            if (item.type !== "blob") {
+                return false;
+            }
+
+            if (AI_EXCLUSION_MEGA_REGEX.test(item.path)) {
+                return false;
+            }
+
+            if (item.size > MAX_FILESIZE) {
+                return false;
+            }
+
+            totalsize += item.size || 0;
+            return true;
+        })
+
+        if (totalsize > MAX_TOTALSIZE) {
+            return NextResponse.json({ message: 'Repository too large to process' }, { status: 413 })
+        }
+
+
+        ValidFiles.forEach(async (item) => {
+            if (item.type === "blob") {
+                const res = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${item.path}`, {
+                    headers: {
+                        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                        "User-Agent": "Codescope-App"
                     }
-
-                    const folderdata = await res.json();
-                    fileStructureArray.push(`${prefix}|-${item.name}/`)
-                    await getrepofiles(folderdata, prefix + "  ");
+                })
+                if (!res.ok) {
+                    const err = await res.text();
+                    console.log("file fetch failed : ", err);
+                    return;
                 }
-            })
 
-            await Promise.all(tasks);
-        }
-
-        await getrepofiles(repodata);
-
-        const RepoContent = RepoContentArray.join("");
-        const fileStructure = fileStructureArray.join(`\n`);
+                const filecontent = await res.text();
+                RepoContentArray.push(`\n------Path : ${item.path}-----\n\n-----FileName : ${item.path.split("/")[item.path.split("/").length - 1]}----\n\n${filecontent}\n\n`)
+            }
+        })
 
 
-        const languageres = await fetch(`https://api.github.com/repos/${owner}/${repo}/languages`, {
+        const RepoContent = await RepoContentArray.join("");
+
+
+        console.log(`Files : ${tree.length} , ValidFiles Files : ${ValidFiles.length}`)
+
+        const langres = await fetch(`https://api.github.com/repos/${owner}/${repo}/languages`, {
             headers: {
-                Authorization: `token ${process.env.GITHUB_TOKEN}`,
+                Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
                 "User-Agent": "Codescope-App"
             }
         })
 
-        const languages = await languageres.json();
+        const languages = await langres.json();
         const mostused = Object.keys(languages).reduce((a, b) => languages[a] > languages[b] ? a : b);
 
 
@@ -82,8 +102,8 @@ export async function POST(req: Request) {
         //     }
         // })
 
-        console.log(fileStructure);
-        return NextResponse.json({ message: "success", RepoContent, mostused }, { status: res.status })
+        return NextResponse.json({ message: "success" , RepoContent , mostused , Totalfile : tree.length}, { status: 200 })
+        // return NextResponse.json({ message: "success", RepoContent, mostused }, { status: res.status })
     } catch (err) {
         console.log(err)
         return NextResponse.json({ message: "Server Error" }, { status: 500 })
