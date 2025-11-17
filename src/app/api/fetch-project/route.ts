@@ -16,7 +16,6 @@ export async function POST(req: Request) {
             return NextResponse.json({message : "No project found with this username"},{status : 404})
         }
 
-        console.log(project)
 
         return NextResponse.json({message : "Project fetched successfully" , project},{status : 200})
 

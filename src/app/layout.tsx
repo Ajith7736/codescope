@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
-import ToastWrapper from "@/lib/ToastWrapper";
-import { PageProvider } from "@/context/PageProvider";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Providers } from "./providers";
 
 

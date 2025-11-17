@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { useQuery } from '@tanstack/react-query'
 import { project } from '@/types/type'
 import Loading from '@/app/loading'
+import ErrorPage from '@/app/error'
 
 
 function ProjectContent() {
@@ -99,7 +100,9 @@ function ProjectContent() {
     }
   }
 
-  if(isloading) return <Loading />
+  if(isLoading) return <Loading />
+  
+  if(isError) return <ErrorPage />
 
   return (
     <div className='m-7 h-screen gap-8 flex flex-col items-center'>
@@ -117,8 +120,7 @@ function ProjectContent() {
             <div className='flex justify-between items-center text-sm'>
               <div className='flex flex-col gap-2'>
                 <h1 className='text-base'>{item.projectname}</h1>
-                <p className='text-xs'>{item.totalfiles} Files</p>
-                <p className='text-xs'>{item.mostused}</p>
+                <p className='text-xs'>{item.totalfiles} Files • {item.mostused}</p>
               </div>
               <ChevronRight strokeWidth={1} />
             </div>
