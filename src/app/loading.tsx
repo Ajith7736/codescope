@@ -9,7 +9,7 @@ function Loading() {
             <Ring
             size="40"
             stroke="5"
-            bgOpacity="0"
+            bgOpacity="0.2"
             speed="2"
             color={"#6B7280"}
          />
