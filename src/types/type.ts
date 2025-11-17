@@ -44,6 +44,7 @@ export interface DashCardProps {
 
 export type Session = typeof auth.$Infer.Session;
 
+
 export interface AnalysisProps {
     icon: React.ReactElement,
     score: number,
@@ -58,3 +59,15 @@ export interface GithubTree {
     size: number,
     url: string,
 }
+
+export interface project {
+    id: string;
+    createdAt: Date;
+    userId: string;
+    mostused: string;
+    projectname: string;
+    projectcode: string;
+    ownername: string;
+    totalfiles: number;
+}
+

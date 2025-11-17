@@ -30,7 +30,7 @@ export async function POST(req: Request) {
         const data = await treeres.json();
         const tree: GithubTree[] = await data.tree;
 
-        let RepoContentArray: string[] = [`Repo Name : ${repo}`]
+
 
         let totalsize = 0;
 
@@ -56,29 +56,41 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Repository too large to process' }, { status: 413 })
         }
 
+        const BATCH_SIZE = 15;
+        let RepoContent: string = `Repo Name : ${repo}`
 
-        ValidFiles.forEach(async (item) => {
-            if (item.type === "blob") {
-                const res = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${item.path}`, {
-                    headers: {
-                        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-                        "User-Agent": "Codescope-App"
+        for (let i = 0; i < ValidFiles.length; i += BATCH_SIZE) {
+           
+            const batchedfiles = ValidFiles.splice(i, i + BATCH_SIZE);
+
+            const contents = await Promise.all(
+                batchedfiles.map(async (batch) => {
+                    try {
+                        const res = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${batch.path}`, {
+                            headers: {
+                                Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                                "User-Agent": "Codescope-App"
+                            }
+                        })
+
+                        if (!res.ok) {
+                            return null;
+                        }
+
+                        const filecontent = await res.text();
+
+                        return `\n------Path : ${batch.path}-----\n\n-----FileName : ${batch.path.split("/")[batch.path.split("/").length - 1]}----\n\n${filecontent}\n\n`;
+                    } catch (err) {
+                        console.error("Something went wrong")
+                        return null;
                     }
                 })
-                if (!res.ok) {
-                    NextResponse.json({message : "Failed to fetch data please try again later"},{status : 400})
-                }
+            )
 
-                const filecontent = await res.text();
-                RepoContentArray.push(`\n------Path : ${item.path}-----\n\n-----FileName : ${item.path.split("/")[item.path.split("/").length - 1]}----\n\n${filecontent}\n\n`)
-            }
-        })
+            const validcontents = await contents.filter(Boolean);
+            RepoContent = validcontents.join("");
+        }
 
-
-        const RepoContent = await RepoContentArray.join("");
-
-
-        console.log(`Files : ${tree.length} , ValidFiles Files : ${ValidFiles.length}`)
 
         const langres = await fetch(`https://api.github.com/repos/${owner}/${repo}/languages`, {
             headers: {
@@ -88,7 +100,7 @@ export async function POST(req: Request) {
         })
 
         const languages = await langres.json();
-        const mostused : string = Object.keys(languages).reduce((a, b) => languages[a] > languages[b] ? a : b);
+        const mostused: string = Object.keys(languages).reduce((a, b) => languages[a] > languages[b] ? a : b);
 
 
         const project = await prisma.project.create({

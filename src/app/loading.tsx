@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Ring } from 'ldrs/react'
 import 'ldrs/react/Ring.css'
 import { useTheme } from 'next-themes'

@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import ToastWrapper from "@/lib/ToastWrapper";
 import { PageProvider } from "@/context/PageProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Providers } from "./providers";
 
 
 
@@ -12,6 +14,8 @@ const jetBrainsMono = JetBrains_Mono({
   weight: ['400', '700', '800'],
   variable: '--font-jetbrains',
 });
+
+
 
 
 export const metadata: Metadata = {
@@ -29,14 +33,11 @@ export default async function RootLayout({
       <body
         className={`${jetBrainsMono.className} antialiased bg-light-white dark:bg-dark-black`}
       >
-        <ThemeProvider defaultTheme="system" attribute="class">
-          <PageProvider>
-            <ToastWrapper>
-              {children}
-            </ToastWrapper>
-          </PageProvider>
-        </ThemeProvider>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
 }
+
