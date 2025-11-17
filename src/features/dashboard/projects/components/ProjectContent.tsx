@@ -4,6 +4,9 @@ import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { useQuery } from '@tanstack/react-query'
+import { project } from '@/types/type'
+import Loading from '@/app/loading'
 
 
 function ProjectContent() {
@@ -11,11 +14,37 @@ function ProjectContent() {
   const [Error, setError] = useState<string>("")
   const [Owner, setOwner] = useState("")
   const [Repo, setRepo] = useState("")
-  const [projectdata, setprojectdata] = useState("")
+  const [projectdata, setprojectdata] = useState<project[] | null>(null)
   const { data: session } = useSession();
-  const [mostused, setmostused] = useState("")
   const [isloading, setisloading] = useState(false)
-  const [filestructure, setfilestructure] = useState("")
+
+  useEffect(() => {
+    if (session) {
+
+    }
+  }, [session])
+
+
+  const { data , isLoading , isError} = useQuery({
+    queryKey: ["projects"],
+    queryFn: () => fetch("/api/fetch-project", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ userId: session?.user.id })
+    }).then(res => res.json()),
+    enabled: !!session?.user.id,
+    refetchOnMount: false,
+    staleTime: Infinity
+  })
+
+  useEffect(() => {
+    if (data) {
+      setprojectdata(data.project)
+    }
+  }, [data])
+
 
   useEffect(() => {
     if (link.includes("https://github.com/")) {
@@ -61,9 +90,7 @@ function ProjectContent() {
         return;
       }
 
-      // setprojectdata(data.RepoContent)
-      // setmostused(data.mostused)
-      // setfilestructure(data.fileStructure)
+      setprojectdata(data.project);
 
     } catch (err) {
       toast.error("Something went wrong")
@@ -72,11 +99,12 @@ function ProjectContent() {
     }
   }
 
+  if(isloading) return <Loading />
 
   return (
     <div className='m-7 h-screen gap-8 flex flex-col items-center'>
       <div className='flex flex-col gap-4 items-center'>
-        <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className='bg-light-gray border dark:bg-dark-inputfield border-light-activeborder/20 p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm' placeholder='Paste the Github Repo Link here' />
+        <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className={`bg-light-gray dark:bg-dark-inputfield border border-light-activeborder/20 p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm`} placeholder='https://github.com/username/repo' />
         {Error && <div className='text-sm text-red-500'>{Error}</div>}
         {isloading ? <button className='w-[110px] bg-light-black text-light-white dark:bg-dark-white   cursor-pointer p-2 rounded-md flex justify-center'><ButtonLoader invert /></button> : <input type='submit' value={isloading ? "Loading..." : "Add Project"} className='text-sm bg-light-black hover:bg-light-hoverblack text-light-white dark:bg-dark-white dark:text-dark-black hover:dark:bg-dark-hoverwhite cursor-pointer p-2 rounded-md' disabled={Error.length > 0 || link === ""} onClick={() => getgithubdata(Owner, Repo)} />}
       </div>
@@ -84,18 +112,18 @@ function ProjectContent() {
         <div className='border p-5 rounded-t-md font-extrabold border-light-activeborder/20'>
           Your Projects
         </div>
-        <div className='p-8 cursor-pointer border rounded-b-md border-light-activeborder/20 hover:bg-light-activeborder/10 transition-all duration-300 border-t-0'>
-          <div className='flex justify-between'>
-            <h1>Ecommerce Application</h1>
-            <ChevronRight strokeWidth={1} />
+        {projectdata ? projectdata?.map((item) => {
+          return <div key={item.id} className='p-6 cursor-pointer border rounded-b-md border-light-activeborder/20 hover:bg-light-activeborder/10 transition-all duration-300 border-t-0'>
+            <div className='flex justify-between items-center text-sm'>
+              <div className='flex flex-col gap-2'>
+                <h1 className='text-base'>{item.projectname}</h1>
+                <p className='text-xs'>{item.totalfiles} Files</p>
+                <p className='text-xs'>{item.mostused}</p>
+              </div>
+              <ChevronRight strokeWidth={1} />
+            </div>
           </div>
-        </div>
-      </div>
-      <div>
-        {filestructure !== "" && 
-        <>
-        <pre className='text-sm'>{filestructure}</pre>
-        </>}
+        }) : <div className='p-8 border-t-0 text-sm  border rounded-b-md border-light-activeborder/20'>No Projects</div>}
       </div>
     </div>
   )
