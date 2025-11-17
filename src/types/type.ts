@@ -76,7 +76,7 @@ export interface Analysis {
   id: string;
   type: string;
   totalissues: number;
-  status: string;   // "pending" | others?
+  status: string;
   summary?: string | null;
   projectId: string;
   score: number;

@@ -108,10 +108,10 @@ function AnalysisContent({ id }: { id: string }) {
           <Architecture analysis={projectdata?.anaylsis}/>
         </Activity>
         <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
-          <Security />
+          <Security analysis={projectdata?.anaylsis}/>
         </Activity>
         <Activity mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
-          <Performance />
+          <Performance analysis={projectdata?.anaylsis}/>
         </Activity>
       </div>
     </div>

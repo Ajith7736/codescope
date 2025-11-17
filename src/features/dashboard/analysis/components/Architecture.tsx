@@ -3,11 +3,14 @@ import SmallText from '@/ui/Text/SmallText'
 import IssueCard from './IssueCard'
 import { Analysis } from '@/types/type'
 
-function Architecture({analysis} : {analysis : Analysis[] | undefined}) {
 
+function Architecture({ analysis } : {analysis : Analysis[] | undefined}) {
+
+    if(!analysis) return <div className='p-5'>No Data</div>
+    if(analysis.length === 0) return <div className='p-10 text-sm'>No Issues</div>
 
     return (
-        <div className='flex flex-col gap-2'>
+         <div className='flex flex-col gap-2'>
             <div className='p-5 flex justify-between items-center'>
                 <div>
                     <SecondTitle>Architecture Analysis</SecondTitle>
