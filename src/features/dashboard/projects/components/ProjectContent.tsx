@@ -5,9 +5,10 @@ import { ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { useQuery } from '@tanstack/react-query'
-import { project } from '@/types/type'
+import { Project } from '@/types/type'
 import Loading from '@/app/loading'
 import ErrorPage from '@/app/error'
+import Link from 'next/link'
 
 
 function ProjectContent() {
@@ -15,7 +16,7 @@ function ProjectContent() {
   const [Error, setError] = useState<string>("")
   const [Owner, setOwner] = useState("")
   const [Repo, setRepo] = useState("")
-  const [projectdata, setprojectdata] = useState<project[] | null>(null)
+  const [projectdata, setprojectdata] = useState<Project[] | null>(null)
   const { data: session } = useSession();
   const [isloading, setisloading] = useState(false)
 
@@ -101,7 +102,7 @@ function ProjectContent() {
   }
 
   if(isLoading) return <Loading />
-  
+
   if(isError) return <ErrorPage />
 
   return (
@@ -117,13 +118,13 @@ function ProjectContent() {
         </div>
         {projectdata ? projectdata?.map((item) => {
           return <div key={item.id} className='p-6 cursor-pointer border rounded-b-md border-light-activeborder/20 hover:bg-light-activeborder/10 transition-all duration-300 border-t-0'>
-            <div className='flex justify-between items-center text-sm'>
+            <Link href={`/Dashboard/${item.id}`} className='flex justify-between items-center text-sm'>
               <div className='flex flex-col gap-2'>
                 <h1 className='text-base'>{item.projectname}</h1>
                 <p className='text-xs'>{item.totalfiles} Files • {item.mostused}</p>
               </div>
               <ChevronRight strokeWidth={1} />
-            </div>
+            </Link>
           </div>
         }) : <div className='p-8 border-t-0 text-sm  border rounded-b-md border-light-activeborder/20'>No Projects</div>}
       </div>

@@ -1,9 +1,10 @@
 import AnalysisContent from '@/features/dashboard/analysis/components/AnalysisContent'
 
-function Page() {
+async function Page({ params }: { params: Promise<{ id: string }> }) {
+    const id = (await params).id;
     return (
         <>
-            <AnalysisContent />
+            <AnalysisContent id={id} />
         </>
     )
 }

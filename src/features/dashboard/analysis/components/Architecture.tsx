@@ -1,8 +1,9 @@
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
 import IssueCard from './IssueCard'
+import { Analysis } from '@/types/type'
 
-function Architecture() {
+function Architecture({analysis} : {analysis : Analysis[] | undefined}) {
 
 
     return (

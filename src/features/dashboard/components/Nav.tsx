@@ -14,7 +14,7 @@ function Nav({ handlesidebar }: { handlesidebar: () => void }) {
             <button><PanelLeft onClick={handlesidebar} className='size-5 cursor-pointer' /></button>
             <div className='flex gap-2'>
                 <Link href={"/Dashboard"} className={`xss:text-xs  capitalize ${path === "Dashboard" ? "text-black dark:text-white" : "text-light-activeborder"}`}> Dashboard</Link>
-                {formattedpath.length > 2 && <div className='xss:text-xs  capitalize cursor-default'>&gt; {formattedpath[2]}</div>}
+                {formattedpath.length > 2 && <div className='xss:text-xs  capitalize cursor-default'>&gt; {path == "Projects" ? formattedpath[2] : <>Analysis</>}</div>}
             </div>
         </div>
     )

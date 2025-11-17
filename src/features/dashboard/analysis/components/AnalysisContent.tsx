@@ -5,13 +5,52 @@ import SmallText from '@/ui/Text/SmallText'
 import { GitBranch, Shield, Zap } from 'lucide-react'
 import OverallCard from './OverallCard'
 import Architecture from './Architecture'
-import { Activity, useState } from 'react'
+import { Activity, useEffect, useState } from 'react'
 import Security from './Security'
 import Performance from './Performance'
+import { useQuery } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { Project } from '@/types/type'
+import Loading from '@/app/loading'
 
 
-function AnalysisContent() {
+function AnalysisContent({ id }: { id: string }) {
   const [currentanalysis, setcurrentanalysis] = useState<"Architecture" | "Security" | "Performance">("Architecture");
+  const [projectdata, setprojectdata] = useState<Project | null>(null)
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["projectdata",id],
+    queryFn: async () => {
+      const res = await fetch("/api/project-details", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ projectId: id })
+      })
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message);
+      }
+
+      return data;
+    },
+    enabled: !!id,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    staleTime: Infinity,
+  })
+
+  useEffect(() => {
+    if (data) {
+      setprojectdata(data.project)
+    }
+  }, [data])
+
+
 
   interface Analysiscontentprops {
     icon: React.ReactElement,
@@ -40,13 +79,15 @@ function AnalysisContent() {
     }
   ]
 
+  if(isLoading) return <Loading/>
+
   return (
     <div className='h-screen bg-light-gray/50 dark:bg-dark-black overflow-auto flex flex-col items-center'>
       <div className='p-5 border w-full bg-light-white dark:bg-dark-gray flex justify-between items-center border-light-activeborder/20 border-t-0 border-x-0'>
         <div>
-          <SecondTitle>Ecommerce Application</SecondTitle>
+          <SecondTitle>{projectdata?.projectname}</SecondTitle>
           <div className='flex gap-2'>
-            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80'>47 files •</SmallText>
+            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80'>{projectdata?.totalfiles} files •</SmallText>
             <SmallText textcolor='text-light-black/80 dark:text-dark-white/80'>Last Analysed 2 hours ago</SmallText>
           </div>
         </div>
@@ -64,7 +105,7 @@ function AnalysisContent() {
           })}
         </div>
         <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
-          <Architecture />
+          <Architecture analysis={projectdata?.anaylsis}/>
         </Activity>
         <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
           <Security />

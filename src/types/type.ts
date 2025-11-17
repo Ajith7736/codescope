@@ -60,14 +60,40 @@ export interface GithubTree {
     url: string,
 }
 
-export interface project {
-    id: string;
-    createdAt: Date;
-    userId: string;
-    mostused: string;
-    projectname: string;
-    projectcode: string;
-    ownername: string;
-    totalfiles: number;
+export interface Project {
+  id: string;
+  projectname: string;
+  projectcode: string;
+  ownername: string;
+  mostused: string;
+  totalfiles: number;
+  userId: string;
+  createdAt: Date;
+  anaylsis: Analysis[];
 }
+
+export interface Analysis {
+  id: string;
+  type: string;
+  totalissues: number;
+  status: string;   // "pending" | others?
+  summary?: string | null;
+  projectId: string;
+  score: number;
+  createdAt: Date;
+  updatedAt: Date;
+  issues: Issues[];
+}
+
+export interface Issues {
+  id: string;
+  severity: string;
+  issuetitle: string;
+  issuedesc: string;
+  issuelocation: string;
+  suggesstedfix: string;
+  analysisId: string;
+  createdAt: Date;
+}
+
 
