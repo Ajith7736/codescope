@@ -5,7 +5,7 @@ function Button({ variant = "default", icons, children , onClick }: { variant?: 
 
     const variants = {
         default: "bg-light-black cursor-pointer hover:bg-light-hoverblack dark:hover:bg-dark-hoverwhite dark:bg-dark-white text-white dark:text-black",
-        purple : "bg-purple-500 cursor-pointer hover:bg-purple-500/90 text-white"
+        purple : "bg-purple-500 dark:bg-purple-700 cursor-pointer hover:bg-purple-500/90 hover:bg-purple-800 text-white"
     }
 
     return (
