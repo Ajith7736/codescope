@@ -41,10 +41,6 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
             icon: <Computer className='xss:size-4 md:size-5' />,
             name: "projects",
             route: "/Dashboard/Projects"
-        }, {
-            icon: <ListCheck className='xss:size-4 md:size-5' />,
-            name: "analysis",
-            route: "/Dashboard/Analysis"
         }
     ]
 
