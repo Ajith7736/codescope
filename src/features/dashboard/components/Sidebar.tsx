@@ -1,6 +1,6 @@
 import { ChevronsUpDown, CircleX, Code, Computer, LayoutDashboard, ListCheck } from 'lucide-react'
 import React, { useRef, useState } from 'react'
-import { motion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useMediaQuery } from 'react-responsive'
 import { useOutsideClick } from '@/hooks/Outsideclick'
 import { useSession } from '@/lib/auth-client'
@@ -62,9 +62,9 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                             key={link.name}
                             onClick={() => {
                                 if (!isLargescreen) setshowsidebar(false)
-                                router.push(link.name === "projects" ? "/Dashboard/Projects" : link.name === "dashboard" ? "/Dashboard" : "/Dashboard/Analysis")
+                                router.push(link.name === "projects" ? "/Dashboard/Projects" : "/Dashboard")
                             }}
-                            className={`${showsidebar ? `${page.toLowerCase() === link.name ? 'dark:text-white text-black bg-light-activeborder/10' : 'dark:hover:text-white hover:text-black text-light-activeborder' } hover:bg-light-activeborder/10` : `hover:bg-none ${page.toLowerCase() === link.name ? 'text-white' : 'text-light-activeborder'}`}   cursor-pointer flex p-2 gap-5 rounded-md items-center transition-hover duration-300`}>
+                            className={`${showsidebar ? `${page.toLowerCase() === link.name ? 'dark:text-white text-black bg-light-activeborder/10' : 'dark:hover:text-white hover:text-black text-light-activeborder'} hover:bg-light-activeborder/10` : `hover:bg-none ${page.toLowerCase() === link.name ? 'text-white' : 'text-light-activeborder'}`}   cursor-pointer flex p-2 gap-5 rounded-md items-center transition-hover duration-300`}>
                             <div className='flex group' >
                                 <button className='cursor-pointer'>
                                     {link.icon}
@@ -110,9 +110,11 @@ function Sidebar({ showsidebar, setshowsidebar }: { showsidebar: boolean, setsho
                     </div>
                 </div>
                 <button ref={userref} className={`overflow-hidden ${showsidebar ? ' md:opacity-100' : 'md:opacity-0'} transition-all duration-300 ease-in-out flex flex-col items-start text-xs`}>
-                    <ChevronsUpDown  className='size-4' onClick={() => setshowuserblock(!showuserblock)} />
+                    <ChevronsUpDown className='size-4' onClick={() => setshowuserblock(!showuserblock)} />
                     <div className='fixed left-60 bottom-20'>
-                        {showuserblock && <UserBlock />}
+                        <AnimatePresence>
+                            {showuserblock && <UserBlock />}
+                        </AnimatePresence>
                     </div>
                 </button>
             </div>

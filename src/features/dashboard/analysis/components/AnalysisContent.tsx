@@ -13,6 +13,7 @@ import { toast } from 'sonner'
 import { Project } from '@/types/type'
 import Loading from '@/app/loading'
 import useFetch from '@/hooks/useFetch'
+import Button from '@/ui/Buttons/Button'
 
 
 function AnalysisContent({ id }: { id: string }) {
@@ -81,7 +82,10 @@ function AnalysisContent({ id }: { id: string }) {
     }
   ]
 
+
+
   const { data : resdata , error, loading, fetchdata : handleanalysis } = useFetch("/api/architecture-api", "POST", projectdata)
+
 
   useEffect(() => {
     if(resdata){
@@ -102,6 +106,9 @@ function AnalysisContent({ id }: { id: string }) {
             <SmallText textcolor='text-light-black/80 dark:text-dark-white/80'>Last Analysed 2 hours ago</SmallText>
           </div>
         </div>
+        <div>
+          <Button variant='purple'>Re-fetch</Button>
+        </div>
       </div>
       <div className='flex flex-col items-center'>
         <OverallCard />
@@ -121,7 +128,7 @@ function AnalysisContent({ id }: { id: string }) {
           <Architecture callback={handleanalysis} analysis={projectdata?.anaylsis} isloading={loading}/>
         </Activity>
         <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
-          <Security analysis={projectdata?.anaylsis} />
+          <Security callback={handleanalysis} isloading={loading} analysis={projectdata?.anaylsis} />
         </Activity>
         <Activity mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
           <Performance analysis={projectdata?.anaylsis} />

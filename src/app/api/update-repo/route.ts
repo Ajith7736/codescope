@@ -4,26 +4,11 @@ import getbranch from "@/lib/server/github-fetch/getbranch";
 import getcontent from "@/lib/server/github-fetch/getcontent";
 import gettree from "@/lib/server/github-fetch/gettree";
 import github from "@/lib/server/github-fetch/github";
-import mostusedlang from "@/lib/server/github-fetch/mostused";
 import { NextResponse } from "next/server";
 
-
-
-export async function POST(req: Request) {
+export async function UPDATE(req: Request) {
     try {
-        const MAX_FILESIZE = 500 * 1024;
-        const MAX_TOTALSIZE = 20 * 1024 * 1024;
-        const { owner, repo, userId }: { owner: string, repo: string, userId: string } = await req.json();
-
-        const existingproject = await prisma.project.findFirst({
-            where: {
-                projectname: repo
-            }
-        })
-
-        if (existingproject) {
-            return NextResponse.json({ message: "Repo already added" }, { status: 409 })
-        }
+        const { owner, repo, projectId }: { owner: string, repo: string, projectId: string } = await req.json();
 
         const res = await github(owner, repo);
 
@@ -35,22 +20,21 @@ export async function POST(req: Request) {
         } else {
             const { RepoContent, message, mostused, status, tree } = res;
 
-            const project = await prisma.project.create({
+            const project = await prisma.project.update({
+                where: {
+                    id: projectId,
+                    projectname: repo
+                },
                 data: {
-                    projectname: repo,
-                    ownername: owner,
-                    projectcode: RepoContent,
                     mostused,
-                    totalfiles: tree.length,
-                    userId: userId
+                    projectcode: RepoContent,
+                    totalfiles: tree.length
                 }
             })
 
             return NextResponse.json({ message, project }, { status })
-
         }
     } catch (err) {
-        console.log(err)
         return NextResponse.json({ message: "Server Error" }, { status: 500 })
     }
-}
+}   
