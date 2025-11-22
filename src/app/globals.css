@@ -5,6 +5,11 @@
   --foreground: #171717;
 }
 
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 @theme {
   --color-dark-white: #E1E1E1;
   --color-dark-hoverwhite: #CFCFCF;
@@ -26,6 +31,8 @@
   --color-light-hovergray: #F5F5F5;
   --color-light-textgray: rgb(100, 116, 139);
   --breakpoint-xss: 340px;
+  --font-family-mono: var(--font-jetbrains), ui-monospace, "Courier New", monospace;
+    --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));

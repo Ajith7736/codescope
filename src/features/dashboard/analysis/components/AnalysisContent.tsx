@@ -15,12 +15,13 @@ import Loading from '@/app/loading'
 import useFetch from '@/hooks/useFetch'
 import Button from '@/ui/Buttons/Button'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
+import { useRouter } from 'next/navigation'
 
 
 function AnalysisContent({ id }: { id: string }) {
   const [currentanalysis, setcurrentanalysis] = useState<"Architecture" | "Security" | "Performance">("Architecture");
   const [projectdata, setprojectdata] = useState<Project | null>(null)
-
+  const router = useRouter();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["projectdata", id],
@@ -37,6 +38,7 @@ function AnalysisContent({ id }: { id: string }) {
 
       if (!res.ok) {
         toast.error(data.message);
+        router.push("/Dashboard/Projects")
       }
 
       return data;
@@ -83,10 +85,10 @@ function AnalysisContent({ id }: { id: string }) {
     }
   ]
 
-  const { data: resdata, loading, fetchdata: handleanalysis } = useFetch("/api/architecture-api", "POST", projectdata)
 
 
-  const { data: successres, loading: updateloader, fetchdata: handleupdate } = useFetch("/api/update-repo", "PUT", { owner: projectdata?.ownername, repo: projectdata?.projectname, projectId: projectdata?.id })
+
+  const { data: successres, loading: updateloader, fetchdata: handleupdate } = useFetch("/api/update-repo", "PUT", { owner: projectdata?.ownername, repo: projectdata?.projectname, projectId: projectdata?.id, lastcommit: projectdata?.lastcommit })
 
 
   useEffect(() => {
@@ -94,13 +96,6 @@ function AnalysisContent({ id }: { id: string }) {
       refetch();
     }
   }, [successres])
-
-
-  useEffect(() => {
-    if (resdata) {
-      console.log(resdata.message)
-    }
-  }, [resdata])
 
 
   if (isLoading) return <Loading />
@@ -134,10 +129,10 @@ function AnalysisContent({ id }: { id: string }) {
           })}
         </div>
         <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
-          <Architecture callback={handleanalysis} analysis={projectdata?.anaylsis} isloading={loading} />
+          <Architecture projectdata={projectdata} refetch={refetch} />
         </Activity>
         <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
-          <Security callback={handleanalysis} isloading={loading} analysis={projectdata?.anaylsis} />
+          <Security />
         </Activity>
         <Activity mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
           <Performance analysis={projectdata?.anaylsis} />

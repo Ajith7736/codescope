@@ -4,13 +4,19 @@ import { NextResponse } from "next/server";
 
 export async function PUT(req: Request) {
     try {
-        const { owner, repo, projectId }: { owner: string, repo: string, projectId: string } = await req.json();
-        const res = await github(owner, repo);
+        const { owner, repo, projectId, lastcommit }: { owner: string, repo: string, projectId: string, lastcommit: string } = await req.json();
+
+        const res = await github(owner, repo, lastcommit);
 
         if (!res.success) {
 
             const { message, status } = res;
-            return NextResponse.json({ message }, { status })
+
+            if (status === 200) {
+                return NextResponse.json({ message }, { status })
+            } else {
+                return NextResponse.json({ message }, { status })
+            }
 
         } else {
             const { RepoContent, message, mostused, status, lastcommit, tree } = res;
@@ -31,6 +37,7 @@ export async function PUT(req: Request) {
             return NextResponse.json({ message, project }, { status })
         }
     } catch (err) {
+        console.log(err);
         return NextResponse.json({ message: "Server Error" }, { status: 500 })
     }
 }   

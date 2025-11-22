@@ -10,11 +10,12 @@ import getcommit from "./getcommit";
 
 type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string, mostused: string, tree: GithubTree[], status: number, lastcommit: string, treestring: string }
 
-export default async function github(owner: string, repo: string): Promise<Response> {
+export default async function github(owner: string, repo: string, prevcommit?: string): Promise<Response> {
     const MAX_FILESIZE = 500 * 1024;
     const MAX_TOTALSIZE = 20 * 1024 * 1024;
 
     //get main branch name
+
 
     const res = await getbranch(owner, repo);
 
@@ -37,9 +38,14 @@ export default async function github(owner: string, repo: string): Promise<Respo
         return { success: false, message: "Failed to fetch please try again", status: 400 }
     }
 
-    const lastcommit = await commitres.json();
+    const commit = await commitres.json();
+
+    const lastcommit = commit.commit.message
 
 
+    if (prevcommit && prevcommit === lastcommit) {
+        return { success: false, message: "Repo is upto date", status: 200 }
+    }
 
 
     // get whole tree of the repo
@@ -69,5 +75,5 @@ export default async function github(owner: string, repo: string): Promise<Respo
 
     const mostused: string = await mostusedlang(owner, repo)
 
-    return { success: true, message: "success", RepoContent, mostused, tree, status: 200, lastcommit: lastcommit.commit.message, treestring }
+    return { success: true, message: "success", RepoContent, mostused, tree, status: 200, lastcommit, treestring }
 }

@@ -76,9 +76,11 @@ function ProjectContent() {
   return (
     <div className='m-7 h-screen gap-8 flex flex-col items-center'>
       <div className='flex flex-col gap-4 items-center'>
-        <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className={`bg-light-gray dark:bg-dark-inputfield border border-light-activeborder/20 p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm`} placeholder='https://github.com/username/repo' />
-        {Error && <div className='text-sm text-red-500'>{Error}</div>}
-        {loading ? <button className='w-[110px] bg-light-black text-light-white dark:bg-dark-white   cursor-pointer p-2 rounded-md flex justify-center'><ButtonLoader invert /></button> : <input type='submit' value={isloading ? "Loading..." : "Add Project"} className='text-sm bg-light-black hover:bg-light-hoverblack text-light-white dark:bg-dark-white dark:text-dark-black hover:dark:bg-dark-hoverwhite cursor-pointer p-2 rounded-md' disabled={Error.length > 0 || link === ""} onClick={getgithubdata} />}
+        <div>
+          <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className={`bg-light-gray dark:bg-dark-inputfield border ${Error ? 'border-red-500/40' : ' border-light-activeborder/20'} p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm`} placeholder='https://github.com/username/repo' />
+          {Error && <div className='text-xs pt-2 text-red-500'>{Error}</div>}
+        </div>
+        {loading ? <button className='w-[108px] py-[9.5px] bg-light-black text-light-white dark:bg-dark-white   cursor-pointer rounded-md flex justify-center'><ButtonLoader invert /></button> : <input type='submit' value="Add Project" className='text-sm bg-light-black hover:bg-light-hoverblack text-light-white dark:bg-dark-white dark:text-dark-black hover:dark:bg-dark-hoverwhite cursor-pointer p-2 rounded-md' disabled={Error.length > 0 || link === ""} onClick={getgithubdata} />}
       </div>
       <div className='bg-light-gray/40 dark:bg-dark-gray xss:w-100 md:w-110 lg:w-190'>
         <div className='border p-5 rounded-t-md font-extrabold border-light-activeborder/20'>

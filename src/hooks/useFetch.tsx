@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner';
 
 function useFetch(url: string, method: string, body: any) {
@@ -23,7 +23,10 @@ function useFetch(url: string, method: string, body: any) {
 
             if (!res.ok) {
                 toast.error(resdata.message);
-                seterror(resdata.message);
+            }
+
+            if (res.status === 200 && resdata.message === "Repo is upto date") {
+                toast.warning(resdata.message);
             }
 
             setdata(resdata);
@@ -36,7 +39,7 @@ function useFetch(url: string, method: string, body: any) {
         }
     }
 
-    return { data, error, loading , fetchdata};
+    return { data, error, loading, fetchdata };
 }
 
 export default useFetch

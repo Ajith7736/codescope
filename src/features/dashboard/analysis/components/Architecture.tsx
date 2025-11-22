@@ -1,18 +1,32 @@
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
 import IssueCard from './IssueCard'
-import { Analysis } from '@/types/type'
+import { Analysis, Project } from '@/types/type'
 import Button from '@/ui/Buttons/Button'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
+import useFetch from '@/hooks/useFetch'
+import { useEffect } from 'react'
 
 
-function Architecture({ analysis, callback, isloading }: { analysis: Analysis[] | undefined, callback: () => void, isloading: boolean }) {
+function Architecture({ projectdata, refetch }: { projectdata: Project | null, refetch: () => void }) {
 
-    if (!analysis) return <div className='p-5'>No Data</div>
-    if (analysis.length === 0) return (<>
+
+    if (!projectdata) return <div>No data</div>
+
+    const { data: resdata, loading, fetchdata: handleanalysis } = useFetch("/api/analysis", "POST", { ...projectdata })
+
+
+    useEffect(() => {
+        if (resdata && resdata.success) {
+            refetch();
+        }
+    }, [resdata])
+
+
+    if (projectdata.anaylsis && projectdata.anaylsis.length === 0) return (<>
         <div className='p-3 flex justify-between items-center bg-dark-hovergray border border-x-0 border-t-0 border-light-activeborder/20'>
             <p className='text-xs text-light-activeborder'>Analyse architecture!</p>
-            {isloading ? <Button variant="purple"><ButtonLoader /></Button> : <Button variant='purple' onClick={callback}>Analyse</Button>}
+            {loading ? <Button variant="purple"><ButtonLoader /></Button> : <Button variant='purple' onClick={handleanalysis}>Analyse</Button>}
         </div>
         <div className='p-10 text-xs'>No Issues</div>
     </>)

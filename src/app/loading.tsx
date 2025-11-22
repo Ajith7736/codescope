@@ -5,12 +5,12 @@ import 'ldrs/react/Ring.css'
 function Loading() {
 
     return (
-        <div className='fixed w-full h-screen z-10 dark:bg-dark-black bg-light-white flex justify-center items-center'>
+        <div role='status' aria-live='polite' aria-label='loading content' className='fixed inset-0 z-50 dark:bg-dark-black bg-light-white flex justify-center items-center'>
             <Ring
-            size="40"
-            stroke="5"
-            bgOpacity="0.2"
-            speed="2"
+            size={40}
+            stroke={5}
+            bgOpacity={0.2}
+            speed={2}
             color={"#6B7280"}
          />
         </div>
