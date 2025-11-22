@@ -67,6 +67,8 @@ export interface Project {
   ownername: string;
   mostused: string;
   totalfiles: number;
+  projecttree: string;
+  lastcommit : string;
   userId: string;
   createdAt: Date;
   anaylsis: Analysis[];

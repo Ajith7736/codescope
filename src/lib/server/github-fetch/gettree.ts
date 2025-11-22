@@ -5,5 +5,11 @@ export default async function gettree(owner: string, repo: string, branch: strin
     const data = await treeres.json();
     const tree: GithubTree[] = await data.tree;
 
-    return tree;
+    const treearray = tree.map((item) => {
+        return `\n ${item.path} \n`
+    })
+
+    const treestring: string = treearray.join("")
+
+    return { tree , treestring};
 }

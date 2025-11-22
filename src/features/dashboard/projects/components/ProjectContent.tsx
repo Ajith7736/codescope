@@ -10,6 +10,7 @@ import Loading from '@/app/loading'
 import ErrorPage from '@/app/error'
 import Link from 'next/link'
 import useFetch from '@/hooks/useFetch'
+import githublinkchecker from '@/lib/githublinkchecker'
 
 
 function ProjectContent() {
@@ -51,18 +52,7 @@ function ProjectContent() {
 
   useEffect(() => {
     if (link.includes("https://github.com/")) {
-      const urls = link.split("/");
-      const owner = urls[urls.length - 2]
-      const repo = urls[urls.length - 1]
-      if (owner.includes("github.com") || !owner) {
-        setError("Invalid Link")
-      } else if (repo.includes("github.com") || !repo) {
-        setError("Invalid Link")
-      } else {
-        setError("")
-        setOwner(owner);
-        setRepo(repo);
-      }
+      githublinkchecker(link, setError, setRepo, setOwner);
     } else {
       if (link.length > 0) {
         setError("Invalid Link")
@@ -74,42 +64,9 @@ function ProjectContent() {
 
   useEffect(() => {
     if (resdata && resdata.project) {
-      projectdata.length > 0 ? setprojectdata([...projectdata,resdata.project]) : setprojectdata([resdata.project])
+      projectdata.length > 0 ? setprojectdata([...projectdata, resdata.project]) : setprojectdata([resdata.project])
     }
   }, [resdata])
-
-
-  // const getgithubdata = async (owner: string, repo: string) => {
-  //   setisloading(true);
-
-  //   try {
-  //     const res = await fetch("/api/fetch-repo", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify({
-  //         owner,
-  //         repo,
-  //         userId: session?.user.id
-  //       })
-  //     })
-
-  //     const data = await res.json()
-
-  //     if (!res.ok) {
-  //       toast.error(data.message || "Failed to fetch data");
-  //       return;
-  //     }
-
-  //     setprojectdata(data.project);
-
-  //   } catch (err) {
-  //     toast.error("Something went wrong")
-  //   } finally {
-  //     setisloading(false);
-  //   }
-  // }
 
   if (isLoading) return <Loading />
 

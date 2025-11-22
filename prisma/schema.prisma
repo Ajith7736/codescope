@@ -72,8 +72,10 @@ model Project {
   id          String     @id @default(uuid())
   projectname String
   projectcode String
-  ownername   String 
+  projecttree String
+  ownername   String
   mostused    String
+  lastcommit  String
   totalfiles  Int
   anaylsis    Analysis[]
   userId      String

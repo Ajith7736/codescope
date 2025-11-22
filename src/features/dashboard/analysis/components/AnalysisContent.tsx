@@ -14,6 +14,7 @@ import { Project } from '@/types/type'
 import Loading from '@/app/loading'
 import useFetch from '@/hooks/useFetch'
 import Button from '@/ui/Buttons/Button'
+import ButtonLoader from '@/ui/loaders/ButtonLoader'
 
 
 function AnalysisContent({ id }: { id: string }) {
@@ -21,7 +22,7 @@ function AnalysisContent({ id }: { id: string }) {
   const [projectdata, setprojectdata] = useState<Project | null>(null)
 
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["projectdata", id],
     queryFn: async () => {
       const res = await fetch("/api/project-details", {
@@ -82,17 +83,25 @@ function AnalysisContent({ id }: { id: string }) {
     }
   ]
 
+  const { data: resdata, loading, fetchdata: handleanalysis } = useFetch("/api/architecture-api", "POST", projectdata)
 
 
-  const { data : resdata , error, loading, fetchdata : handleanalysis } = useFetch("/api/architecture-api", "POST", projectdata)
+  const { data: successres, loading: updateloader, fetchdata: handleupdate } = useFetch("/api/update-repo", "PUT", { owner: projectdata?.ownername, repo: projectdata?.projectname, projectId: projectdata?.id })
 
 
   useEffect(() => {
-    if(resdata){
+    if (successres) {
+      refetch();
+    }
+  }, [successres])
+
+
+  useEffect(() => {
+    if (resdata) {
       console.log(resdata.message)
     }
   }, [resdata])
-  
+
 
   if (isLoading) return <Loading />
 
@@ -101,13 +110,13 @@ function AnalysisContent({ id }: { id: string }) {
       <div className='p-5 border w-full bg-light-white dark:bg-dark-gray flex justify-between items-center border-light-activeborder/20 border-t-0 border-x-0'>
         <div>
           <SecondTitle>{projectdata?.projectname}</SecondTitle>
-          <div className='flex gap-2'>
-            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80'>{projectdata?.totalfiles} files •</SmallText>
-            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80'>Last Analysed 2 hours ago</SmallText>
+          <div className='mt-1'>
+            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80' className='lg:text-xs'>{projectdata?.totalfiles} files </SmallText>
+            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80' className='lg:text-xs'>Last commit • {projectdata?.lastcommit}</SmallText>
           </div>
         </div>
         <div>
-          <Button variant='purple'>Re-fetch</Button>
+          {updateloader ? <Button variant='purple'><ButtonLoader variant='purple' /></Button> : <Button variant='purple' onClick={handleupdate}>Re-fetch</Button>}
         </div>
       </div>
       <div className='flex flex-col items-center'>
@@ -125,7 +134,7 @@ function AnalysisContent({ id }: { id: string }) {
           })}
         </div>
         <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
-          <Architecture callback={handleanalysis} analysis={projectdata?.anaylsis} isloading={loading}/>
+          <Architecture callback={handleanalysis} analysis={projectdata?.anaylsis} isloading={loading} />
         </Activity>
         <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
           <Security callback={handleanalysis} isloading={loading} analysis={projectdata?.anaylsis} />

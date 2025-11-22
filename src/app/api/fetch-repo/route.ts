@@ -1,23 +1,15 @@
 import prisma from "@/lib/server/db/db";
-import filtertree from "@/lib/server/github-fetch/filtertree";
-import getbranch from "@/lib/server/github-fetch/getbranch";
-import getcontent from "@/lib/server/github-fetch/getcontent";
-import gettree from "@/lib/server/github-fetch/gettree";
 import github from "@/lib/server/github-fetch/github";
-import mostusedlang from "@/lib/server/github-fetch/mostused";
 import { NextResponse } from "next/server";
-
-
 
 export async function POST(req: Request) {
     try {
-        const MAX_FILESIZE = 500 * 1024;
-        const MAX_TOTALSIZE = 20 * 1024 * 1024;
         const { owner, repo, userId }: { owner: string, repo: string, userId: string } = await req.json();
 
         const existingproject = await prisma.project.findFirst({
             where: {
-                projectname: repo
+                projectname: repo,
+                ownername : owner
             }
         })
 
@@ -33,14 +25,16 @@ export async function POST(req: Request) {
             return NextResponse.json({ message }, { status })
 
         } else {
-            const { RepoContent, message, mostused, status, tree } = res;
+            const { RepoContent, message, mostused, treestring, status, lastcommit, tree } = res;
 
             const project = await prisma.project.create({
                 data: {
                     projectname: repo,
                     ownername: owner,
                     projectcode: RepoContent,
+                    projecttree: treestring,
                     mostused,
+                    lastcommit,
                     totalfiles: tree.length,
                     userId: userId
                 }

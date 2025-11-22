@@ -1,15 +1,10 @@
 import prisma from "@/lib/server/db/db";
-import filtertree from "@/lib/server/github-fetch/filtertree";
-import getbranch from "@/lib/server/github-fetch/getbranch";
-import getcontent from "@/lib/server/github-fetch/getcontent";
-import gettree from "@/lib/server/github-fetch/gettree";
 import github from "@/lib/server/github-fetch/github";
 import { NextResponse } from "next/server";
 
-export async function UPDATE(req: Request) {
+export async function PUT(req: Request) {
     try {
         const { owner, repo, projectId }: { owner: string, repo: string, projectId: string } = await req.json();
-
         const res = await github(owner, repo);
 
         if (!res.success) {
@@ -18,7 +13,7 @@ export async function UPDATE(req: Request) {
             return NextResponse.json({ message }, { status })
 
         } else {
-            const { RepoContent, message, mostused, status, tree } = res;
+            const { RepoContent, message, mostused, status, lastcommit, tree } = res;
 
             const project = await prisma.project.update({
                 where: {
@@ -28,7 +23,8 @@ export async function UPDATE(req: Request) {
                 data: {
                     mostused,
                     projectcode: RepoContent,
-                    totalfiles: tree.length
+                    totalfiles: tree.length,
+                    lastcommit
                 }
             })
 

@@ -4,9 +4,11 @@ import filtertree from "./filtertree";
 import gettree from "./gettree";
 import getbranch from "./getbranch";
 import { GithubTree } from "@/types/type";
+import getcommit from "./getcommit";
 
 
-type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string, mostused: string, tree: GithubTree[], status: number }
+
+type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string, mostused: string, tree: GithubTree[], status: number, lastcommit: string, treestring: string }
 
 export default async function github(owner: string, repo: string): Promise<Response> {
     const MAX_FILESIZE = 500 * 1024;
@@ -27,9 +29,23 @@ export default async function github(owner: string, repo: string): Promise<Respo
     const resdata = await res.json();
     const branch = await resdata.default_branch;
 
+    //get last commit message
+
+    const commitres = await getcommit(owner, repo, branch);
+
+    if (!commitres.ok) {
+        return { success: false, message: "Failed to fetch please try again", status: 400 }
+    }
+
+    const lastcommit = await commitres.json();
+
+
+
+
     // get whole tree of the repo
 
-    const tree = await gettree(owner, repo, branch);
+    const { tree, treestring } = await gettree(owner, repo, branch);
+
 
     const { totalsize, ValidFiles } = await filtertree(tree, MAX_FILESIZE);
 
@@ -53,5 +69,5 @@ export default async function github(owner: string, repo: string): Promise<Respo
 
     const mostused: string = await mostusedlang(owner, repo)
 
-    return { success: true, message: "success", RepoContent, mostused, tree, status: 200 }
+    return { success: true, message: "success", RepoContent, mostused, tree, status: 200, lastcommit: lastcommit.commit.message, treestring }
 }
