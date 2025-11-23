@@ -71,12 +71,12 @@ export interface Project {
   lastcommit : string;
   userId: string;
   createdAt: Date;
-  anaylsis: Analysis[];
+  analysis: Analysis[];
 }
 
 export interface Analysis {
   id: string;
-  type: string;
+  type: "Architecture" | "Security" | "Performance";
   totalissues: number;
   status: string;
   summary?: string | null;

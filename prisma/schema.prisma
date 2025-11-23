@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // url      = env("DATABASE_URL")
 }
 
 model User {
@@ -77,7 +78,7 @@ model Project {
   mostused    String
   lastcommit  String
   totalfiles  Int
-  anaylsis    Analysis[]
+  analysis    Analysis[]
   userId      String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime   @default(now())
@@ -86,12 +87,12 @@ model Project {
 model Analysis {
   id          String   @id @default(uuid())
   type        String
-  totalissues Int
+  totalissues Int?
   status      String   @default("pending")
   issues      Issues[]
   summary     String?
   projectId   String
-  score       Int
+  score       Int?
   project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt

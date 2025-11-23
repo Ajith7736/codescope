@@ -16,11 +16,12 @@ import useFetch from '@/hooks/useFetch'
 import Button from '@/ui/Buttons/Button'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { useRouter } from 'next/navigation'
+import { useProject } from '@/context/ProjectProvider'
 
 
 function AnalysisContent({ id }: { id: string }) {
   const [currentanalysis, setcurrentanalysis] = useState<"Architecture" | "Security" | "Performance">("Architecture");
-  const [projectdata, setprojectdata] = useState<Project | null>(null)
+  const { projectdata, setprojectdata } = useProject();
   const router = useRouter();
 
   const { data, isLoading, refetch } = useQuery({
@@ -86,9 +87,19 @@ function AnalysisContent({ id }: { id: string }) {
   ]
 
 
-
-
-  const { data: successres, loading: updateloader, fetchdata: handleupdate } = useFetch("/api/update-repo", "PUT", { owner: projectdata?.ownername, repo: projectdata?.projectname, projectId: projectdata?.id, lastcommit: projectdata?.lastcommit })
+  const {
+    data: successres,
+    loading: updateloader,
+    fetchdata: handleupdate
+  } = useFetch(
+    "/api/update-repo",
+    "PUT",
+    {
+      owner: projectdata?.ownername,
+      repo: projectdata?.projectname,
+      projectId: projectdata?.id,
+      lastcommit: projectdata?.lastcommit
+    })
 
 
   useEffect(() => {
@@ -96,6 +107,18 @@ function AnalysisContent({ id }: { id: string }) {
       refetch();
     }
   }, [successres])
+
+  // first analysis fetch call
+
+  const { data: resdata, loading, fetchdata: handleanalysis } = useFetch("/api/analysis", "POST", { project: projectdata })
+
+
+
+  useEffect(() => {
+    if (resdata && resdata.success) {
+      refetch();
+    }
+  }, [resdata])
 
 
   if (isLoading) return <Loading />
@@ -128,14 +151,14 @@ function AnalysisContent({ id }: { id: string }) {
             </button>)
           })}
         </div>
-        <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
-          <Architecture projectdata={projectdata} refetch={refetch} />
+        <Activity name='Architecture' mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
+          <Architecture analysis={projectdata?.analysis.find(item => item.type === "Architecture")} refetch={refetch} />
         </Activity>
-        <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
-          <Security />
+        <Activity name='Security' mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
+          <Security analysis={projectdata?.analysis.find((item) => item.type === "Security")} refetch={refetch} />
         </Activity>
-        <Activity mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
-          <Performance analysis={projectdata?.anaylsis} />
+        <Activity name='Performance' mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
+          <Performance analysis={projectdata?.analysis.find(item => item.type === "Performance")} refetch={refetch} />
         </Activity>
       </div>
     </div>

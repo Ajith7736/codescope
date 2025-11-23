@@ -50,12 +50,12 @@ function Content({ session }: { session: Session | null }) {
                         speedScale={1}
                     />
                 </div> */}
-                <div className='relative z-10 flex flex-col gap-4 justify-center items-center p-10 lg:px-50 xl:px-100 w-full h-full'>
-                    <div className="font-extrabold font-sans xss:text-3xl  md:text-5xl text-center">
-                        Intelligent Code Analysis
-                        <div>Powered By AI</div>
+                <div className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-100 w-full h-full'>
+                    <div className="font-extrabold font-sans xss:text-4xl  md:text-7xl text-center">
+                        Analyze your code
+                        at the speed of AI
                     </div>
-                    <div className='text-center text-light-activeborder xss:text-sm lg:text-base'>Detect architecture flaws, security risks, and bottlenecks instantly. Get <span className='font-bold text-white'>AI-powered</span> refactoring suggestions directly in your workflow.</div>
+                    <div className='text-center text-light-activeborder xss:text-xs lg:text-sm'>Detect architecture flaws, security risks, and bottlenecks instantly. Get <span className='font-bold dark:text-white text-black'>AI-powered</span> refactoring suggestions directly in your workflow.</div>
                     <div className='flex gap-5 mt-5'>
                         <Link href={session ? "/Dashboard" : "/Signup"}><button className='bg-light-black dark:bg-dark-white dark:text-dark-black rounded-md cursor-pointer hover:bg-light-hoverblack transition duration-300 dark:hover:bg-dark-hoverwhite  text-light-white p-3 shadow-light-activeborder shadow-md dark:shadow-none xss:text-base md:text-base font-extrabold'>Start Your Analysis</button></Link>
                         <button className='p-2 rounded-md cursor-pointer hover:bg-light-hovergray transition duration-300 dark:hover:bg-dark-hovergray dark:bg-dark-hovergray/40 dark:backdrop-blur-2xl xss:text-sm md:text-base'>Github</button>

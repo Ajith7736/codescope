@@ -2,20 +2,33 @@
 
 import { authClient, useSession } from '@/lib/auth-client';
 import ButtonLoader from '@/ui/loaders/ButtonLoader';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'sonner';
 
 
 function Authcard({ img, provider }: { img: React.ReactElement, provider: "google" | "github" }) {
     const { data: session } = useSession();
     const [isloading, setisloading] = useState(false);
 
+
     const handlesocial = async () => {
         setisloading(true);
-        await authClient.signIn.social({
-            provider,
-            callbackURL: "/Dashboard"
-        });
+        try {
+            const { error } = await authClient.signIn.social({
+                provider,
+                callbackURL: "/Dashboard"
+            });
+            if (error) {
+                toast.error("SignIn Failed");
+            }
+
+        } catch (err) {
+            toast.error("Server Error")
+        }
     }
+
+
+
 
     return (
         <div>

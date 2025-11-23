@@ -14,7 +14,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="dark:text-dark-white dark:bg-dark-black flex flex-col">
+    <div className="dark:text-dark-white dark:bg-dark-black">
       <Navbar />
       <Content session={session} />
     </div>
