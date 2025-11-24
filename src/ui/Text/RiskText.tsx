@@ -1,12 +1,11 @@
 import React from 'react'
 
-function RiskText({ variant , children}: { variant: "healthy" | "warning" | "excellent" , children : React.ReactNode}) {
+function RiskText({ variant , children}: { variant: "high" | "medium" | "low" , children : React.ReactNode}) {
 
     const variants = {
-        healthy: "bg-blue-500/30 text-blue-600",
-        warning: "bg-orange-500/30 text-orange-600",
-        excellent: "bg-green-500/30 text-green-600",
-        critical: "bg-red-500/30 text-red-600"
+        low: "bg-blue-500/30 text-blue-600",
+        medium: "bg-orange-500/30 text-orange-600",
+        high: "bg-red-500/30 text-red-600"
     }
 
     return (

@@ -1,5 +1,46 @@
 @import "tailwindcss";
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(241, 245, 249);
+  border-radius: 10px;
+}
+
+
+
+::-webkit-scrollbar-thumb {
+  background: rgb(100, 116, 139);
+  border-radius: 10px;
+  border: 2px solid rgb(241, 245, 249);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #161616;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #252525;
+  border: 2px solid rgb(15, 23, 42);
+}
+
+
+.dark ::-webkit-scrollbar-corner {
+  background-color: #161616;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -9,6 +50,8 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
 
 @theme {
   --color-dark-white: #E1E1E1;
@@ -32,7 +75,7 @@ html, body {
   --color-light-textgray: rgb(100, 116, 139);
   --breakpoint-xss: 340px;
   --font-family-mono: var(--font-jetbrains), ui-monospace, "Courier New", monospace;
-    --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));

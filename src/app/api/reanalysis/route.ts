@@ -2,16 +2,20 @@ import { Project } from "@/generated/prisma/client";
 import prisma from "@/lib/server/db/db";
 import isRateLimitError from "@/lib/server/isRateLimitError";
 import architectureprompt from "@/lib/server/prompts/architectureprompt";
-import { AnalysisSchema } from "@/lib/server/Schema/AnalysisSchema";
+import performanceprompt from "@/lib/server/prompts/performanceprompt";
+import securityprompt from "@/lib/server/prompts/securityprompt";
+import AnalysisSchema from "@/lib/server/Schema/AnalysisSchema";
 import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { NextResponse } from "next/server";
 
+
 export async function PUT(req: Request) {
     try {
-        const { project, analysisId }: { project: Project, analysisId: string } = await req.json();
-        const prompt = architectureprompt(project.projectcode, project.projecttree);
-
+        const { project, analysisId, analysistype }: { project: Project, analysisId: string, analysistype: "Architecture" | "Security" | "Performance" } = await req.json();
+        const prompt = analysistype === "Architecture" ? architectureprompt(project.projectcode, project.projecttree) : analysistype === "Security" ? securityprompt(project.projectcode, project.projecttree) : performanceprompt(project.projectcode, project.projecttree);
+        const schema  = AnalysisSchema(analysistype)
+        
         try {
 
             await prisma.analysis.update({
@@ -25,11 +29,11 @@ export async function PUT(req: Request) {
 
             const { object } = await generateObject({
                 model: google("gemini-2.0-flash"),
-                schema: AnalysisSchema,
+                schema,
                 prompt
             })
 
-            const parsed = AnalysisSchema.safeParse(object);
+            const parsed = schema.safeParse(object);
 
             if (!parsed.success) {
                 await prisma.analysis.update({
@@ -41,6 +45,7 @@ export async function PUT(req: Request) {
 
                 return NextResponse.json({ success: false, message: "Couldnt complete Analysis" }, { status: 400 })
             }
+
 
             await prisma.$transaction(async (tx) => {
                 await tx.analysis.update({
@@ -69,6 +74,8 @@ export async function PUT(req: Request) {
                         issuetitle: issue.issuetitle,
                         severity: issue.severity,
                         suggesstedfix: issue.suggesstedfix,
+                        suggesstedcode: issue.suggesstedcode,
+                        suggesstedcodelanguage: issue.suggesstedcodelanguage,
                         analysisId
                     }))
                 })

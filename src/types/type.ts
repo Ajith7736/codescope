@@ -61,41 +61,51 @@ export interface GithubTree {
 }
 
 export interface Project {
-  id: string;
-  projectname: string;
-  projectcode: string;
-  ownername: string;
-  mostused: string;
-  totalfiles: number;
-  projecttree: string;
-  lastcommit : string;
-  userId: string;
-  createdAt: Date;
-  analysis: Analysis[];
+    id: string;
+    projectname: string;
+    projectcode: string;
+    ownername: string;
+    mostused: string;
+    totalfiles: number;
+    projecttree: string;
+    lastcommit: string;
+    userId: string;
+    createdAt: Date;
+    analysis: Analysis[];
 }
 
 export interface Analysis {
-  id: string;
-  type: "Architecture" | "Security" | "Performance";
-  totalissues: number;
-  status: string;
-  summary?: string | null;
-  projectId: string;
-  score: number;
-  createdAt: Date;
-  updatedAt: Date;
-  issues: Issues[];
+    id: string;
+    type: "Architecture" | "Security" | "Performance";
+    totalissues: number;
+    status: string;
+    summary?: string | null;
+    projectId: string;
+    score: number;
+    createdAt: Date;
+    updatedAt: Date;
+    issues: Issues[];
 }
 
 export interface Issues {
-  id: string;
-  severity: string;
-  issuetitle: string;
-  issuedesc: string;
-  issuelocation: string;
-  suggesstedfix: string;
-  analysisId: string;
-  createdAt: Date;
+    id: string;
+    severity: "high" | "medium" | "low";
+    issuetitle: string;
+    issuedesc: string;
+    issuelocation: string;
+    suggesstedfix: string;
+    suggesstedcode?: string;
+    suggesstedcodelanguage?: string;
+    analysisId: string;
+    createdAt: Date;
+}
+
+
+export interface Analysiscontentprops {
+    icon: React.ReactElement,
+    hover: string,
+    active: string,
+    type: "Architecture" | "Security" | "Performance"
 }
 
 

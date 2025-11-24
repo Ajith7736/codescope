@@ -105,6 +105,8 @@ model Issues {
   issuedesc     String
   issuelocation String
   suggesstedfix String
+  suggesstedcodelanguage String?
+  suggesstedcode String?
   analysisId    String
   analysis      Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
   createdAt     DateTime @default(now())

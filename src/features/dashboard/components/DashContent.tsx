@@ -8,7 +8,7 @@ import RecentProject from './RecentProject'
 import Card from './Card'
 import RecentAnalysis from './RecentAnalysis'
 import { redirect } from 'next/navigation'
-import ButtonLoader from '@/ui/loaders/ButtonLoader'
+
 
 function DashContent() {
   const card: DashCardProps[] = [

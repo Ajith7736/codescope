@@ -1,11 +1,10 @@
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
 import IssueCard from './IssueCard'
-import { Analysis, Project } from '@/types/type'
+import { Analysis } from '@/types/type'
 import Button from '@/ui/Buttons/Button'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import useFetch from '@/hooks/useFetch'
-import { useEffect } from 'react'
 import { useProject } from '@/context/ProjectProvider'
 
 
@@ -18,32 +17,33 @@ function Architecture({ analysis, refetch, }: { analysis: Analysis | undefined, 
 
     // first analysis fetch call
 
-    const { data: analysisres, loading, fetchdata: handleanalysis } = useFetch("/api/analysis", "POST", { project: projectdata })
+    const {
+        loading,
+        fetchdata: handleanalysis
+    } = useFetch(
+        "/api/analysis",
+        "POST",
+        {
+            project: projectdata,
+            analysistype: "Architecture"
+        },
+        refetch
+    )
 
 
-
-    useEffect(() => {
-        if (analysisres && analysisres.success) {
-            refetch();
-        }
-    }, [analysisres])
 
     // re analysis
 
-    const { data: resdata, loading: reanalysisloading, fetchdata: handlereanalysis } = useFetch(
+    const { loading: reanalysisloading, fetchdata: handlereanalysis } = useFetch(
         "/api/reanalysis",
         "PUT",
         {
             project: projectdata,
-            analysisId: analysis?.id
-        }
+            analysisId: analysis?.id,
+            analysistype: "Architecture"
+        }, refetch
     )
 
-    useEffect(() => {
-        if (resdata && resdata.success) {
-            refetch();
-        }
-    }, [resdata])
 
 
     if (!analysis) return (<>

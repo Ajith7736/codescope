@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'sonner';
 
-function useFetch(url: string, method: string, body: any) {
+function useFetch(url: string, method: string, body: any,refetch? : () => void) {
     const [data, setdata] = useState<any | null>(null);
     const [loading, setloading] = useState<boolean>(false);
     const [error, seterror] = useState<string | null>(null);
@@ -30,6 +30,8 @@ function useFetch(url: string, method: string, body: any) {
             }
 
             setdata(resdata);
+
+            refetch && refetch();
 
         } catch (err) {
             toast.error("Server Error")

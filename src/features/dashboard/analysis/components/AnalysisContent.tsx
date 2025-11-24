@@ -10,13 +10,13 @@ import Security from './Security'
 import Performance from './Performance'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { Project } from '@/types/type'
 import Loading from '@/app/loading'
 import useFetch from '@/hooks/useFetch'
 import Button from '@/ui/Buttons/Button'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectProvider'
+import { Analysiscontentprops } from '@/types/type'
 
 
 function AnalysisContent({ id }: { id: string }) {
@@ -57,14 +57,6 @@ function AnalysisContent({ id }: { id: string }) {
     }
   }, [data])
 
-
-
-  interface Analysiscontentprops {
-    icon: React.ReactElement,
-    hover: string,
-    active: string,
-    type: "Architecture" | "Security" | "Performance"
-  }
 
   const Analysis: Analysiscontentprops[] = [
     {
@@ -108,18 +100,6 @@ function AnalysisContent({ id }: { id: string }) {
     }
   }, [successres])
 
-  // first analysis fetch call
-
-  const { data: resdata, loading, fetchdata: handleanalysis } = useFetch("/api/analysis", "POST", { project: projectdata })
-
-
-
-  useEffect(() => {
-    if (resdata && resdata.success) {
-      refetch();
-    }
-  }, [resdata])
-
 
   if (isLoading) return <Loading />
 
@@ -140,13 +120,13 @@ function AnalysisContent({ id }: { id: string }) {
       <div className='flex flex-col items-center'>
         <OverallCard />
       </div>
-      <div className='border m-5 dark:bg-dark-gray xss:w-[440px] md:w-md lg:w-xl xl:w-4xl border-light-activeborder/20 rounded-md'>
+      <div className='border m-5 dark:bg-dark-gray xss:w-[440px] md:w-md lg:w-xl xl:w-4xl border-light-activeborder/20 rounded-lg'>
         <div className='py-4 border border-x-0 border-t-0 border-light-activeborder/20 flex xss:gap-4 md:gap-4 xl:gap-25 xss:text-sm lg:text-base justify-center'>
           {Analysis.map((item) => {
             return (<button
               key={item.type}
               onClick={() => setcurrentanalysis(item.type)}
-              className={`flex ${item.type === currentanalysis && item.active} ${item.hover} gap-1 items-center cursor-pointer p-2 rounded-md`}>
+              className={`flex ${item.type === currentanalysis && item.active} ${item.hover} gap-1 items-center cursor-pointer p-2 rounded-md transition-all duration-300`}>
               {item.icon} {item.type}
             </button>)
           })}

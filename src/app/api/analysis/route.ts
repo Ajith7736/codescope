@@ -1,33 +1,29 @@
 import { NextResponse } from "next/server";
-import { generateObject} from "ai"
+import { generateObject } from "ai"
 import { google } from "@ai-sdk/google"
-import {  Project } from "@/types/type";
+import { Project } from "@/types/type";
 import architectureprompt from "@/lib/server/prompts/architectureprompt";
 import prisma from "@/lib/server/db/db";
 import isRateLimitError from "@/lib/server/isRateLimitError";
-import { AnalysisSchema } from "@/lib/server/Schema/AnalysisSchema";
+import securityprompt from "@/lib/server/prompts/securityprompt";
+import performanceprompt from "@/lib/server/prompts/performanceprompt";
+import AnalysisSchema from "@/lib/server/Schema/AnalysisSchema";
 
 
 
 export async function POST(req: Request) {
     try {
 
-        const { project }: { project: Project } = await req.json();
-        const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-        const prompt: string = architectureprompt(project.projectcode,project.projecttree)
-
-        if (!apiKey) {
-            return NextResponse.json({
-                message: "Api key is missing",
-            }, { status: 400 })
-        }
+        const { project, analysistype }: { project: Project, analysistype: "Architecture" | "Security" | "Performance" } = await req.json();
+        const prompt = analysistype === "Architecture" ? architectureprompt(project.projectcode, project.projecttree) : analysistype === "Security" ? securityprompt(project.projectcode, project.projecttree) : performanceprompt(project.projectcode, project.projecttree);
+        const schema = AnalysisSchema(analysistype)
 
         if (!project) return NextResponse.json({ success: false, message: "Data error , please try again" }, { status: 400 })
 
         const Analysis = await prisma.analysis.create({
             data: {
                 projectId: project.id,
-                type: "Architecture",
+                type: analysistype,
             }
         })
 
@@ -45,11 +41,11 @@ export async function POST(req: Request) {
 
             const { object } = await generateObject({
                 model: google("gemini-2.0-flash"),
-                schema: AnalysisSchema,
+                schema,
                 prompt
             })
 
-            const parsed = AnalysisSchema.safeParse(object);
+            const parsed = schema.safeParse(object);
 
             if (!parsed.success) {
                 await prisma.analysis.update({
@@ -82,6 +78,8 @@ export async function POST(req: Request) {
                         issuetitle: issue.issuetitle,
                         severity: issue.severity,
                         suggesstedfix: issue.suggesstedfix,
+                        suggesstedcode: issue.suggesstedcode,
+                        suggesstedcodelanguage: issue.suggesstedcodelanguage,
                         analysisId: Analysis.id
                     }))
                 })
