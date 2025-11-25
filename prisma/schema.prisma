@@ -78,6 +78,7 @@ model Project {
   mostused    String
   lastcommit  String
   totalfiles  Int
+  branch      String?
   analysis    Analysis[]
   userId      String
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)

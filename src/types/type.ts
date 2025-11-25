@@ -1,5 +1,4 @@
 import { auth } from "@/lib/auth"
-import { AppRoute } from "next/dist/build/swc/types"
 import React from "react"
 
 export interface CardProps {
@@ -71,6 +70,7 @@ export interface Project {
     lastcommit: string;
     userId: string;
     createdAt: Date;
+    branch: string;
     analysis: Analysis[];
 }
 

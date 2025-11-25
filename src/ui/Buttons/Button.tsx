@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Button({ variant = "default", icons, children , onClick }: { variant?: "default" | "purple", icons?: React.ReactElement, children: React.ReactNode , onClick?: () => void}) {
+function Button({ variant = "default", icons, children , onClick }: { variant?: "default" | "blue", icons?: React.ReactElement, children: React.ReactNode , onClick?: () => void}) {
 
 
     const variants = {
-        default: "bg-light-black cursor-pointer hover:bg-light-hoverblack dark:hover:bg-dark-hoverwhite dark:bg-dark-white text-white dark:text-black",
-        purple : "bg-purple-500 dark:bg-purple-700 cursor-pointer hover:bg-purple-500/90 hover:bg-purple-800 text-white"
+        default: "bg-light-black cursor-pointer hover:bg-light-hoverblack dark:hover:bg-dark-text-primary dark:bg-dark-text-on-hover text-white dark:text-black",
+        blue : "bg-indigo-600 cursor-pointer hover:bg-indigo-700 text-white"
     }
 
     return (

@@ -26,7 +26,7 @@ function Syntax({ language, code }: { language: string | undefined, code: string
 
 
     return (
-        <div className="m-3 relative overflow-auto rounded-lg border border-light-activeborder/10">
+        <div className="m-3 relative overflow-auto rounded-[3px] border border-dark-border">
             {copied ? <Check className='absolute right-2 top-2 cursor-pointer' size={12} color={theme === "dark" ? "gray" : "black"} /> : <Copy className='absolute right-2 top-2 cursor-pointer' onClick={handlecopy} color={theme === "dark" ? "gray" : "black"} size={12} />}
             <SyntaxHighlighter
                 language={language}
@@ -34,7 +34,6 @@ function Syntax({ language, code }: { language: string | undefined, code: string
                 wrapLongLines
                 customStyle={{
                     fontSize: 13,
-                    borderRadius: 10,
                     padding: 10
                 }}
             >

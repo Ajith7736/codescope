@@ -6,12 +6,16 @@ import Button from '@/ui/Buttons/Button'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import useFetch from '@/hooks/useFetch'
 import { useProject } from '@/context/ProjectProvider'
+import { useSidebar } from '@/context/SidebarProvider'
+import { CheckCircle, ChevronDown, CircleCheckBig, RefreshCcw, Shield } from 'lucide-react'
+import Syntax from '@/ui/SyntaxHighlighter/Syntax'
 
 
 
 function Architecture({ analysis, refetch, }: { analysis: Analysis | undefined, refetch: () => void }) {
 
     const { projectdata } = useProject();
+    const { showsidebar } = useSidebar();
 
 
 
@@ -46,33 +50,37 @@ function Architecture({ analysis, refetch, }: { analysis: Analysis | undefined, 
 
 
 
-    if (!analysis) return (<>
-        <div className='p-3 flex justify-between items-center bg-dark-hovergray border border-x-0 border-t-0 border-light-activeborder/20'>
-            <p className='text-xs text-light-activeborder'>Analyse architecture!</p>
-            {loading ? <Button variant="purple"><ButtonLoader /></Button> : <Button variant='purple' onClick={handleanalysis}>Analyse</Button>}
-        </div>
-        <div className='p-10 text-xs'>No Issues</div>
-    </>)
-
     return (
         <>
-            <div className='p-3 flex justify-between items-center bg-dark-hovergray border border-x-0 border-t-0 border-light-activeborder/20'>
-                <p className='text-xs text-light-activeborder'>Click here to analyse architecture!</p>
-                {reanalysisloading ? <Button variant="purple"><ButtonLoader /></Button> : <Button variant='purple' onClick={handlereanalysis}>Re-Analyse</Button>}
-            </div>
-            <div className='flex flex-col gap-2'>
-                <div className='p-5 flex justify-between items-center'>
-                    <div>
-                        <SecondTitle>Architecture Analysis</SecondTitle>
-                        <SmallText textcolor='text-black/60 dark:text-light-white/60'>{analysis.totalissues} issues found</SmallText>
-                    </div>
-                    <div>
-                        <h1 className='text-xl md:text-2xl font-extrabold text-blue-500'>{analysis.score}/100</h1>
-                    </div>
+            <div className={`bg-dark-surface m-5 p-5 flex flex-col gap-3 rounded-[3px] border border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
+                <div className='flex justify-between items-center'>
+                    <h1 className=''>Architecture Analysis</h1>
+                    <Button variant='blue'><RefreshCcw size={15}/>Re-Analyse</Button>
                 </div>
-                <div className='p-5 flex flex-col gap-3'>
-                    <div className='font-bold text-sm'>issues found</div>
-                    <IssueCard issues={analysis.issues} />
+                <div>
+                    <h1 className='text-xs'>Issues Detected</h1>
+                </div>
+                <div className='bg-indigo-500/5 border relative p-5 border-dark-border flex  flex-col gap-4 hover:border-dark-accent/30 cursor-pointer  rounded-[9px] '>
+                  <div className='h-full w-[3px] absolute left-0 top-0 rounded-l-2xl bg-red-500'></div>
+                   <div className='flex justify-between'>
+                    <div className='flex gap-3 items-center'>
+                         <div className='bg-red-500/10 border border-red-500/30  text-red-500 w-8 flex justify-center items-center h-8 rounded-md'><Shield size={20} /></div>
+                        <div className='xss:text-xs'>Cross-Site Scripting (XSS)</div>
+                    </div>
+                    <div className='flex items-center gap-3'>
+                        <div className='text-xs text-red-500 p-1 bg-red-500/10 border border-red-500/30'>critical</div>
+                        <ChevronDown size={17}/>
+                    </div>
+                    </div> 
+                    
+                    <div className='flex flex-col gap-3'>
+                        <p className=' text-dark-text-muted text-xs'>The `filter` operation inside the `App` component's render function is an 'expensive'</p>
+                        <p className='text-[10px] lg:text-[11px]'>userService.ts</p>
+                        <div className='bg-dark-input-bg p-4 rounded-[3px] border border-dark-accent/40 '>
+                            <p className='xss:text-[10px] lg:text-xs flex gap-2 items-center'><CircleCheckBig className='text-emerald-500 xss:size-3 lg:size-4 '/>Suggested fix</p>
+                            <Syntax code='<html>Hello world</html>' language='html'/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

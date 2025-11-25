@@ -9,7 +9,7 @@ export async function POST(req: Request) {
         const existingproject = await prisma.project.findFirst({
             where: {
                 projectname: repo,
-                ownername : owner
+                ownername: owner
             }
         })
 
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ message }, { status })
 
         } else {
-            const { RepoContent, message, mostused, treestring, status, lastcommit, tree } = res;
+            const { RepoContent, branch, message, mostused, treestring, status, lastcommit, tree } = res;
 
             const project = await prisma.project.create({
                 data: {
@@ -35,6 +35,7 @@ export async function POST(req: Request) {
                     projecttree: treestring,
                     mostused,
                     lastcommit,
+                    branch,
                     totalfiles: tree.length,
                     userId: userId
                 }

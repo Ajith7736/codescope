@@ -1,8 +1,9 @@
+import { cn } from '@/lib/utils'
 import React from 'react'
 
-function SecondTitle({children} : {children : React.ReactNode}) {
+function SecondTitle({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
-        <div className='xss:text-base lg:text-xl font-extrabold '>
+        <div className={cn(`xss:text-base lg:text-xl font-extrabold`, className)}>
             {children}
         </div>
     )

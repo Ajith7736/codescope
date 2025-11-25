@@ -34,7 +34,7 @@ function Performance({ analysis, refetch }: { analysis: Analysis | undefined, re
     if (!analysis) return (<>
         <div className='p-3 flex justify-between items-center bg-dark-hovergray border border-x-0 border-t-0 border-light-activeborder/20'>
             <p className='text-xs text-light-activeborder'>Analyse architecture!</p>
-            {loading ? <Button variant="purple"><ButtonLoader /></Button> : <Button variant='purple' onClick={handleanalysis}>Analyse</Button>}
+            {loading ? <Button variant="blue"><ButtonLoader /></Button> : <Button variant='blue' onClick={handleanalysis}>Analyse</Button>}
         </div>
         <div className='p-10 text-xs'>No Issues</div>
     </>)
@@ -43,7 +43,7 @@ function Performance({ analysis, refetch }: { analysis: Analysis | undefined, re
         <>
             <div className='p-3 flex justify-between items-center bg-dark-hovergray border border-x-0 border-t-0 border-light-activeborder/20'>
                 <p className='text-xs text-light-activeborder'>Analyse Perfomance!</p>
-                {reanalysisloading ? <Button variant="purple"><ButtonLoader /></Button> : <Button variant='purple' onClick={handlereanalysis}>Re-Analyse</Button>}
+                {reanalysisloading ? <Button variant="blue"><ButtonLoader /></Button> : <Button variant='blue' onClick={handlereanalysis}>Re-Analyse</Button>}
             </div>
             <div className='flex flex-col gap-2'>
                 <div className='p-5 flex justify-between items-center'>

@@ -4,10 +4,10 @@ import SmallText from '@/ui/Text/SmallText'
 
 function Card({ item }: { item: DashCardProps }) {
     return (
-        <div className='dark:bg-dark-gray bg-light-gray border border-light-activeborder/20 flex flex-col p-7 xss:gap-3 md:gap-4 xss:w-[18rem] md:w-52  items-center rounded-md'>
+        <div className='dark:bg-dark-surface bg-light-gray border border-dark-border flex flex-col p-7 xss:gap-3 md:gap-4 xss:w-[18rem] md:w-52  items-center rounded-md'>
             <div className={`${item.style} rounded-md p-5`}>{item.icon}</div>
-            <SecondTitle>{item.number}</SecondTitle>
-            <SmallText>{item.title}</SmallText>
+            <SecondTitle className=''>{item.number}</SecondTitle>
+            <SmallText className='text-dark-text-primary'>{item.title}</SmallText>
         </div>
     )
 }

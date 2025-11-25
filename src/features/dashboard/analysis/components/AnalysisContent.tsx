@@ -2,7 +2,7 @@
 
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
-import { GitBranch, Shield, Zap } from 'lucide-react'
+import { GitBranch, RefreshCcw, Shield, Zap } from 'lucide-react'
 import OverallCard from './OverallCard'
 import Architecture from './Architecture'
 import { Activity, useEffect, useState } from 'react'
@@ -17,6 +17,7 @@ import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectProvider'
 import { Analysiscontentprops } from '@/types/type'
+import MetaData from './MetaData'
 
 
 function AnalysisContent({ id }: { id: string }) {
@@ -104,41 +105,33 @@ function AnalysisContent({ id }: { id: string }) {
   if (isLoading) return <Loading />
 
   return (
-    <div className='h-screen bg-light-gray/50 dark:bg-dark-black overflow-auto flex flex-col items-center'>
-      <div className='p-5 border w-full bg-light-white dark:bg-dark-gray flex justify-between items-center border-light-activeborder/20 border-t-0 border-x-0'>
+    <div className='h-screen bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
+      <div className='p-5 border w-full bg-light-white dark:bg-dark-surface flex justify-between items-center border-dark-border border-t-0 border-x-0'>
         <div>
           <SecondTitle>{projectdata?.projectname}</SecondTitle>
           <div className='mt-1'>
-            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80' className='lg:text-xs'>{projectdata?.totalfiles} files </SmallText>
-            <SmallText textcolor='text-light-black/80 dark:text-dark-white/80' className='lg:text-xs'>Last commit • {projectdata?.lastcommit}</SmallText>
+            <SmallText textcolor='text-light-black/80 dark:text-dark-text-muted' className='lg:text-xs'>Last commit • {projectdata?.lastcommit}</SmallText>
           </div>
         </div>
         <div>
-          {updateloader ? <Button variant='purple'><ButtonLoader variant='purple' /></Button> : <Button variant='purple' onClick={handleupdate}>Re-fetch</Button>}
+          {updateloader ? <Button variant='blue'><ButtonLoader variant='purple' /></Button> : <Button variant='blue' onClick={handleupdate}><RefreshCcw size={15}/>Re-fetch</Button>}
         </div>
       </div>
-      <div className='flex flex-col items-center'>
-        <OverallCard />
-      </div>
-      <div className='border m-5 dark:bg-dark-gray xss:w-[440px] md:w-md lg:w-xl xl:w-4xl border-light-activeborder/20 rounded-lg'>
-        <div className='py-4 border border-x-0 border-t-0 border-light-activeborder/20 flex xss:gap-4 md:gap-4 xl:gap-25 xss:text-sm lg:text-base justify-center'>
-          {Analysis.map((item) => {
-            return (<button
-              key={item.type}
-              onClick={() => setcurrentanalysis(item.type)}
-              className={`flex ${item.type === currentanalysis && item.active} ${item.hover} gap-1 items-center cursor-pointer p-2 rounded-md transition-all duration-300`}>
-              {item.icon} {item.type}
-            </button>)
-          })}
+      <div className='flex flex-col xl:flex-row'>
+
+
+        <div>
+          <div className='flex flex-col items-center'>
+            <OverallCard />
+          </div>
+
+          <div className='flex flex-col items-center'>
+            <MetaData />
+          </div>
+
         </div>
-        <Activity name='Architecture' mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
-          <Architecture analysis={projectdata?.analysis.find(item => item.type === "Architecture")} refetch={refetch} />
-        </Activity>
-        <Activity name='Security' mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
-          <Security analysis={projectdata?.analysis.find((item) => item.type === "Security")} refetch={refetch} />
-        </Activity>
-        <Activity name='Performance' mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
-          <Performance analysis={projectdata?.analysis.find(item => item.type === "Performance")} refetch={refetch} />
+        <Activity mode='visible'>
+          <Architecture refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Architecture")}/>
         </Activity>
       </div>
     </div>

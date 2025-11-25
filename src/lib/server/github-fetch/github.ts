@@ -8,7 +8,7 @@ import getcommit from "./getcommit";
 
 
 
-type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string, mostused: string, tree: GithubTree[], status: number, lastcommit: string, treestring: string }
+type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string, mostused: string, tree: GithubTree[], status: number, lastcommit: string, treestring: string, branch: string }
 
 export default async function github(owner: string, repo: string, prevcommit?: string): Promise<Response> {
     const MAX_FILESIZE = 500 * 1024;
@@ -75,5 +75,5 @@ export default async function github(owner: string, repo: string, prevcommit?: s
 
     const mostused: string = await mostusedlang(owner, repo)
 
-    return { success: true, message: "success", RepoContent, mostused, tree, status: 200, lastcommit, treestring }
+    return { success: true, message: "success", RepoContent, mostused, tree, status: 200, lastcommit, treestring, branch }
 }

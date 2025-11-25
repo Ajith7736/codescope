@@ -38,11 +38,11 @@ function DashContent() {
     },]
 
   return (
-    <div className='flex flex-col outline-none bg-light-gray/40 dark:bg-dark-black h-screen overflow-auto transition-all duration-300'>
-      <div className='bg-light-white border border-light-activeborder/20 border-t-0 border-x-0 dark:bg-dark-gray p-5 flex justify-between items-center'>
+    <div className='flex flex-col outline-none bg-light-background dark:bg-dark-background h-screen overflow-auto transition-all duration-300'>
+      <div className='bg-light-white border border-dark-border border-t-0 border-x-0 dark:bg-dark-surface p-5 flex justify-between items-center'>
         <div className='lg:w-full xss:w-[40vw]'>
           <SecondTitle>Dashboard</SecondTitle>
-          <SmallText>Welcome Back! Here's your code analysis overview.</SmallText>
+          <SmallText className='text-dark-text-muted'>Welcome Back! Here's your code analysis overview.</SmallText>
         </div>
         <div>
           <Button onClick={() => redirect("/Dashboard/Projects")} icons={<Plus className='size-4' />}>New Project</Button>
