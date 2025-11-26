@@ -13,7 +13,6 @@ export function Providers({ children }: { children: ReactNode }) {
     return (
         <QueryClientProvider client={queryclient}>
             <SidebarProvider>
-                <ProjectProvider>
                     <ThemeProvider defaultTheme="system" attribute="class">
                         <PageProvider>
                             <ToastWrapper>
@@ -21,7 +20,6 @@ export function Providers({ children }: { children: ReactNode }) {
                             </ToastWrapper>
                         </PageProvider>
                     </ThemeProvider>
-                </ProjectProvider>
             </SidebarProvider>
         </QueryClientProvider >
     )

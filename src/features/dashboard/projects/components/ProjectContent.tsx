@@ -10,35 +10,43 @@ import ErrorPage from '@/app/error'
 import Link from 'next/link'
 import useFetch from '@/hooks/useFetch'
 import githublinkchecker from '@/lib/githublinkchecker'
+import { toast } from 'sonner'
 
 
 function ProjectContent() {
   const [link, setlink] = useState<string>("")
-  const [Error, setError] = useState<string>("")
+  const [errorText, seterrorText] = useState<string>("")
   const [Owner, setOwner] = useState("")
   const [Repo, setRepo] = useState("")
   const [projectdata, setprojectdata] = useState<Project[]>([])
   const { data: session } = useSession();
 
-  useEffect(() => {
-    if (session) {
-
-    }
-  }, [session])
-
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["projects"],
-    queryFn: () => fetch("/api/fetch-project", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ userId: session?.user.id })
-    }).then(res => res.json()),
+    queryFn: async () => {
+      const res = await fetch("/api/fetch-project", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userId: session?.user.id })
+      })
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (res.status === 404) {
+          throw new Error("No project")
+        } else {
+          toast.error(data.message);
+          throw new Error(data.message);
+        }
+      }
+
+      return data;
+    },
     enabled: !!session?.user.id,
-    refetchOnMount: false,
-    staleTime: Infinity
+    refetchOnMount: false
   })
 
   useEffect(() => {
@@ -50,10 +58,10 @@ function ProjectContent() {
 
   useEffect(() => {
     if (link.includes("https://github.com/")) {
-      githublinkchecker(link, setError, setRepo, setOwner);
+      githublinkchecker(link, seterrorText, setRepo, setOwner);
     } else {
       if (link.length > 0) {
-        setError("Invalid Link")
+        seterrorText("Invalid Link")
       }
     }
   }, [link])
@@ -75,8 +83,8 @@ function ProjectContent() {
     <div className='m-7 h-screen gap-8 flex flex-col items-center'>
       <div className='flex flex-col md:flex-row gap-4 items-center'>
         <div>
-          <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className={`bg-light-gray dark:bg-dark-accent/10 border ${Error ? 'border-red-500/40' : ' border-dark-input-border'} p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm`} placeholder='https://github.com/username/repo' />
-          {Error && <div className='text-xs pt-2 text-red-500'>{Error}</div>}
+          <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className={`bg-light-gray dark:bg-dark-accent/10 border ${errorText ? 'border-red-500/40' : ' border-dark-input-border'} p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm`} placeholder='https://github.com/username/repo' />
+          {errorText && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
         </div>
         {loading ? <button className='w-[108px] py-[9.5px] bg-light-black text-light-background dark:bg-indigo-500 cursor-pointer rounded-md flex justify-center'><ButtonLoader /></button> : <input type='submit' value="Add Project" className='text-sm bg-light-black hover:bg-dark-text-primary text-light-white dark:bg-indigo-600 shadow-sm  shadow-indigo-600 dark:text-white hover:dark:bg-indigo-700 transition-all duration-300 cursor-pointer p-2 rounded-[3px]' disabled={Error.length > 0 || link === ""} onClick={getgithubdata} />}
       </div>
@@ -85,7 +93,7 @@ function ProjectContent() {
           Your Projects
         </div>
         {projectdata.length > 0 ? projectdata?.map((item) => {
-          return <div key={item.id} className='p-6 cursor-pointer border rounded-b-md border-dark-border hover:bg-dark-accent/10 transition-all duration-300 border-t-0'>
+          return <div key={item.id} className='p-6 cursor-pointer border rounded-b-md border-dark-border hover:bg-dark-accent/5 transition-all duration-300 border-t-0'>
             <Link href={`/Dashboard/Projects/${item.id}`} className='flex justify-between items-center text-sm'>
               <div className='flex flex-col gap-2'>
                 <h1 className='text-base'>{item.projectname}</h1>

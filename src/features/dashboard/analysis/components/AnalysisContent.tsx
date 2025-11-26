@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectProvider'
 import { Analysiscontentprops } from '@/types/type'
 import MetaData from './MetaData'
+import Overview from './Overview'
 
 
 function AnalysisContent({ id }: { id: string }) {
@@ -114,7 +115,7 @@ function AnalysisContent({ id }: { id: string }) {
           </div>
         </div>
         <div>
-          {updateloader ? <Button variant='blue'><ButtonLoader variant='purple' /></Button> : <Button variant='blue' onClick={handleupdate}><RefreshCcw size={15}/>Re-fetch</Button>}
+          {updateloader ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin'/>fetching</Button> : <Button variant='blue' onClick={handleupdate}><RefreshCcw size={15}/>Re-fetch</Button>}
         </div>
       </div>
       <div className='flex flex-col xl:flex-row'>
@@ -128,6 +129,10 @@ function AnalysisContent({ id }: { id: string }) {
           <div className='flex flex-col items-center'>
             <MetaData />
           </div>
+
+          {projectdata && <div className='flex flex-col items-center'>
+            <Overview summary={projectdata?.analysis.find((item) => item.type === "Architecture")?.summary}/>
+          </div>}
 
         </div>
         <Activity mode='visible'>

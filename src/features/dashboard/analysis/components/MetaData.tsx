@@ -1,7 +1,7 @@
 import { useProject } from '@/context/ProjectProvider'
 import { cn } from '@/lib/utils';
-import { File, Files, GitBranch } from 'lucide-react';
-import React, { ReactElement } from 'react'
+import { File,  GitBranch } from 'lucide-react';
+import { ReactElement } from 'react'
 
 function MetaData() {
     const { projectdata } = useProject();
@@ -22,7 +22,7 @@ function MetaData() {
             title: "Most Used Language",
             value: projectdata?.mostused,
         }, {
-            title: "branch",
+            title: "Branch",
             value: projectdata?.branch,
             icon: <GitBranch size={12}/>,
             color: "text-emerald-500"

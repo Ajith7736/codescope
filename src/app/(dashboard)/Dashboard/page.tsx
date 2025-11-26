@@ -1,6 +1,6 @@
 import DashContent from '@/features/dashboard/components/DashContent';
 
-function page() {
+function Page() {
   return (
     <>
       <DashContent />
@@ -8,4 +8,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

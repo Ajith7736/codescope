@@ -13,7 +13,18 @@ import { NextResponse } from "next/server";
 export async function PUT(req: Request) {
     try {
         const { project, analysisId, analysistype }: { project: Project, analysisId: string, analysistype: "Architecture" | "Security" | "Performance" } = await req.json();
-        const prompt = analysistype === "Architecture" ? architectureprompt(project.projectcode, project.projecttree) : analysistype === "Security" ? securityprompt(project.projectcode, project.projecttree) : performanceprompt(project.projectcode, project.projecttree);
+        
+        const previousanalysis = await prisma.analysis.findUnique({
+            where : {
+                id : analysisId
+            },
+            include : {
+                issues : true
+            }
+        })
+
+        
+        const prompt = analysistype === "Architecture" ? architectureprompt(project.projectcode, project.projecttree, JSON.stringify(previousanalysis)) : analysistype === "Security" ? securityprompt(project.projectcode, project.projecttree , JSON.stringify(previousanalysis)) : performanceprompt(project.projectcode, project.projecttree,JSON.stringify(previousanalysis));
         const schema  = AnalysisSchema(analysistype)
         
         try {

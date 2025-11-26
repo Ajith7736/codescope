@@ -1,6 +1,5 @@
 import prisma from "@/lib/server/db/db";
 import { NextResponse } from "next/server";
-import { success } from "zod";
 
 export async function POST(req: Request) {
     try {
@@ -13,7 +12,7 @@ export async function POST(req: Request) {
             where: { userId }
         })
 
-        if (!project) {
+        if (project.length === 0) {
             return NextResponse.json({ success: false, message: "No project found with this username" }, { status: 404 })
         }
 

@@ -1,4 +1,4 @@
-export default function performanceprompt(projectcode: string, projecttree: string) {
+export default function performanceprompt(projectcode: string, projecttree: string,previousanalysis : string) {
     return `You are a performance analysis expert with deep knowledge of optimization techniques across all tech stacks, profiling tools, and performance testing methodologies.
 
 ---Code---
@@ -6,6 +6,10 @@ ${projectcode}
 
 ---Project-Tree---
 ${projecttree}
+
+---PreviousAnalysis--
+${previousanalysis}
+
 
 ## Your Task:
 
@@ -214,5 +218,8 @@ const [user, posts, comments] = await Promise.all([
 - Application frequently crashes
 - Immediate refactoring required
 
-Focus on high-impact, easily fixable performance wins first, then address deeper architectural performance issues.`
+Focus on high-impact, easily fixable performance wins first, then address deeper architectural performance issues.
+
+NOTE : Dont give any other analysis that comes under Security and Architecture Analysis
+`
 }

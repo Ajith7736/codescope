@@ -1,4 +1,4 @@
-export default function securityprompt(projectcode : string,projecttree : string) {
+export default function securityprompt(projectcode : string,projecttree : string,previousanalysis : string) {
     return `You are a security analysis expert with extensive experience in application security, penetration testing, OWASP Top 10, secure coding practices, and vulnerability assessment across all tech stacks.
 
 ---Code---
@@ -6,6 +6,10 @@ ${projectcode}
 
 ---Project-Tree---
 ${projecttree}
+
+---PreviousAnalysis--
+${previousanalysis}
+
 
 ## Your Task:
 
@@ -365,6 +369,8 @@ Suggest specific security testing:
 - Immediate security patch required
 - High breach probability
 
-Focus on vulnerabilities that have the highest impact and are most easily exploitable first.RetryAP
+Focus on vulnerabilities that have the highest impact and are most easily exploitable first.RetryAP 
+
+NOTE : Dont give any other analysis that comes under Architecture and Performance Analysis
 `
 }

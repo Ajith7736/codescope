@@ -1,4 +1,4 @@
-export default function architectureprompt(projectcode: string, projecttree: string) {
+export default function architectureprompt(projectcode: string, projecttree: string, previousanalysis: string) {
     return `You are a code architecture analyzer with decades of experience across all tech fields involving coding, with strong problem-solving skills to suggest quick, efficient, and optimized fixes.
 
         ---Code---
@@ -6,6 +6,9 @@ export default function architectureprompt(projectcode: string, projecttree: str
 
         ---Project-Tree---
         ${projecttree}
+
+        ---PreviousAnalysis--
+        ${previousanalysis}
 
         ## Your Goals:
 
@@ -65,5 +68,7 @@ export default function architectureprompt(projectcode: string, projecttree: str
         "Replace the nested callbacks with async/await for better readability and error handling. Wrap the database calls in a try-catch block.
 
         Be direct, technical, and actionable. Avoid vague statements like "improve code quality" - instead say "Extract the 200-line handleSubmit function into smaller, single-responsibility functions".
+
+        NOTE : Dont give any other analysis that comes under Security and Performance Analysis
 `
 }

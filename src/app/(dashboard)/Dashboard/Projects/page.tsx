@@ -1,6 +1,6 @@
 import ProjectContent from '@/features/dashboard/projects/components/ProjectContent'
 
-function page() {
+function Page() {
     return (
         <>
             <ProjectContent />
@@ -8,4 +8,4 @@ function page() {
     )
 }
 
-export default page
+export default Page
