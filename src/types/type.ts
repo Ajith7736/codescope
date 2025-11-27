@@ -108,4 +108,12 @@ export interface Analysiscontentprops {
     type: "Architecture" | "Security" | "Performance"
 }
 
+export interface recentanalysis {
+    project: {
+        projectname: string;
+    };
+    id: string;
+    type: "Architecture" | "Security" | "Performance";
+    totalissues: number | null;
+}[]
 

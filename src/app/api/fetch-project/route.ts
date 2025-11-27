@@ -1,25 +1,21 @@
 import prisma from "@/lib/server/db/db";
-import { NextResponse } from "next/server";
+import { failure, success, tryCatch } from "../../../lib/server/api/api";
 
-export async function POST(req: Request) {
-    try {
-        const { userId } = await req.json();
-        if (!userId) {
-            return NextResponse.json({ message: "userId not recieved" }, { status: 400 })
-        }
-        const project = await prisma.project.findMany({
-            select: { projectname: true, id: true, createdAt: true, userId: true, mostused: true, totalfiles: true },
-            where: { userId }
-        })
+export const POST = tryCatch(async (req: Request) => {
+    const { userId } = await req.json();
 
-        if (project.length === 0) {
-            return NextResponse.json({ success: false, message: "No project found with this username" }, { status: 404 })
-        }
-
-
-        return NextResponse.json({ success: true, message: "Project fetched successfully", project }, { status: 200 })
-
-    } catch (err) {
-        return NextResponse.json({ success: false, message: "Server Error" }, { status: 500 })
+    if (!userId) {
+        return failure({ message: "userId not provided" })
     }
-}
+    
+    const project = await prisma.project.findMany({
+        select: { projectname: true, id: true, createdAt: true, userId: true, mostused: true, totalfiles: true },
+        where: { userId }
+    })
+
+    if (project.length === 0) {
+        return success({ message: "No project" })
+    }
+
+    return success({ message: "Project fetched successfully", project })
+}) 

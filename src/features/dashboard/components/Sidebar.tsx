@@ -67,7 +67,7 @@ function Sidebar() {
                                 if (!isLargescreen) setshowsidebar(false)
                                 router.push(link.name === "projects" ? "/Dashboard/Projects" : "/Dashboard")
                             }}
-                            className={`py-3 rounded-md ${ link.name !== page.toLowerCase() && (showsidebar ? `hover:bg-indigo-500/10 hover:text-dark-text-on-hover` : `hover:text-dark-text-on-hover`) } relative cursor-pointer ${link.name === page.toLowerCase() ? `${showsidebar ? 'text-indigo-500 bg-indigo-500/10': 'text-indigo-500'}`: 'text-dark-text-muted'}`}>
+                            className={`py-3 rounded-md ${ link.name !== page.toLowerCase() && (showsidebar ? `hover:bg-indigo-500/10 hover:text-dark-text-on-hover` : `hover:text-dark-text-on-hover`) } relative cursor-pointer ${ link.name === page.toLowerCase() ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10': 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}`: 'text-dark-text-muted'}`}>
                             <div className={`flex items-center w-full gap-4 ${showsidebar ? 'px-4' : 'px-2'} transition-all duration-300`}>
                                 {link.name === page.toLowerCase() && showsidebar && <div className={`absolute left-0 bg-indigo-500 w-[3px] h-6 rounded-r-full `}></div>}
                                 <div className='flex group' >

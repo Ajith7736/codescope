@@ -3,7 +3,7 @@ import React from 'react'
 
 function ProjectText({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
-        <div className={cn('xss:text-base lg:text-base font-bold ', className)}>
+        <div className={cn('xss:text-[12px] md:text-xs lg:text-sm font-extrabold ', className)}>
             {children}
         </div>
     )

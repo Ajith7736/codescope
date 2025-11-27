@@ -2,23 +2,19 @@
 
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
-import { GitBranch, RefreshCcw, Shield, Zap } from 'lucide-react'
+import { RefreshCcw } from 'lucide-react'
 import OverallCard from './OverallCard'
-import Architecture from './Architecture'
 import { Activity, useEffect, useState } from 'react'
-import Security from './Security'
-import Performance from './Performance'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import Loading from '@/app/loading'
 import useFetch from '@/hooks/useFetch'
 import Button from '@/ui/Buttons/Button'
-import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectProvider'
-import { Analysiscontentprops } from '@/types/type'
 import MetaData from './MetaData'
 import Overview from './Overview'
+import AnalysisCard from './Analysis'
 
 
 function AnalysisContent({ id }: { id: string }) {
@@ -60,25 +56,7 @@ function AnalysisContent({ id }: { id: string }) {
   }, [data])
 
 
-  const Analysis: Analysiscontentprops[] = [
-    {
-      icon: <GitBranch className='size-4' />,
-      hover: "hover:bg-blue-500/10 text-blue-600",
-      active: "bg-blue-500/10 text-blue-600",
-      type: "Architecture"
-    },
-    {
-      icon: <Shield className='size-4' />,
-      hover: "hover:bg-pink-500/10 text-pink-600",
-      active: "bg-pink-500/10 text-pink-600",
-      type: "Security"
-    }, {
-      icon: <Zap className='size-4' />,
-      hover: "hover:bg-green-500/10 text-green-600",
-      active: "bg-green-500/10 text-green-600",
-      type: "Performance"
-    }
-  ]
+  const Analysis: ("Architecture" | "Security" | "Performance")[] = ["Architecture", "Security", "Performance"]
 
 
   const {
@@ -115,12 +93,10 @@ function AnalysisContent({ id }: { id: string }) {
           </div>
         </div>
         <div>
-          {updateloader ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin'/>fetching</Button> : <Button variant='blue' onClick={handleupdate}><RefreshCcw size={15}/>Re-fetch</Button>}
+          {updateloader ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />fetching</Button> : <Button variant='blue' onClick={handleupdate}><RefreshCcw size={15} />Re-fetch</Button>}
         </div>
       </div>
       <div className='flex flex-col xl:flex-row'>
-
-
         <div>
           <div className='flex flex-col items-center'>
             <OverallCard />
@@ -131,13 +107,27 @@ function AnalysisContent({ id }: { id: string }) {
           </div>
 
           {projectdata && <div className='flex flex-col items-center'>
-            <Overview summary={projectdata?.analysis.find((item) => item.type === "Architecture")?.summary}/>
+            <Overview summary={projectdata?.analysis.find((item) => item.type === "Architecture")?.summary} />
           </div>}
 
         </div>
-        <Activity mode='visible'>
-          <Architecture refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Architecture")}/>
-        </Activity>
+
+        <div className='m-5'>
+          <div className='bg-dark-surface flex    text-sm border border-b-0 rounded-t-md border-dark-border'>
+            {Analysis.map((item, index) => {
+              return <div key={index} className={`font-bold border transition-all duration-300 cursor-pointer hover:bg-dark-surface-hover/30  ${currentanalysis === item ? 'text-dark-text-on-hover' : 'text-dark-text-muted'} border-dark-border w-[35%] text-center p-5 ${item === "Architecture" ? 'border-y-0 border-l-0' : item === "Performance" ? 'border-y-0 border-r-0' : 'border-0'}`} onClick={() => setcurrentanalysis(item)}>{item}</div>
+            })}
+          </div>
+          <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
+            <AnalysisCard type='Architecture' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Architecture")} />
+          </Activity>
+          <Activity mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
+            <AnalysisCard type='Performance' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Performance")} />
+          </Activity>
+          <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
+            <AnalysisCard type='Security' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Security")} />
+          </Activity>
+        </div>
       </div>
     </div>
   )

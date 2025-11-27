@@ -1,16 +1,57 @@
 "use client"
-import { DashCardProps } from '@/types/type'
+import { DashCardProps, Project, recentanalysis } from '@/types/type'
 import Button from '@/ui/Buttons/Button'
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
 import { CircleCheckBig, File, Folder, Plus, TriangleAlert } from 'lucide-react'
 import RecentProject from './RecentProject'
 import Card from './Card'
-import RecentAnalysis from './RecentAnalysis'
 import { redirect } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { useSession } from '@/lib/auth-client'
+import { toast } from 'sonner'
+import RecentAnalysis from './RecentAnalysis'
 
 
 function DashContent() {
+   const [projects, setprojects] = useState<Project[]>([])
+   const [recentanalysis, setrecentanalysis] = useState<recentanalysis[]>([])
+   const { data : session } = useSession();
+
+
+  const { data, isError, isLoading } = useQuery({
+          queryKey: ["RecentProject"],
+          queryFn: async () => {
+              const res = await fetch("/api/fetch-recent", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({ userId: session?.user.id })
+              })
+  
+              const data = await res.json();
+  
+              if (!res.ok) {
+                  toast.error(data.message)
+                  throw new Error(data.message)
+              }
+  
+              return data;
+          },
+          enabled: !!session?.user.id,
+          refetchOnMount: false,
+          refetchOnWindowFocus: false
+      })
+  
+      useEffect(() => {
+          if (data && data.success) {
+              setprojects(data.projects)
+              setrecentanalysis(data.analysis)
+          }
+      }, [data])
+
   const card: DashCardProps[] = [
     {
       icon: <Folder />,
@@ -45,7 +86,7 @@ function DashContent() {
           <SmallText className='text-dark-text-muted'>Welcome Back! Here's your code analysis overview.</SmallText>
         </div>
         <div>
-          <Button onClick={() => redirect("/Dashboard/Projects")} icons={<Plus className='size-4' />}>New Project</Button>
+          <Button variant='blue' onClick={() => redirect("/Dashboard/Projects")} icons={<Plus className='size-4' />} className='shadow-xl shadow-indigo-600/20'>New Project</Button>
         </div>
       </div>
       <div className='p-5 flex flex-col md:flex-row md:flex-wrap md:justify-center gap-5 items-center'>
@@ -59,11 +100,11 @@ function DashContent() {
 
         {/* Recent Projects */}
 
-        <RecentProject />
+        <RecentProject projects={projects} isLoading={isLoading}/>
 
         {/* Recent Analysis */}
 
-        <RecentAnalysis />
+        <RecentAnalysis analysis={recentanalysis} isLoading={isLoading}/>
 
         
       </div>

@@ -1,4 +1,4 @@
-export default function performanceprompt(projectcode: string, projecttree: string,previousanalysis : string) {
+export default function performanceprompt(projectcode: string, projecttree: string,previousanalysis? : string) {
     return `You are a performance analysis expert with deep knowledge of optimization techniques across all tech stacks, profiling tools, and performance testing methodologies.
 
 ---Code---
@@ -7,8 +7,7 @@ ${projectcode}
 ---Project-Tree---
 ${projecttree}
 
----PreviousAnalysis--
-${previousanalysis}
+${previousanalysis && `---PreviousAnalysis--${previousanalysis}`}
 
 
 ## Your Task:
