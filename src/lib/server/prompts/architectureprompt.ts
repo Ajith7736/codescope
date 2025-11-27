@@ -1,4 +1,4 @@
-export default function architectureprompt(projectcode: string, projecttree: string, previousanalysis: string) {
+export default function architectureprompt(projectcode: string, projecttree: string, previousanalysis?: string) {
     return `You are a code architecture analyzer with decades of experience across all tech fields involving coding, with strong problem-solving skills to suggest quick, efficient, and optimized fixes.
 
         ---Code---
@@ -7,8 +7,7 @@ export default function architectureprompt(projectcode: string, projecttree: str
         ---Project-Tree---
         ${projecttree}
 
-        ---PreviousAnalysis--
-        ${previousanalysis}
+        ${previousanalysis && `---PreviousAnalysis-- ${previousanalysis}`}
 
         ## Your Goals:
 

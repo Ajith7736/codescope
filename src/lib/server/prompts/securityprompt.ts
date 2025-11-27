@@ -1,4 +1,4 @@
-export default function securityprompt(projectcode : string,projecttree : string,previousanalysis : string) {
+export default function securityprompt(projectcode : string,projecttree : string,previousanalysis? : string) {
     return `You are a security analysis expert with extensive experience in application security, penetration testing, OWASP Top 10, secure coding practices, and vulnerability assessment across all tech stacks.
 
 ---Code---
@@ -7,8 +7,8 @@ ${projectcode}
 ---Project-Tree---
 ${projecttree}
 
----PreviousAnalysis--
-${previousanalysis}
+
+${previousanalysis && `---PreviousAnalysis--${previousanalysis}`}
 
 
 ## Your Task:

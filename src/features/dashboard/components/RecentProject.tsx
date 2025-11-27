@@ -1,53 +1,17 @@
 "use client"
-import { useSession } from '@/lib/auth-client'
+
 import { Project } from '@/types/type'
 import BasicLoader from '@/ui/loaders/BasicLoader'
 import ActionText from '@/ui/Text/ActionText'
 import ProjectText from '@/ui/Text/ProjectText'
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
-import StatusText from '@/ui/Text/StatusText'
-import { useQuery } from '@tanstack/react-query'
 import { ChevronRight, Code } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
 
 
-function RecentProject() {
+function RecentProject({ projects, isLoading }: { projects: Project[], isLoading: boolean }) {
     const router = useRouter();
-    const { data: session } = useSession();
-    const [projects, setprojects] = useState<Pick<Project, "id" | "projectname" | "totalfiles" | "mostused">[]>([])
-    const { data, isError, isLoading } = useQuery({
-        queryKey: ["RecentProject"],
-        queryFn: async () => {
-            const res = await fetch("/api/fetch-recent", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ userId: session?.user.id })
-            })
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                toast.error(data.message)
-                throw new Error(data.message)
-            }
-
-            return data;
-        },
-        enabled: !!session?.user.id,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false
-    })
-
-    useEffect(() => {
-        if (data && data.success) {
-            setprojects(data.projects)
-        }
-    }, [data])
 
 
     return (
@@ -61,8 +25,8 @@ function RecentProject() {
                     {projects.length === 0 ? <div className='p-8 text-xs'>No Projects</div> : projects.map((project) => {
                         return <div key={project.id} onClick={() => router.push(`/Dashboard/Projects/${project.id}`)} className='p-8 hover:bg-light-activeborder/10 hover:dark:bg-indigo-500/5 transition-all duration-300 cursor-pointer'>
                             <div className='flex gap-4 items-center justify-between'>
-                                <div className='flex gap-2'>
-                                    <div className='bg-indigo-600 text-white h-10 rounded-md w-10 flex items-center justify-center'><Code aria-label="Code project" /></div>
+                                <div className='flex gap-2 items-center'>
+                                    <div className='bg-indigo-600 text-white h-8 rounded-md w-8 p-1 flex items-center justify-center'><Code aria-label="Code project" strokeWidth={3}/></div>
                                     <div>
                                         <ProjectText>{project.projectname}</ProjectText>
                                         <div className='flex gap-2'>

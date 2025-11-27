@@ -58,6 +58,8 @@ export async function POST(req: Request) {
                 return NextResponse.json({ success: false, message: "Couldnt complete Analysis" }, { status: 400 })
             }
 
+            const outputstring = JSON.stringify(object);
+
             await prisma.$transaction(async (tx) => {
                 await tx.analysis.update({
                     where: {
@@ -68,6 +70,7 @@ export async function POST(req: Request) {
                         score: object.score,
                         summary: object.summary,
                         totalissues: object.totalissues,
+                        analysis_output : outputstring
                     }
                 })
 
