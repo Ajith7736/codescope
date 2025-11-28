@@ -1,3 +1,4 @@
+import { success } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
 import { NextResponse } from "next/server";
 
@@ -19,6 +20,37 @@ export async function POST(req: Request) {
             take: 3
         })
 
+        const totalprojects = await prisma.project.count({
+            where: {
+                userId
+            }
+        })
+
+        const totalanalysis = await prisma.analysis.count({
+            where: {
+                project: {
+                    userId
+                }
+            }
+        })
+
+        const issuesobj = await prisma.analysis.aggregate({
+            _sum: { totalissues: true }
+        })
+
+        const totalissues = issuesobj._sum.totalissues;
+
+        const criticalissues = await prisma.issues.count({
+            where: {
+                analysis: {
+                    project: {
+                        userId
+                    }
+                },
+                severity: 'high'
+            }
+        })
+
         const analysis = await prisma.analysis.findMany({
             select: { id: true, project: { select: { projectname: true } }, totalissues: true, type: true },
             where: {
@@ -27,11 +59,11 @@ export async function POST(req: Request) {
                 }
             },
             orderBy: { updatedAt: "desc" },
-            take : 3
+            take: 3
         })
 
 
-        return NextResponse.json({ success: true, message: "Successfully fetched", projects, analysis }, { status: 200 })
+        return success({ message: "Success", projects, totalanalysis, totalprojects, analysis, totalissues, criticalissues })
     } catch (err) {
         return NextResponse.json({ success: false, message: "Server Error" }, { status: 500 })
     }

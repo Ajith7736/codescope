@@ -1,6 +1,7 @@
+"use client"
 import { useEffect, useState } from 'react'
 import { useTheme, UseThemeProps } from 'next-themes';
-import { SunDim, Moon, Sun } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { motion } from 'motion/react';
 
 function ThemeToggler() {
@@ -15,7 +16,7 @@ function ThemeToggler() {
     if (!mounted) return <button className='w-8 h-8 dark:w-[31px] dark:h-[31px]'></button>;
 
     return (
-        <button className='dark:hover:bg-dark-hovergray hover:bg-light-hovergray p-1 dark:p-1.5 cursor-pointer rounded-xl transition-transform duration-300'>
+        <button className='p-1 dark:p-1.5 cursor-pointer rounded-xl transition-transform duration-300'>
             <motion.div
                 key={theme}
                 initial={{ rotate: 90, opacity: 0 }}

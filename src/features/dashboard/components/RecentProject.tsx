@@ -15,18 +15,18 @@ function RecentProject({ projects, isLoading }: { projects: Project[], isLoading
 
 
     return (
-        <div className='dark:bg-dark-gray bg-light-gray border lg:w-1/2 border-dark-border rounded-md'>
+        <div className='dark:bg-dark-gray bg-light-gray border lg:w-1/2 border-dark-border rounded-md w-md'>
             <div className='border border-dark-border border-t-0 border-x-0 p-8 flex justify-between items-center '>
                 <SecondTitle>Recent Projects</SecondTitle>
                 <ActionText href="/Dashboard/Projects">View All</ActionText>
             </div>
             {isLoading ? <div className='p-5 flex justify-center'><BasicLoader /></div> :
                 <div>
-                    {projects.length === 0 ? <div className='p-8 text-xs'>No Projects</div> : projects.map((project) => {
-                        return <div key={project.id} onClick={() => router.push(`/Dashboard/Projects/${project.id}`)} className='p-8 hover:bg-light-activeborder/10 hover:dark:bg-indigo-500/5 transition-all duration-300 cursor-pointer'>
+                    {projects.length === 0 ? <div className='p-8 text-xs'>No Projects</div> : projects.map((project,index) => {
+                        return <div key={project.id} onClick={() => router.push(`/Dashboard/Projects/${project.id}`)} className={`p-8 hover:bg-light-activeborder/10 hover:dark:bg-indigo-500/5 transition-all duration-300 cursor-pointer ${index !== projects.length - 1 && 'border-b border-dark-border'}`}>
                             <div className='flex gap-4 items-center justify-between'>
                                 <div className='flex gap-2 items-center'>
-                                    <div className='bg-indigo-600 text-white h-8 rounded-md w-8 p-1 flex items-center justify-center'><Code aria-label="Code project" strokeWidth={3}/></div>
+                                    <div className='bg-indigo-600 text-white md:h-8 rounded-md md:w-8 xss:w-7 xss:h-7 p-1 flex items-center justify-center'><Code aria-label="Code project" strokeWidth={3}/></div>
                                     <div>
                                         <ProjectText>{project.projectname}</ProjectText>
                                         <div className='flex gap-2'>

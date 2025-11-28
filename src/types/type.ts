@@ -36,7 +36,7 @@ export interface Linkprops {
 
 export interface DashCardProps {
     icon: React.ReactElement,
-    number: string,
+    number: number,
     title: string,
     style?: string
 }

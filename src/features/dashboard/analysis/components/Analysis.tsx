@@ -100,9 +100,9 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
                 <div className='p-5 flex flex-col gap-3'>
                     <h1 className='text-xs italic'>Issues Detected</h1>
                     {analysis.issues.map((issue) => {
-                        return <motion.div key={issue.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-indigo-500/5 border overflow-hidden relative border-dark-border flex  flex-col hover:border-dark-accent/30 cursor-pointer  rounded-[9px] '>
+                        return <motion.div key={issue.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-indigo-500/5 border overflow-hidden relative border-dark-border flex  flex-col hover:border-dark-accent/30  rounded-[9px] '>
                             <div className={cn(`h-full w-[3px] absolute left-0 top-0 rounded-l-2xl ${issue.severity === "low" ? 'bg-blue-500' : issue.severity === "medium" ? 'bg-orange-500' : 'bg-red-500'}`)}></div>
-                            <div onClick={() => setshowcode({ show: issue.id === showcode.id ? !showcode.show : true, id: issue.id })} className='flex justify-between p-5 select-none'>
+                            <div onClick={() => setshowcode({ show: issue.id === showcode.id ? !showcode.show : true, id: issue.id })} className='flex justify-between p-5 select-none cursor-pointer'>
                                 <div className='flex gap-3 items-center'>
                                     <StatusIcon type={type} variant={issue.severity} />
                                     <div className='xss:text-[11px] '>{issue.issuetitle}</div>
@@ -117,7 +117,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
                                     <div className='pb-5 px-5 flex flex-col gap-3'>
                                         <p className=' text-dark-text-muted text-xs'>{issue.issuedesc}</p>
                                         <p className='text-[10px] lg:text-[11px]'>{issue.issuelocation}</p>
-                                        {issue.suggesstedcode && issue.suggesstedcode !== "N/A" && <div className='bg-dark-input-bg p-4 rounded-[3px] border border-dark-accent/40 '>
+                                        {issue.suggesstedcode && issue.suggesstedcode !== "N/A" && <div className='bg-dark-surface p-4 rounded-[3px] border border-dark-accent/40 '>
                                             <p className='xss:text-[10px] lg:text-xs flex gap-2 items-center'><CircleCheckBig className='text-emerald-500 xss:size-3 lg:size-4 ' />Suggested fix</p>
                                             <Syntax code={issue.suggesstedcode!} language={issue.suggesstedcodelanguage} />
                                         </div>}

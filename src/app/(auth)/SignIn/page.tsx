@@ -6,6 +6,7 @@ import { useSession } from '@/lib/auth-client'
 import { Authproviders } from '@/lib/Authproviders'
 import { delay } from '@/lib/delay'
 import { Signinprops } from '@/types/type'
+import InputBox from '@/ui/Forms/InputBox'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -48,20 +49,16 @@ function page() {
 
     return (
         <div className={`relative w-screen h-screen flex flex-col gap-3 justify-center items-center p-8`}>
-            <Link href={"/"} className='absolute top-5 left-10 hover:bg-light-hovergray dark:hover:bg-dark-hovergray p-2 cursor-pointer rounded-md flex gap-2 items-center transition duration-300 text-sm'><ArrowLeft size={15} />Back</Link>
+            <Link href={"/"} className='absolute top-5 left-10 hover:bg-light-surface-hover dark:hover:bg-dark-surface-hover p-2 cursor-pointer rounded-md flex gap-2 items-center transition duration-300 text-sm'><ArrowLeft size={15} />Back</Link>
             <div className='text-xl xss:text-base font-bold'>Welcome Back</div>
-            <div className=' text-light-activeborder dark:text-dark-activeborder text-sm xss:text-xs text-center'>Enter your email and password.</div>
+            <div className=' text-light-text-muted dark:text-dark-text-muted text-sm xss:text-xs text-center'>Enter your email and password.</div>
             <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col ${(errors.email || errors.password) ? 'gap-2' : 'gap-3'} xss:w-[20rem] w-[24rem] items-center text-sm`}>
-                <input type="email"
-                    {...register("email", { required })} id='email' placeholder='Enter your email' className={`bg-light-hovergray dark:bg-dark-inputfield border  ${errors.email ? 'border-red-500/30 focus:outline-red-400/50' : 'border-light-activeborder/60 dark:border-dark-inputborder'} focus:outline focus:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
-                {errors.email && <div className='w-[20rem] text-xs text-red-500'>{errors.email.message}</div>}
-                <input type="password"
-                    {...register("password", { required })} id='password' placeholder='Enter your password' className={`bg-light-hovergray dark:bg-dark-inputfield border ${(errors.password) ? 'border-red-500/30 focus:outline-red-400/50' : 'border-light-activeborder/60 dark:border-dark-inputborder'}  focus:outline focus:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
-                {errors.password && <div className='w-[20rem] text-xs text-red-500'>{errors.password.message}</div>}
-                {isSubmitting ? <button className='flex justify-center bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full'>
-                    <ButtonLoader size={20} invert={true}/>
+                <InputBox errors={errors} id='email' placeholder='Enter your email' register={register} required={required} type='email' />
+                <InputBox errors={errors} id='password' placeholder='Enter your password' register={register} required={required} type='password' />
+                {isSubmitting ? <button className='bg-light-black transition duration-300 flex justify-center disabled:bg-light-hoverblack disabled:dark:bg-indigo-500 bg-indigo-600 cursor-pointer dark:hover:bg-dark-hoverwhite p-2 rounded-md font-extrabold w-full'>
+                    <ButtonLoader size={20} invert />
                 </button> :
-                    <input type='submit' value="Submit" disabled={isSubmitting} className='bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full' />
+                    <input type='submit' value="Submit" disabled={isSubmitting} className='bg-light-black transition bg-indigo-600 text-white duration-300 disabled:bg-light-hoverblack disabled:dark:bg-indigo-500 hover:bg-indigo-700 cursor-pointer dark:hover:bg-dark-hoverwhite  p-2 rounded-md font-extrabold w-full' />
                 }
             </form>
             <div className='flex w-[20rem] items-center justify-between gap-3'>

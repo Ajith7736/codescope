@@ -14,7 +14,7 @@ function IssuesText({ number }: { number: number }) {
     }
 
     return (
-        <p className={`${bg} xss:text-[9px] md:text-xs  py-1 px-2 `}>
+        <p className={`${bg} xss:text-[9px]  py-1 px-2 `}>
             {number} {number === 1 ? 'issue' : 'issues'}        </p>
     )
 }

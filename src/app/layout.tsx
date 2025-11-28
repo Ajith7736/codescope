@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Dela_Gothic_One, Fugaz_One, Germania_One, Inter, JetBrains_Mono , Texturina, Unica_One} from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -17,6 +17,13 @@ const inter = Inter({
   display: 'swap',
 });
 
+const bebas = Texturina({
+  subsets: ['latin'],
+  weight : ['900'],
+  variable: '--font-bebas'
+});
+
+
 
 export const metadata: Metadata = {
   title: "Codescope",
@@ -29,7 +36,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning  className={`${jetBrainsMono.variable} ${inter.variable}`}>
+    <html lang="en" suppressHydrationWarning  className={`${jetBrainsMono.variable} ${inter.variable} ${bebas.variable}`}>
       <body
         className={`${jetBrainsMono.className} antialiased bg-light-background dark:bg-dark-background`}
       >

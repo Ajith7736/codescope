@@ -9,7 +9,7 @@ function OverallCard() {
     const { projectdata } = useProject();
     const overallscore: number = Math.floor((projectdata?.analysis.reduce((acc, current) => acc += current.score, 0)! / 300) * 100)
 
-    
+
 
     const getcolor = (s: number) => {
         if (s >= 80) return '#10b981';
@@ -29,11 +29,10 @@ function OverallCard() {
 
     return (
         <div className='bg-light-activeborder/10 p-2 relative dark:bg-dark-surface  rounded-md text-black dark:text-white border border-dark-border m-5 xss:w-[90vw] md:w-[50vw] xl:w-[28vw] gap-4'>
-            <Activity size={60} color={'rgba(131, 131, 131,0.1)'} className='absolute right-5'/>
+            <Activity size={60} color={'rgba(131, 131, 131,0.1)'} className='absolute right-5' />
             <SmallText className='text-dark-text-muted'>OVERALL SCORE</SmallText>
-            <div className='w-full h-[250px] flex flex-col items-center justify-center'>
 
-                {projectdata && <><ResponsiveContainer width="100%" height="80%">
+                {projectdata && <div className='chart-container w-full h-[250px] flex flex-col items-center justify-center'><ResponsiveContainer width="100%" height="80%">
                     <RadialBarChart
                         cx="50%"
                         cy="50%"
@@ -59,16 +58,15 @@ function OverallCard() {
                 </ResponsiveContainer>
                     <div className='absolute inset-0 xss:mt-28 flex flex-col gap-1'>
                         <h1 className={cn(`font-extrabold text-4xl text-center`)}
-                        style={{
-                            color : getcolor(overallscore)
-                        }}
+                            style={{
+                                color: getcolor(overallscore)
+                            }}
                         ><Number n={overallscore} /></h1>
                         <h1 className='text-dark-text-muted font-semibold text-xs text-center'>SCORE</h1>
                     </div>
                     <p className='text-light-black/80 text-xs dark:text-dark-text-muted'>Based on architecture,security and performance</p>
-                </>}
+                </div>}
             </div>
-        </div>
 
     )
 }

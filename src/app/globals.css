@@ -92,6 +92,12 @@ html, body {
         --breakpoint-xss: 340px;
         --font-family-mono: var(--font-jetbrains), ui-monospace, "Courier New", monospace;
         --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+        --font-family-bebas: var(--font-bebas)
+      }
+
+.chart-container .recharts-wrapper:focus,
+.chart-container .recharts-surface:focus {
+  outline: none !important;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));

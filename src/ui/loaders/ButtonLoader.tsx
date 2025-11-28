@@ -8,7 +8,7 @@ function ButtonLoader({ size, stroke, invert, variant = "normal" }: { size?: num
     return (
         <>
             {variant === "normal" ? <Ring2
-                color={invert ? (theme === "light" ? "white" : "black") : theme === "light" ? 'black' : 'white'}
+                color={invert ? "white" : theme === "light" ? 'black' : 'white'}
                 size={size ? size : 17}
                 speed={0.8}
                 stroke={stroke ? stroke : 3}

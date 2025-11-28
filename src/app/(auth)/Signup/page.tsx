@@ -13,9 +13,8 @@ import Loading from '@/app/loading'
 import { Authproviders } from '@/lib/Authproviders'
 import { redirect, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { Ring2 } from 'ldrs/react'
-import 'ldrs/react/Ring2.css'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
+import InputBox from '@/ui/Forms/InputBox'
 
 function Page() {
   const { data: session, isPending } = useSession();
@@ -65,29 +64,29 @@ function Page() {
 
   return (
     <div className={`relative w-screen h-screen flex flex-col gap-3 justify-center items-center p-8`}>
-      <Link href={"/"} className='absolute top-5 left-10 hover:bg-light-hovergray dark:hover:bg-dark-hovergray p-2 cursor-pointer rounded-md flex gap-2 items-center transition duration-300 text-sm'><ArrowLeft size={15} />Back</Link>
+      <Link href={"/"} className='absolute top-5 left-10 hover:bg-light-surface-hover dark:hover:bg-dark-surface-hover p-2 cursor-pointer rounded-md flex gap-2 items-center transition duration-300 text-sm'><ArrowLeft size={15} />Back</Link>
       <div className='text-xl xss:text-base font-bold'>Create your account</div>
-      <div className=' text-light-activeborder dark:text-dark-activeborder text-sm xss:text-xs text-center'>Enter your details below to create your account</div>
+      <div className=' text-light-text-muted dark:text-dark-text-muted text-sm xss:text-xs text-center'>Enter your details below to create your account</div>
       <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col ${(errors.email || errors.name || errors.password) ? 'gap-2' : 'gap-3'} xss:w-[20rem] w-[24rem] items-center text-sm`}>
-        <input type="text"
-          {...register("name", { required })} id='name' placeholder='Enter your name' className={`bg-light-hovergray dark:bg-dark-inputfield border  ${errors.name ? 'border-red-500/30 focus:outline-red-400/50' : 'border-light-activeborder/60 dark:border-dark-inputborder'} focus:outline focus:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
-        {errors.name && <div className='w-[20rem] text-xs text-red-500'>{errors.name.message}</div>}
-        <input type="email"
-          {...register("email", { required })} id='email' placeholder='Enter your email' className={`bg-light-hovergray dark:bg-dark-inputfield border  ${errors.email ? 'border-red-500/30 focus:outline-red-400/50' : 'border-light-activeborder/60 dark:border-dark-inputborder'} focus:outline focus:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
-        {errors.email && <div className='w-[20rem] text-xs text-red-500'>{errors.email.message}</div>}
+        
+        <InputBox id='name' errors={errors} placeholder='Enter your name' register={register} required={required} type='text'/>
+
+        <InputBox id='email' errors={errors} placeholder='Enter your email' register={register} required={required} type='email'/>
+        
         <input type="password"
-          {...register("password", { required, pattern })} id='password' placeholder='Enter your password' className={`bg-light-hovergray dark:bg-dark-inputfield border ${(errors.password && password === "") ? 'border-red-500/30 focus:outline-red-400/50' : password !== "" ? strengthcolor : 'border-light-activeborder/60 dark:border-dark-inputborder'}  focus:outline focus:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
+          {...register("password", { required, pattern })} id='password' placeholder='Enter your password' className={`bg-light-surface-hover dark:bg-dark-input-bg border ${(errors.password && password === "") ? 'border-red-500/30 focus:outline-red-400/50' : password !== "" ? strengthcolor : 'border-light-border dark:border-dark-input-border'}  focus:outline focus:outline-light-text-muted/40 focus:dark:outline-dark-activeborder w-full px-2 py-1.5 rounded-md xss:text-xs md:text-sm`} />
         {errors.password && <div className='w-[20rem] text-xs text-red-500'>{errors.password.message}</div>}
-        {isSubmitting ? <button className='flex justify-center bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full'>
+
+        {isSubmitting ? <button className='bg-light-black transition duration-300 flex justify-center disabled:bg-light-hoverblack disabled:dark:bg-indigo-500 bg-indigo-600 cursor-pointer dark:hover:bg-dark-hoverwhite p-2 rounded-md font-extrabold w-full'>
           <ButtonLoader size={20} invert/>
         </button> :
-          <input type='submit' value="Submit" disabled={isSubmitting} className='bg-light-black transition duration-300 disabled:bg-light-hoverblack disabled:dark:bg-dark-hoverwhite hover:bg-light-hoverblack dark:bg-dark-white cursor-pointer dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black p-2 rounded-md font-extrabold w-full' />
+          <input type='submit' value="Submit" disabled={isSubmitting} className='bg-light-black transition bg-indigo-600 text-white duration-300 disabled:bg-light-hoverblack disabled:dark:bg-indigo-500 hover:bg-indigo-700 cursor-pointer dark:hover:bg-dark-hoverwhite  p-2 rounded-md font-extrabold w-full' />
         }
       </form>
       <div className='flex w-[20rem] items-center gap-3'>
-        <div className='w-full h-px bg-light-activeborder dark:bg-dark-activeborder/50'></div>
-        <div className='xss:text-xs  font-bold  text-light-activeborder dark:text-dark-activeborder '>OR</div>
-        <div className='w-full h-px bg-light-activeborder dark:bg-dark-activeborder/50'></div>
+        <div className='w-full h-px bg-light-activeborder bg-dark-accent/60'></div>
+        <div className='xss:text-xs  font-bold  text-light-text-muted dark:text-dark-text-muted '>OR</div>
+        <div className='w-full h-px bg-light-activeborder bg-dark-accent/60'></div>
       </div>
       <div className='flex flex-col gap-3'>
         {Authproviders.map((card) => {

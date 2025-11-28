@@ -3,7 +3,7 @@ import { DashCardProps, Project, recentanalysis } from '@/types/type'
 import Button from '@/ui/Buttons/Button'
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
-import { CircleCheckBig, File, Folder, Plus, TriangleAlert } from 'lucide-react'
+import { AlertCircle, AlertTriangle, CircleCheckBig, File, Folder, Plus, TriangleAlert } from 'lucide-react'
 import RecentProject from './RecentProject'
 import Card from './Card'
 import { redirect } from 'next/navigation'
@@ -12,71 +12,84 @@ import { useEffect, useState } from 'react'
 import { useSession } from '@/lib/auth-client'
 import { toast } from 'sonner'
 import RecentAnalysis from './RecentAnalysis'
+import Loading from '@/app/loading'
 
 
 function DashContent() {
-   const [projects, setprojects] = useState<Project[]>([])
-   const [recentanalysis, setrecentanalysis] = useState<recentanalysis[]>([])
-   const { data : session } = useSession();
+  const [projects, setprojects] = useState<Project[]>([])
+  const [recentanalysis, setrecentanalysis] = useState<recentanalysis[]>([])
+  const { data: session } = useSession();
+  const [total, settotal] = useState({
+    totalprojects: 0,
+    totalanalysis: 0,
+    totalissues: 0,
+    criticalissues : 0
+  })
 
 
-  const { data, isError, isLoading } = useQuery({
-          queryKey: ["RecentProject"],
-          queryFn: async () => {
-              const res = await fetch("/api/fetch-recent", {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify({ userId: session?.user.id })
-              })
-  
-              const data = await res.json();
-  
-              if (!res.ok) {
-                  toast.error(data.message)
-                  throw new Error(data.message)
-              }
-  
-              return data;
-          },
-          enabled: !!session?.user.id,
-          refetchOnMount: false,
-          refetchOnWindowFocus: false
+  const { data, isLoading } = useQuery({
+    queryKey: ["RecentProject"],
+    queryFn: async () => {
+      const res = await fetch("/api/fetch-recent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userId: session?.user.id })
       })
-  
-      useEffect(() => {
-          if (data && data.success) {
-              setprojects(data.projects)
-              setrecentanalysis(data.analysis)
-          }
-      }, [data])
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message)
+        throw new Error(data.message)
+      }
+
+      return data;
+    },
+    enabled: !!session?.user.id,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false
+  })
+
+  useEffect(() => {
+    if (data && data.success) {
+      setprojects(data.projects)
+      setrecentanalysis(data.analysis)
+      settotal({ totalanalysis: data.totalanalysis, totalissues: data.totalissues, totalprojects: data.totalprojects ,criticalissues : data.criticalissues})
+    }
+  }, [data])
 
   const card: DashCardProps[] = [
     {
       icon: <Folder />,
-      number: "24",
+      number: total.totalprojects || 0,
       title: "Total Projects",
       style: "bg-purple-500/30 text-purple-600"
     },
     {
+
       icon: <File />,
-      number: "1,245",
+      number: total.totalanalysis || 0,
       title: "Files Analyzed",
       style: "bg-blue-500/30 text-blue-600"
     },
     {
       icon: <TriangleAlert />,
-      number: "42",
+      number: total.totalissues || 0,
       title: "Issues Found",
       style: "bg-orange-500/30 text-orange-600"
     },
     {
-      icon: <CircleCheckBig />,
-      number: "1,203",
-      title: "Issues Resolved",
-      style: "bg-green-500/30 text-green-600"
-    },]
+      icon: <AlertCircle />,
+      number: total.criticalissues || 0,
+      title: "Critical Issues",
+      style: "bg-red-500/30 text-red-600"
+    }
+  ]
+
+  if (isLoading) return <Loading />
+
 
   return (
     <div className='flex flex-col outline-none bg-light-background dark:bg-dark-background h-screen overflow-auto transition-all duration-300'>
@@ -96,17 +109,17 @@ function DashContent() {
       </div>
 
 
-      <div className='flex flex-col gap-5 mx-8 mb-10 md:flex-row md:flex-wrap md:items-center md:justify-center'>
+      <div className='flex flex-col gap-5 mx-8 mb-10 items-center md:flex-row md:flex-wrap md:items-center md:justify-center'>
 
         {/* Recent Projects */}
 
-        <RecentProject projects={projects} isLoading={isLoading}/>
+        <RecentProject projects={projects} isLoading={isLoading} />
 
         {/* Recent Analysis */}
 
-        <RecentAnalysis analysis={recentanalysis} isLoading={isLoading}/>
+        <RecentAnalysis analysis={recentanalysis} isLoading={isLoading} />
 
-        
+
       </div>
     </div>
   )

@@ -28,7 +28,7 @@ function Syntax({ language, code }: { language: string | undefined, code: string
     return (
         <div className="m-3 relative overflow-auto rounded-[3px] border border-dark-border">
             <div className='text-[10px] absolute top-1 left-1 text-neutral-500'>{language}</div>
-            {copied ? <Check className='absolute right-2 top-2 cursor-pointer' size={12} color={theme === "dark" ? "gray" : "black"} /> : <Copy className='absolute right-2 top-2 cursor-pointer' onClick={handlecopy} color={theme === "dark" ? "gray" : "black"} size={12} />}
+            {copied ? <Check className='absolute right-2 top-2 cursor-pointer' size={12} color={theme === "dark" ? "gray" : "black"} /> : <Copy className='absolute right-2 top-2 cursor-pointer' onClick={handlecopy} color={theme === "dark" ? "gray" : "black"} size={10} />}
             <SyntaxHighlighter
                 language={language}
                 style={theme === "dark" ? tomorrowNight : tomorrow}
