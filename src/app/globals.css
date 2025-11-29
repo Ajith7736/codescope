@@ -93,11 +93,27 @@ html, body {
         --font-family-mono: var(--font-jetbrains), ui-monospace, "Courier New", monospace;
         --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
         --font-family-bebas: var(--font-bebas)
-      }
+  }
 
 .chart-container .recharts-wrapper:focus,
 .chart-container .recharts-surface:focus {
   outline: none !important;
 }
 
+      .animate-beam-flow {
+        stroke-dasharray: 200 2000; 
+        stroke-dashoffset: 2200;   
+        animation: beam-flow 6s linear infinite;
+      }
+
+      @keyframes beam-flow {
+        0% {
+          stroke-dashoffset: 2200;
+        }
+        100% {
+          stroke-dashoffset: -800; /* End slightly after the path end */
+        }
+      }
+
+      
 @custom-variant dark (&:where(.dark, .dark *));

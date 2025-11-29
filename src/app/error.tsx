@@ -17,7 +17,7 @@ function ErrorPage() {
             </Link> :
                 <Link
                     href={"/"}
-                    className='bg-light-black dark:bg-dark-white px-4 py-2 rounded-xl hover:bg-light-hoverblack dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black cursor-pointer font-bold'>
+                    className='bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-[7px] transition-all duration-300 text-white cursor-pointer font-bold'>
                     Go to Homepage
                 </Link>}
         </div>

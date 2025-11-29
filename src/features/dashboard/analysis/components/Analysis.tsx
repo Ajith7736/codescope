@@ -25,7 +25,6 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
     });
 
 
-
     // first analysis fetch call
 
     const {
