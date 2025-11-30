@@ -86,7 +86,7 @@ function AnalysisContent({ id }: { id: string }) {
   return (
     <div className='h-screen bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
       <div className='p-5 border w-full bg-light-surface dark:bg-dark-surface flex justify-between items-center border-light-border dark:border-dark-border border-t-0 border-x-0'>
-        <div>
+        <div className='w-[50%]'>
           <SecondTitle>{projectdata?.projectname}</SecondTitle>
           <div className='mt-1'>
             <SmallText textcolor='text-light-black/80 dark:text-dark-text-muted' className='lg:text-xs'>Last commit • {projectdata?.lastcommit}</SmallText>

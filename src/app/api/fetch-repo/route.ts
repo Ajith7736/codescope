@@ -9,7 +9,8 @@ export async function POST(req: Request) {
         const existingproject = await prisma.project.findFirst({
             where: {
                 projectname: repo,
-                ownername: owner
+                ownername: owner,
+                userId
             }
         })
 
