@@ -88,7 +88,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
 
     return (
         <>
-            <div className={`bg-light-surface dark:bg-dark-surface flex flex-col rounded-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
+            <div className={`bg-light-surface dark:bg-dark-surface flex flex-col rounded-b-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
                 <div className='flex justify-between p-5 border border-t-0 border-x-0 border-light-border dark:border-dark-border items-center'>
                     <h1 className='xss:text-[13px] md:text-sm font-extrabold'>{type} Analysis</h1>
                     {reanalysisloading ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />Analyzing</Button> : <Button variant='blue' onClick={handlereanalysis} ><RefreshCcw size={15} />Re-Analyse</Button>}

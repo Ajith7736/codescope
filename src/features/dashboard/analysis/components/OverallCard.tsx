@@ -28,7 +28,7 @@ function OverallCard() {
 
 
     return (
-        <div className='bg-light-surface p-2 relative dark:bg-dark-surface  rounded-md text-black dark:text-white border border-light-border dark:border-dark-border m-5 xss:w-[90vw] md:w-[50vw] xl:w-[28vw] gap-4'>
+        <div className='bg-light-surface p-2 relative dark:bg-dark-surface  rounded-md text-black dark:text-white border border-light-border dark:border-dark-border m-5 xss:w-[80vw] md:w-[50vw] xl:w-[28vw] gap-4'>
             <Activity size={60} color={'rgba(131, 131, 131,0.1)'} className='absolute right-5' />
             <SmallText className='text-dark-text-muted'>OVERALL SCORE</SmallText>
 
@@ -64,7 +64,7 @@ function OverallCard() {
                         ><Number n={overallscore} /></h1>
                         <h1 className='text-dark-text-muted font-semibold text-xs text-center'>SCORE</h1>
                     </div>
-                    <p className='text-light-black/80 text-xs dark:text-dark-text-muted'>Based on architecture,security and performance</p>
+                    <p className='text-light-black/80 xss:text-[8px] md:text-xs dark:text-dark-text-muted'>Based on architecture,security and performance</p>
                 </div>}
             </div>
 
