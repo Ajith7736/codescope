@@ -1,4 +1,3 @@
-import { Project } from "@/generated/prisma/client";
 import { failure, success, tryCatch } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
 import isRateLimitError from "@/lib/server/isRateLimitError";
@@ -6,6 +5,7 @@ import architectureprompt from "@/lib/server/prompts/architectureprompt";
 import performanceprompt from "@/lib/server/prompts/performanceprompt";
 import securityprompt from "@/lib/server/prompts/securityprompt";
 import AnalysisSchema from "@/lib/server/Schema/AnalysisSchema";
+import { Project } from "@/types/type";
 import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 
