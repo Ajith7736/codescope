@@ -5,7 +5,7 @@ import 'ldrs/react/Ring.css'
 function Loading() {
 
     return (
-        <div role='status' aria-live='polite' aria-label='loading content' className='fixed inset-0 z-50 dark:bg-dark-background bg-light-white flex justify-center items-center'>
+        <div role='status' aria-live='polite' aria-label='loading content' className='fixed inset-0 z-50 dark:bg-dark-background bg-light-background flex justify-center items-center'>
             <Ring
             size={40}
             stroke={5}

@@ -1,11 +1,16 @@
+"use client"
+import { useSession } from '@/lib/auth-client'
 import Link from 'next/link'
 
 function Notfound() {
+
+    const { data: session } = useSession();
+
     return (
-        <div className='bg-light-white dark:bg-dark-black flex flex-col gap-3 items-center justify-center h-screen w-screen'>
+        <div className='bg-light-background dark:bg-dark-background flex flex-col gap-3 items-center justify-center h-screen w-screen'>
             <div className='text-6xl font-bold'>404</div>
-            <div className='text-light-textgray dark:text-dark-textgray text-center mx-10'>Oops, it looks like the page you're looking for doesn't exist.</div>
-            <Link href={"/"} className='bg-light-black dark:bg-dark-white px-4 py-2 rounded-xl hover:bg-light-hoverblack dark:hover:bg-dark-hoverwhite text-light-white dark:text-dark-black cursor-pointer font-bold'>Go to Homepage</Link>
+            <div className='text-light-text-muted dark:text-dark-textgray text-sm text-center mx-10'>Oops, it looks like the page you're looking for doesn't exist.</div>
+            <Link href={"/"} className='bg-indigo-500 px-4 py-2 rounded-sm hover:bg-indigo-600  text-white cursor-pointer font-bold'>Go to Homepage</Link>
         </div>
     )
 }

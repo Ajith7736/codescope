@@ -55,8 +55,8 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
     )
 
     if (reanalysisloading || loading) {
-        return <div className={`bg-dark-surface flex flex-col  gap-3 rounded-[3px] border border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
-            <div className='flex justify-between items-center p-5 border-b border-dark-border'>
+        return <div className={`bg-light-surface darK:bg-dark-surface flex flex-col  gap-3 rounded-[3px] border border-light-border dark:border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
+            <div className='flex justify-between items-center p-5 border-b border-light-border dark:border-dark-border'>
                 <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
                 {loading && <Button variant='blue'><ButtonLoader />Analyzing</Button>}
                 {reanalysisloading && <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />Analyzing</Button>}
@@ -69,7 +69,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
         </div>
     }
 
-    if (!analysis) return <div className={`bg-dark-surface flex flex-col rounded-[3px] border border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
+    if (!analysis) return <div className={`bg-light-border dark:bg-dark-surface flex flex-col rounded-[3px] border border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
         <div className='flex justify-between items-center p-5 border-b border-dark-border'>
             <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
             {loading ? <Button variant='blue'><ButtonLoader />Analyzing</Button> : <Button variant='blue' onClick={handleanalysis}><Play size={14} />Analyse</Button>}
@@ -88,8 +88,8 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
 
     return (
         <>
-            <div className={`bg-dark-surface flex flex-col rounded-[3px] border border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
-                <div className='flex justify-between p-5 border border-t-0 border-x-0 border-dark-border items-center'>
+            <div className={`bg-light-surface dark:bg-dark-surface flex flex-col rounded-[3px] border border-light-border dark:border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
+                <div className='flex justify-between p-5 border border-t-0 border-x-0 border-light-border dark:border-dark-border items-center'>
                     <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
                     {reanalysisloading ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />Analyzing</Button> : <Button variant='blue' onClick={handlereanalysis} ><RefreshCcw size={15} />Re-Analyse</Button>}
                 </div>
@@ -99,7 +99,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
                 <div className='p-5 flex flex-col gap-3'>
                     <h1 className='text-xs italic'>Issues Detected</h1>
                     {analysis.issues.map((issue) => {
-                        return <motion.div key={issue.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-indigo-500/5 border overflow-hidden relative border-dark-border flex  flex-col hover:border-dark-accent/30  rounded-[9px] '>
+                        return <motion.div key={issue.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-light-accent/5 dark:bg-indigo-500/5 border overflow-hidden relative border-light-border dark:border-dark-border flex  flex-col hover:border-light-accent/30 hover:dark:border-dark-accent/30  rounded-[9px] '>
                             <div className={cn(`h-full w-[3px] absolute left-0 top-0 rounded-l-2xl ${issue.severity === "low" ? 'bg-blue-500' : issue.severity === "medium" ? 'bg-orange-500' : 'bg-red-500'}`)}></div>
                             <div onClick={() => setshowcode({ show: issue.id === showcode.id ? !showcode.show : true, id: issue.id })} className='flex justify-between p-5 select-none cursor-pointer'>
                                 <div className='flex gap-3 items-center'>
@@ -116,7 +116,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
                                     <div className='pb-5 px-5 flex flex-col gap-3'>
                                         <p className=' text-dark-text-muted text-xs'>{issue.issuedesc}</p>
                                         <p className='text-[10px] lg:text-[11px]'>{issue.issuelocation}</p>
-                                        {issue.suggesstedcode && issue.suggesstedcode !== "N/A" && <div className='bg-dark-surface p-4 rounded-[3px] border border-dark-accent/40 '>
+                                        {issue.suggesstedcode && issue.suggesstedcode !== "N/A" && <div className='bg-light-accent/10 dark:bg-dark-surface p-4 rounded-[3px] border border-light-border dark:border-dark-accent/40 '>
                                             <p className='xss:text-[10px] lg:text-xs flex gap-2 items-center'><CircleCheckBig className='text-emerald-500 xss:size-3 lg:size-4 ' />Suggested fix</p>
                                             <Syntax code={issue.suggesstedcode!} language={issue.suggesstedcodelanguage} />
                                         </div>}

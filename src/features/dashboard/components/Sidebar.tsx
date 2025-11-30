@@ -50,7 +50,7 @@ function Sidebar() {
 
 
     return (
-        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} dark:bg-gray-900 md:static xss:absolute border-r border-light-activeborder/20 dark:border-dark-border   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
+        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} bg-light-surface dark:bg-gray-900 md:static xss:absolute border-r border-light-border dark:border-dark-border   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
             <div>
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
@@ -67,7 +67,7 @@ function Sidebar() {
                                 if (!isLargescreen) setshowsidebar(false)
                                 router.push(link.name === "projects" ? "/Dashboard/Projects" : "/Dashboard")
                             }}
-                            className={`py-3 rounded-md ${ link.name !== page.toLowerCase() && (showsidebar ? `hover:bg-indigo-500/10 hover:text-dark-text-on-hover` : `hover:text-dark-text-on-hover`) } relative cursor-pointer ${ link.name === page.toLowerCase() ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10': 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}`: 'text-dark-text-muted'}`}>
+                            className={`py-3 rounded-md ${ link.name !== page.toLowerCase() && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`) } relative cursor-pointer ${ link.name === page.toLowerCase() ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10': 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}`: 'text-light-text-muted dark:text-dark-text-muted'}`}>
                             <div className={`flex items-center w-full gap-4 ${showsidebar ? 'px-4' : 'px-2'} transition-all duration-300`}>
                                 {link.name === page.toLowerCase() && showsidebar && <div className={`absolute left-0 bg-indigo-500 w-[3px] h-6 rounded-r-full `}></div>}
                                 <div className='flex group' >

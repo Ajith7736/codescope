@@ -75,7 +75,7 @@ function sample() {
 
 
     return (
-        <div className='bg-light-surface dark:bg-dark-border/20 rounded-xs dark:border-dark-border w-md p-5 border border-light-border flex flex-col gap-3'>
+        <div className='bg-light-surface dark:bg-dark-border/20 m-5 rounded-xs dark:border-dark-border w-md p-5 border border-light-border flex flex-col gap-3'>
             {samples.map((sample) => {
                 return <motion.div key={sample.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-light-surface-hover border-light-border border overflow-hidden relative dark:bg-dark-surface dark:border-dark-border flex  flex-col hover:border-dark-accent/30  rounded-[9px] '>
                     <div className={cn(`h-full w-[3px] absolute left-0 top-0 rounded-l-2xl ${sample.severity === "low" ? 'bg-blue-500' : sample.severity === "medium" ? 'bg-orange-500' : 'bg-red-500'}`)}></div>

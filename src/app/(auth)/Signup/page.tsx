@@ -84,9 +84,9 @@ function Page() {
         }
       </form>
       <div className='flex w-[20rem] items-center gap-3'>
-        <div className='w-full h-px bg-light-activeborder bg-dark-accent/60'></div>
+        <div className='w-full h-px bg-indigo-500'></div>
         <div className='xss:text-xs  font-bold  text-light-text-muted dark:text-dark-text-muted '>OR</div>
-        <div className='w-full h-px bg-light-activeborder bg-dark-accent/60'></div>
+        <div className='w-full h-px bg-indigo-500'></div>
       </div>
       <div className='flex flex-col gap-3'>
         {Authproviders.map((card) => {

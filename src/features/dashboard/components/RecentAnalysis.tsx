@@ -12,12 +12,12 @@ function RecentAnalysis({ analysis, isLoading }: { analysis: recentanalysis[], i
 
 
     return (
-        <div className='border border-dark-border rounded-md w-md'>
-            <div className='p-8 border border-dark-border border-t-0 border-x-0'>
+        <div className='border dark:border-dark-border border-light-border rounded-md w-md'>
+            <div className='p-8 border border-light-border dark:border-dark-border border-t-0 border-x-0'>
                 <SecondTitle>Recent Analysis</SecondTitle>
             </div>
             {isLoading ? <div className='p-5 flex justify-center'><BasicLoader /></div> : analysis.length !== 0 ? analysis.map((item, index) => {
-                return <div key={item.id} className={`p-8 cursor-default ${index !== analysis.length - 1 && 'border-b border-dark-border'}`}>
+                return <div key={item.id} className={`p-8 cursor-default ${index !== analysis.length - 1 && 'border-b border-light-border dark:border-dark-border'}`}>
                     <div className='flex gap-5 items-center justify-between'>
                         <div className='flex gap-4 items-center'>
                             <div>

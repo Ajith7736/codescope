@@ -22,7 +22,7 @@ export async function getUserData(req: any, res: any) {
   });
 }`
   return (
-    <div className='dark:bg-dark-surface shadow-lg bg-light-surface border xss:w-md xl:w-xl border-light-border dark:border-dark-border rounded-[7px]'>
+    <div className='dark:bg-dark-surface shadow-lg m-5 bg-light-surface border xss:w-md xl:w-xl border-light-border dark:border-dark-border rounded-[7px]'>
       <div className='p-2 flex gap-2'>
         <div className='w-2 h-2 bg-red-500/30 border border-red-500 rounded-full'></div>
         <div className='w-2 h-2 bg-yellow-500/30 border border-yellow-500 rounded-full'></div>

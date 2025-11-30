@@ -1,5 +1,5 @@
 "use client"
-import { Code, Github, Shield, TrendingUp } from "lucide-react"
+import { Code, File, Github, Shield, TrendingUp } from "lucide-react"
 import Card from '../components/card/Card'
 import SampleCode from "../components/sample/SampleCode"
 import { CardProps, Session } from '@/types/type'
@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import SampleAnalysis from "../components/sample/SampleAnalysis"
+import IconCircle from "../components/icons/icon"
 
 function Content({ session }: { session: Session | null }) {
 
@@ -31,14 +32,17 @@ function Content({ session }: { session: Session | null }) {
         }
     ]
 
+
     return (
         <div className='min-h-[90vh] relative flex flex-col justify-center items-center'>
+            <div className="text-xs bg-indigo-600/20 text-indigo-500 px-2 py-1 border rounded-full w-fit">Powered by Gemini AI</div>
             <div className='min-h-[50vh]'>
                 <div className="h-60 w-10 rounded-full bg-indigo-400/30 blur-3xl fixed z-50 -left-15">
                 </div>
                 <div className="h-60 w-10 rounded-full bg-pink-400/30  blur-3xl fixed z-50 -right-15">
                 </div>
-                <motion.div initial={{ opacity: 0, translateY: -10 }} whileInView={{ opacity: 1, translateY: 0 }} className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-80 w-full h-full'>
+
+                <motion.div initial={{ opacity: 0, translateY: -10 }} whileInView={{ opacity: 1, translateY: 0 }} viewport={{once : true}} className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-80 w-full h-full'>
                     <div className="font-extrabold xss:text-4xl  md:text-7xl text-center">
                         Analyze your code
                         at the speed of AI
@@ -57,13 +61,16 @@ function Content({ session }: { session: Session | null }) {
                 })}
             </div>
 
-            <motion.div initial={{ opacity : 0 , translateY : -50}} whileInView={{opacity : 1 , translateY : 0}} className="flex relative  flex-col lg:flex-row gap-3 items-baseline justify-between m-5">
+            <motion.div initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="flex relative  flex-col lg:flex-row gap-3 items-baseline justify-between">
                 <SampleCode />
                 <SampleAnalysis />
             </motion.div>
 
+        
+            <IconCircle />
 
-        </div>
+
+        </div >
 
     )
 }

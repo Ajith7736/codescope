@@ -8,11 +8,36 @@ import { toast } from 'sonner';
 
 function Authcard({ img, provider }: { img: React.ReactElement, provider: "google" | "github" }) {
     const { data: session } = useSession();
-    const [isloading, setisloading] = useState(false);
+    const [isloading, setisloading] = useState<{ provider: "google" | "github" | null, show: boolean }>({
+        provider: null,
+        show: false
+    });
+
+
+    useEffect(() => {
+        const loading = localStorage.getItem("auth-loading");
+        if (loading) {
+            const json = JSON.parse(loading);
+            if (json.show) {
+                setisloading({
+                    provider: json.provider,
+                    show: json.show
+                })
+            }
+        }
+
+    }, [])
 
 
     const handlesocial = async () => {
-        setisloading(true);
+        setisloading({
+            provider,
+            show: true
+        });
+        localStorage.setItem("auth-loading", JSON.stringify({
+            provider,
+            show: true
+        }));
         try {
             const { error } = await authClient.signIn.social({
                 provider,
@@ -32,8 +57,8 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
 
     return (
         <div>
-            {!session && isloading ? <button
-                className="group h-12 px-6 border cursor-pointer  bg-light-gray dark:bg-dark-surface/70 bg-light-text-muted/10 border-light-border dark:border-dark-border rounded-md w-[20rem] transition duration-300 hover:border-light-accent/50  dark:hover:border-dark-accent/50 ">
+            {!session && isloading.show && isloading.provider === provider ? <button
+                className="group h-12 px-6 border cursor-pointer  bg-light-gray dark:bg-dark-surface/70 bg-light-text-muted/10 border-light-border dark:border-dark-border rounded-md w-[20rem] transition duration-300 hover:border-light-accent/50 flex items-center justify-center dark:hover:border-dark-accent/50 ">
                 <ButtonLoader />
             </button>
                 :

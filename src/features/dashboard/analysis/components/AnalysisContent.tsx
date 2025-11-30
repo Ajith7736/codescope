@@ -85,7 +85,7 @@ function AnalysisContent({ id }: { id: string }) {
 
   return (
     <div className='h-screen bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
-      <div className='p-5 border w-full bg-light-white dark:bg-dark-surface flex justify-between items-center border-dark-border border-t-0 border-x-0'>
+      <div className='p-5 border w-full bg-light-surface dark:bg-dark-surface flex justify-between items-center border-light-border dark:border-dark-border border-t-0 border-x-0'>
         <div>
           <SecondTitle>{projectdata?.projectname}</SecondTitle>
           <div className='mt-1'>
@@ -113,9 +113,9 @@ function AnalysisContent({ id }: { id: string }) {
         </div>
 
         <div className='m-5'>
-          <div className='bg-dark-surface flex    text-sm border border-b-0 rounded-t-md border-dark-border'>
+          <div className='bg-light-surface dark:bg-dark-surface flex    text-sm border border-b-0 rounded-t-md border-light-border dark:border-dark-border'>
             {Analysis.map((item, index) => {
-              return <div key={index} className={`font-bold border transition-all duration-300 cursor-pointer hover:bg-dark-surface-hover/30  ${currentanalysis === item ? 'text-dark-text-on-hover' : 'text-dark-text-muted'} border-dark-border w-[35%] text-center p-5 ${item === "Architecture" ? 'border-y-0 border-l-0' : item === "Performance" ? 'border-y-0 border-r-0' : 'border-0'}`} onClick={() => setcurrentanalysis(item)}>{item}</div>
+              return <div key={index} className={`font-bold border transition-all duration-300 cursor-pointer hover:bg-light-accent/5 hover:dark:bg-dark-surface-hover/30  ${currentanalysis === item ? 'text-light-text-primary dark:text-dark-text-on-hover' : 'text-light-text-muted dark:text-dark-text-muted'} border-light-border dark:border-dark-border w-[35%] text-center p-5 ${item === "Architecture" ? 'border-y-0 border-l-0' : item === "Performance" ? 'border-y-0 border-r-0' : 'border-0'}`} onClick={() => setcurrentanalysis(item)}>{item}</div>
             })}
           </div>
           <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>

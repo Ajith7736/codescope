@@ -3,7 +3,7 @@ import { DashCardProps, Project, recentanalysis } from '@/types/type'
 import Button from '@/ui/Buttons/Button'
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
-import { AlertCircle, AlertTriangle, CircleCheckBig, File, Folder, Plus, TriangleAlert } from 'lucide-react'
+import { AlertCircle, File, Folder, Plus, TriangleAlert } from 'lucide-react'
 import RecentProject from './RecentProject'
 import Card from './Card'
 import { redirect } from 'next/navigation'
@@ -15,6 +15,7 @@ import RecentAnalysis from './RecentAnalysis'
 import Loading from '@/app/loading'
 
 
+
 function DashContent() {
   const [projects, setprojects] = useState<Project[]>([])
   const [recentanalysis, setrecentanalysis] = useState<recentanalysis[]>([])
@@ -23,8 +24,14 @@ function DashContent() {
     totalprojects: 0,
     totalanalysis: 0,
     totalissues: 0,
-    criticalissues : 0
+    criticalissues: 0
   })
+
+  useEffect(() => {
+      localStorage.removeItem("auth-loading")
+  }, [])
+
+
 
 
   const { data, isLoading } = useQuery({
@@ -56,7 +63,7 @@ function DashContent() {
     if (data && data.success) {
       setprojects(data.projects)
       setrecentanalysis(data.analysis)
-      settotal({ totalanalysis: data.totalanalysis, totalissues: data.totalissues, totalprojects: data.totalprojects ,criticalissues : data.criticalissues})
+      settotal({ totalanalysis: data.totalanalysis, totalissues: data.totalissues, totalprojects: data.totalprojects, criticalissues: data.criticalissues })
     }
   }, [data])
 
@@ -93,7 +100,7 @@ function DashContent() {
 
   return (
     <div className='flex flex-col outline-none bg-light-background dark:bg-dark-background h-screen overflow-auto transition-all duration-300'>
-      <div className='bg-light-white border border-dark-border border-t-0 border-x-0 dark:bg-dark-surface p-5 flex justify-between items-center'>
+      <div className='bg-light-white border border-light-border dark:border-dark-border border-t-0 border-x-0 bg-light-surface dark:bg-dark-surface p-5 flex justify-between items-center'>
         <div className='lg:w-full xss:w-[40vw]'>
           <SecondTitle>Dashboard</SecondTitle>
           <SmallText className='text-dark-text-muted'>Welcome Back! Here's your code analysis overview.</SmallText>

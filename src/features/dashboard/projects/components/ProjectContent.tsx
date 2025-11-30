@@ -84,19 +84,36 @@ function ProjectContent() {
     <div className='m-7 h-screen gap-8 flex flex-col items-center'>
       <div>
         <div className='flex flex-col md:flex-row gap-4 items-center'>
-        <div>
-          <input type="text" value={link} onChange={(e) => setlink(e.target.value)} className={`bg-light-gray dark:bg-neutral-950 border ${errorText ? 'border-red-500/40' : ' border-dark-input-border'} p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm`} placeholder='https://github.com/username/repo' />
+          <div>
+            <input
+              type="text"
+              value={link}
+              onChange={(e) => setlink(e.target.value)}
+              className={`bg-light-surface dark:bg-neutral-950 border ${errorText ? 'border-red-500/40' : 'border-light-border dark:border-dark-input-border'} p-3 w-104 rounded-md focus:outline-none text-sm placeholder:text-sm`}
+              placeholder='https://github.com/username/repo'
+            />
+          </div>
+          {loading ?
+            <button
+              className='w-[108px] py-[9.5px] bg-light-black text-light-background bg-indigo-500 cursor-pointer rounded-md flex justify-center'>
+              <ButtonLoader invert />
+            </button> :
+            <input
+              type='submit'
+              value="Add Project"
+              className='text-sm bg-light-black text-light-white bg-indigo-600 shadow-sm  shadow-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 cursor-pointer p-2 rounded-[3px]'
+              disabled={errorText.length > 0 || link === ""}
+              onClick={getgithubdata}
+            />}
         </div>
-        {loading ? <button className='w-[108px] py-[9.5px] bg-light-black text-light-background dark:bg-indigo-500 cursor-pointer rounded-md flex justify-center'><ButtonLoader /></button> : <input type='submit' value="Add Project" className='text-sm bg-light-black hover:bg-dark-text-primary text-light-white dark:bg-indigo-600 shadow-sm  shadow-indigo-600 dark:text-white hover:dark:bg-indigo-700 transition-all duration-300 cursor-pointer p-2 rounded-[3px]' disabled={errorText.length > 0 || link === ""} onClick={getgithubdata} />}
-      </div>
-       {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
+        {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
       <div className=' xss:w-100 md:w-110 lg:w-190'>
-        <div className='border p-5 rounded-t-md font-extrabold border-dark-border'>
+        <div className='border p-5 rounded-t-md font-extrabold border-light-border dark:border-dark-border'>
           Your Projects
         </div>
         {projectdata.length > 0 ? projectdata?.map((item) => {
-          return <div key={item.id} className='p-6 cursor-pointer border border-dark-border hover:bg-dark-accent/5 transition-all duration-300 border-t-0'>
+          return <div key={item.id} className='p-6 cursor-pointer border border-light-border dark:border-dark-border hover:bg-dark-accent/5 transition-all duration-300 border-t-0'>
             <Link href={`/Dashboard/Projects/${item.id}`} className='flex justify-between items-center text-sm'>
               <div className='flex flex-col gap-2'>
                 <h1 className='text-base'>{item.projectname}</h1>
