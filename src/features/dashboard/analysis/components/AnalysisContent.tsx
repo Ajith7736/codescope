@@ -113,7 +113,7 @@ function AnalysisContent({ id }: { id: string }) {
         </div>
 
         <div className='m-5'>
-          <div className='bg-light-surface dark:bg-dark-surface flex    text-sm border border-b-0 rounded-t-md border-light-border dark:border-dark-border'>
+          <div className='bg-light-surface dark:bg-dark-surface flex  xss:text-[9px]  md:text-sm border border-b-0 rounded-t-md border-light-border dark:border-dark-border'>
             {Analysis.map((item, index) => {
               return <div key={index} className={`font-bold border transition-all duration-300 cursor-pointer hover:bg-light-accent/5 hover:dark:bg-dark-surface-hover/30  ${currentanalysis === item ? 'text-light-text-primary dark:text-dark-text-on-hover' : 'text-light-text-muted dark:text-dark-text-muted'} border-light-border dark:border-dark-border w-[35%] text-center p-5 ${item === "Architecture" ? 'border-y-0 border-l-0' : item === "Performance" ? 'border-y-0 border-r-0' : 'border-0'}`} onClick={() => setcurrentanalysis(item)}>{item}</div>
             })}

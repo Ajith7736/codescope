@@ -12,7 +12,7 @@ function RecentAnalysis({ analysis, isLoading }: { analysis: recentanalysis[], i
 
 
     return (
-        <div className='border dark:border-dark-border border-light-border rounded-md w-md'>
+        <div className='border dark:border-dark-border border-light-border rounded-md md:w-md'>
             <div className='p-8 border border-light-border dark:border-dark-border border-t-0 border-x-0'>
                 <SecondTitle>Recent Analysis</SecondTitle>
             </div>

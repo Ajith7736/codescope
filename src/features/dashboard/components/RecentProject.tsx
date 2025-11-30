@@ -15,7 +15,7 @@ function RecentProject({ projects, isLoading }: { projects: Project[], isLoading
 
 
     return (
-        <div className='dark:bg-dark-gray bg-light-gray border lg:w-1/2 border-light-border dark:border-dark-border rounded-md w-md'>
+        <div className='dark:bg-dark-gray bg-light-gray border xss:w-xs md:w-sm lg:w-1/2 border-light-border dark:border-dark-border rounded-md w-md'>
             <div className='border dark:border-dark-border border-t-0 border-x-0 p-8 border-light-border flex justify-between items-center '>
                 <SecondTitle>Recent Projects</SecondTitle>
                 <ActionText href="/Dashboard/Projects">View All</ActionText>
