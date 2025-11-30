@@ -34,7 +34,7 @@ function Syntax({ language, code }: { language: string | undefined, code: string
                 style={theme === "dark" ? tomorrowNight : tomorrow}
                 wrapLongLines
                 customStyle={{
-                    fontSize: 13,
+                    fontSize: 11,
                     paddingTop: 30
                 }}
             >
