@@ -70,7 +70,7 @@ function ProjectContent() {
 
   useEffect(() => {
     if (resdata && resdata.project) {
-      projectdata.length > 0 ? setprojectdata([...projectdata, resdata.project]) : setprojectdata([resdata.project])
+      projectdata?.length > 0 ? setprojectdata([...projectdata, resdata.project]) : setprojectdata([resdata.project])
     }
   }, [resdata])
 
