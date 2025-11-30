@@ -35,6 +35,11 @@ export async function POST(req: Request) {
         })
 
         const issuesobj = await prisma.analysis.aggregate({
+            where: {
+                project: {
+                    userId
+                }
+            },
             _sum: { totalissues: true }
         })
 
@@ -50,6 +55,7 @@ export async function POST(req: Request) {
                 severity: 'high'
             }
         })
+
 
         const analysis = await prisma.analysis.findMany({
             select: { id: true, project: { select: { projectname: true } }, totalissues: true, type: true },

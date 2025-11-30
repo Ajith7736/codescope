@@ -112,7 +112,7 @@ function ProjectContent() {
         <div className='border p-5 xss:text-sm rounded-t-md font-extrabold border-light-border dark:border-dark-border'>
           Your Projects
         </div>
-        {projectdata.length > 0 ? projectdata?.map((item) => {
+        {projectdata?.length > 0 ? projectdata?.map((item) => {
           return <div key={item.id} className='p-6 cursor-pointer border border-light-border dark:border-dark-border hover:bg-dark-accent/5 transition-all duration-300 border-t-0'>
             <Link href={`/Dashboard/Projects/${item.id}`} className='flex justify-between items-center text-sm'>
               <div className='flex flex-col gap-2'>
