@@ -56,7 +56,7 @@ function IconCircle() {
     })
 
 
-   const x = useTransform(scrollYProgress,[0,1],["-70","0%"])
+   const x = useTransform(scrollYProgress,[0,1],["-100","0%"])
 
    
 
