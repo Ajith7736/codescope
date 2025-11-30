@@ -55,7 +55,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
     )
 
     if (reanalysisloading || loading) {
-        return <div className={`bg-light-surface darK:bg-dark-surface flex flex-col  gap-3 rounded-[3px] border border-light-border dark:border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
+        return <div className={`bg-light-surface dark:bg-dark-surface flex flex-col  gap-3 rounded-[3px] border border-light-border dark:border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
             <div className='flex justify-between items-center p-5 border-b border-light-border dark:border-dark-border'>
                 <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
                 {loading && <Button variant='blue'><ButtonLoader />Analyzing</Button>}
@@ -102,9 +102,9 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
                         return <motion.div key={issue.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-light-accent/5 dark:bg-indigo-500/5 border overflow-hidden relative border-light-border dark:border-dark-border flex  flex-col hover:border-light-accent/30 hover:dark:border-dark-accent/30  rounded-[9px] '>
                             <div className={cn(`h-full w-[3px] absolute left-0 top-0 rounded-l-2xl ${issue.severity === "low" ? 'bg-blue-500' : issue.severity === "medium" ? 'bg-orange-500' : 'bg-red-500'}`)}></div>
                             <div onClick={() => setshowcode({ show: issue.id === showcode.id ? !showcode.show : true, id: issue.id })} className='flex justify-between p-5 select-none cursor-pointer'>
-                                <div className='flex gap-3 items-center'>
+                                <div className='flex gap-2 md:gap-3 items-center'>
                                     <StatusIcon type={type} variant={issue.severity} />
-                                    <div className='xss:text-[11px] '>{issue.issuetitle}</div>
+                                    <div className='xss:text-[9px] md:text-[11px]'>{issue.issuetitle}</div>
                                 </div>
                                 <div className='flex items-center xss:gap-1 md:gap-3'>
                                     <RiskText variant={issue.severity}>{issue.severity}</RiskText>
