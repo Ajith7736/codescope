@@ -75,14 +75,14 @@ function sample() {
 
 
     return (
-        <div className='bg-light-surface dark:bg-dark-border/20 m-5 rounded-xs dark:border-dark-border w-md p-5 border border-light-border flex flex-col gap-3'>
+        <div className='bg-light-surface dark:bg-dark-border/20  rounded-xs dark:border-dark-border xss:w-[22rem]   sm:w-md p-5 border border-light-border flex flex-col gap-3'>
             {samples.map((sample) => {
                 return <motion.div key={sample.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-light-surface-hover border-light-border border overflow-hidden relative dark:bg-dark-surface dark:border-dark-border flex  flex-col hover:border-dark-accent/30  rounded-[9px] '>
                     <div className={cn(`h-full w-[3px] absolute left-0 top-0 rounded-l-2xl ${sample.severity === "low" ? 'bg-blue-500' : sample.severity === "medium" ? 'bg-orange-500' : 'bg-red-500'}`)}></div>
                     <div onClick={() => setshowcode({ show: sample.id === showcode.id ? !showcode.show : true, id: sample.id })} className='flex justify-between p-5 select-none cursor-pointer'>
                         <div className='flex gap-3 items-center'>
                             <StatusIcon type={sample.type} variant={sample.severity} />
-                            <div className='xss:text-[11px] '>{sample.sampletitle}</div>
+                            <div className='xss:text-[8px] md:text-xs'>{sample.sampletitle}</div>
                         </div>
                         <div className='flex items-center xss:gap-1 md:gap-3'>
                             <RiskText variant={sample.severity}>{sample.severity}</RiskText>

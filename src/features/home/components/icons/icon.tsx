@@ -61,7 +61,7 @@ function IconCircle() {
    
 
     return (
-        <div ref={boxref} className="flex items-center no-scrollbar w-full gap-4 h-[30vh]  overflow-auto mb-10">
+        <div ref={boxref} className="flex items-center touch-none no-scrollbar w-full gap-4 h-[30vh]  overflow-auto mb-10">
             <motion.div  style={{ x }}  className="flex transition-all ease-in-out duration-1000 items-center gap-6 py-6">
                 {icons.map((icon, index) => (
                     <motion.div

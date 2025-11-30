@@ -7,9 +7,9 @@ function Card({ logo, title, desc }: { logo: React.ReactElement, title: string, 
             <div className='flex flex-col gap-3 items-start'>
                 <div className="h-20 w-20 rounded-full dark:bg-indigo-600  blur-3xl absolute -left-5 -bottom-5">
                 </div>
-                <div className='bg-indigo-600 shadow-light-activeborder/90 shadow-md dark:shadow-lg dark:shadow-black group-hover:border-light-activeborder/50 transition-all duration-700 rounded-[14px] dark:bg-dark-activeborder/10 p-4   text-white'>{logo}</div>
-                <div className=' font-bold xss:text-base'>{title}</div>
-                <div className='text-xs text-light-text-muted italic'>{desc}</div>
+                <div className='bg-indigo-600 shadow-light-activeborder/90 shadow-md dark:shadow-lg dark:shadow-black group-hover:border-light-activeborder/50 transition-all duration-700 rounded-md sm:rounded-[14px] dark:bg-dark-activeborder/10 xss:p-2 sm:p-4   text-white'>{logo}</div>
+                <div className=' font-bold xss:text-[12px] sm:text-base'>{title}</div>
+                <div className='xss:text-[9px] sm:text-xs text-light-text-muted italic'>{desc}</div>
             </div>
         </motion.div>
     )
