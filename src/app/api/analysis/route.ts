@@ -9,10 +9,14 @@ import securityprompt from "@/lib/server/prompts/securityprompt";
 import performanceprompt from "@/lib/server/prompts/performanceprompt";
 import AnalysisSchema from "@/lib/server/Schema/AnalysisSchema";
 import { failure, success, tryCatch } from "@/lib/server/api/api";
-import { Prisma } from "@prisma/client";
 
 
 
+type TransactionClient = Parameters<typeof prisma.$transaction>[0] extends (
+  arg: infer T
+) => any
+  ? T
+  : never;
 
 export const POST = tryCatch(async (req: Request) => {
     const { project, analysistype }: { project: Project, analysistype: "Architecture" | "Security" | "Performance" } = await req.json();
@@ -61,7 +65,7 @@ export const POST = tryCatch(async (req: Request) => {
 
         const outputstring = JSON.stringify(object);
 
-        await prisma.$transaction(async (tx : Prisma.TransactionClient) => {
+        await prisma.$transaction(async (tx : TransactionClient) => {
             await tx.analysis.update({
                 where: {
                     id: Analysis.id

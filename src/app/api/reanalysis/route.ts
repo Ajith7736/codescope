@@ -7,10 +7,13 @@ import performanceprompt from "@/lib/server/prompts/performanceprompt";
 import securityprompt from "@/lib/server/prompts/securityprompt";
 import AnalysisSchema from "@/lib/server/Schema/AnalysisSchema";
 import { google } from "@ai-sdk/google";
-import { Prisma } from "@prisma/client";
 import { generateObject } from "ai";
 
-
+type TransactionClient = Parameters<typeof prisma.$transaction>[0] extends (
+  arg: infer T
+) => any
+  ? T
+  : never;
 
 
 export const PUT = tryCatch(async (req: Request) => {
@@ -61,7 +64,7 @@ export const PUT = tryCatch(async (req: Request) => {
         }
 
 
-        await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+        await prisma.$transaction(async (tx: TransactionClient) => {
             await tx.analysis.update({
                 where: {
                     id: analysisId
