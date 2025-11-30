@@ -36,7 +36,7 @@ function MetaData() {
             {metadata.map((data, index) => {
                 return <div key={index} className='bg-light-background dark:bg-dark-background border flex justify-between items-center border-light-border dark:border-indigo-500/30 p-3 rounded-[3px]'>
                     <p className='text-light-text-muted dark:text-dark-text-muted xss:text-[9px] md:text-xs'>{data.title}</p>
-                    <p className={cn('text-light-text-muted dark:text-dark-text-muted xss:text-[9px] md:text-xs flex items-center gap-2 ', data.color)}>{data.value}{data.icon}</p>
+                    <p className={cn(' xss:text-[9px] md:text-xs flex items-center gap-2 ', data.color ? data.color : 'text-light-text-muted dark:text-dark-text-muted')}>{data.value}{data.icon}</p>
                 </div>
             })}
         </div>

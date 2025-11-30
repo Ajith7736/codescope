@@ -20,6 +20,8 @@ export async function POST(req: Request) {
             }
         })
 
+        console.log(project)
+
         if (!project) return NextResponse.json({ message: "project not found" }, { status: 404 })
 
         return NextResponse.json({ message: "success", project }, { status: 200 })
