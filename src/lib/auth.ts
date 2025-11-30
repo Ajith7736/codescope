@@ -1,11 +1,12 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { PrismaClient } from "@/generated/prisma/client";
 import { nextCookies } from "better-auth/next-js";
 import { SendEmail } from "./actions/email-actions";
+import prisma from "./server/db/db";
 
 
-const prisma = new PrismaClient();
+
+
 export const auth = betterAuth({
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {
