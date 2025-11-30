@@ -1,4 +1,5 @@
 import { Project } from "@/generated/prisma/client";
+import { failure, success, tryCatch } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
 import isRateLimitError from "@/lib/server/isRateLimitError";
 import architectureprompt from "@/lib/server/prompts/architectureprompt";
@@ -6,109 +7,108 @@ import performanceprompt from "@/lib/server/prompts/performanceprompt";
 import securityprompt from "@/lib/server/prompts/securityprompt";
 import AnalysisSchema from "@/lib/server/Schema/AnalysisSchema";
 import { google } from "@ai-sdk/google";
+import { Prisma } from "@prisma/client";
 import { generateObject } from "ai";
-import { NextResponse } from "next/server";
 
 
-export async function PUT(req: Request) {
+
+
+export const PUT = tryCatch(async (req: Request) => {
+
+    const { project, analysisId, analysistype }: { project: Project, analysisId: string, analysistype: "Architecture" | "Security" | "Performance" } = await req.json();
+
+    const previousanalysis = await prisma.analysis.findUnique({
+        where: {
+            id: analysisId
+        },
+        include: {
+            issues: true
+        }
+    })
+
+
+    const prompt = analysistype === "Architecture" ? architectureprompt(project.projectcode, project.projecttree, JSON.stringify(previousanalysis)) : analysistype === "Security" ? securityprompt(project.projectcode, project.projecttree, JSON.stringify(previousanalysis)) : performanceprompt(project.projectcode, project.projecttree, JSON.stringify(previousanalysis));
+    const schema = AnalysisSchema(analysistype)
+
     try {
-        const { project, analysisId, analysistype }: { project: Project, analysisId: string, analysistype: "Architecture" | "Security" | "Performance" } = await req.json();
-        
-        const previousanalysis = await prisma.analysis.findUnique({
-            where : {
-                id : analysisId
+
+        await prisma.analysis.update({
+            where: {
+                id: analysisId
             },
-            include : {
-                issues : true
+            data: {
+                status: "Processing"
             }
         })
 
-        
-        const prompt = analysistype === "Architecture" ? architectureprompt(project.projectcode, project.projecttree, JSON.stringify(previousanalysis)) : analysistype === "Security" ? securityprompt(project.projectcode, project.projecttree , JSON.stringify(previousanalysis)) : performanceprompt(project.projectcode, project.projecttree,JSON.stringify(previousanalysis));
-        const schema  = AnalysisSchema(analysistype)
-        
-        try {
+        const { object } = await generateObject({
+            model: google("gemini-2.0-flash"),
+            schema,
+            prompt
+        })
 
-            await prisma.analysis.update({
-                where: {
-                    id: analysisId
-                },
-                data: {
-                    status: "Processing"
-                }
-            })
+        const parsed = schema.safeParse(object);
 
-            const { object } = await generateObject({
-                model: google("gemini-2.0-flash"),
-                schema,
-                prompt
-            })
-
-            const parsed = schema.safeParse(object);
-
-            if (!parsed.success) {
-                await prisma.analysis.update({
-                    where: { id: analysisId },
-                    data: {
-                        status: "failed"
-                    }
-                })
-
-                return NextResponse.json({ success: false, message: "Couldnt complete Analysis" }, { status: 400 })
-            }
-
-
-            await prisma.$transaction(async (tx) => {
-                await tx.analysis.update({
-                    where: {
-                        id: analysisId
-                    },
-                    data: {
-                        status: "completed",
-                        score: object.score,
-                        summary: object.summary,
-                        totalissues: object.totalissues
-                    }
-                })
-
-                await tx.issues.deleteMany({
-                    where: {
-                        analysisId
-                    }
-                })
-
-
-                await tx.issues.createMany({
-                    data: object.issues.map((issue) => ({
-                        issuedesc: issue.issuedesc,
-                        issuelocation: issue.issuelocation,
-                        issuetitle: issue.issuetitle,
-                        severity: issue.severity,
-                        suggesstedfix: issue.suggesstedfix,
-                        suggesstedcode: issue.suggesstedcode,
-                        suggesstedcodelanguage: issue.suggesstedcodelanguage,
-                        analysisId
-                    }))
-                })
-            })
-
-            return NextResponse.json({ success: true, message: "Analysis successfull" }, { status: 200 })
-
-        } catch (err) {
+        if (!parsed.success) {
             await prisma.analysis.update({
                 where: { id: analysisId },
                 data: {
                     status: "failed"
                 }
             })
-            if (isRateLimitError(err)) {
-                return NextResponse.json({ success: false, message: "Rate limit reached please try again later" }, { status: 500 })
-            } else {
-                return NextResponse.json({ success: false, message: "Something went wrong please try again" }, { status: 500 })
-            }
+
+            return failure({ message: "Couldnt complete Analysis" })
         }
 
+
+        await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+            await tx.analysis.update({
+                where: {
+                    id: analysisId
+                },
+                data: {
+                    status: "completed",
+                    score: object.score,
+                    summary: object.summary,
+                    totalissues: object.totalissues
+                }
+            })
+
+            await tx.issues.deleteMany({
+                where: {
+                    analysisId
+                }
+            })
+
+
+            await tx.issues.createMany({
+                data: object.issues.map((issue) => ({
+                    issuedesc: issue.issuedesc,
+                    issuelocation: issue.issuelocation,
+                    issuetitle: issue.issuetitle,
+                    severity: issue.severity,
+                    suggesstedfix: issue.suggesstedfix,
+                    suggesstedcode: issue.suggesstedcode,
+                    suggesstedcodelanguage: issue.suggesstedcodelanguage,
+                    analysisId
+                }))
+            })
+        })
+
+        return success({ message: "Analysis successfull" })
+
     } catch (err) {
-        return NextResponse.json({ success: false, message: "Server Error" }, { status: 500 })
+        await prisma.analysis.update({
+            where: { id: analysisId },
+            data: {
+                status: "failed"
+            }
+        })
+        if (isRateLimitError(err)) {
+            return failure({ message: "Rate limit reached please try again later" }, 500)
+        } else {
+            return failure({ message: "Something went wrong please try again" }, 500)
+        }
     }
-}
+
+})
