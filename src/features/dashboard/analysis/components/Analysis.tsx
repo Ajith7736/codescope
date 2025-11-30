@@ -55,7 +55,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
     )
 
     if (reanalysisloading || loading) {
-        return <div className={`bg-light-surface dark:bg-dark-surface flex flex-col  gap-3 rounded-[3px] border border-light-border dark:border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
+        return <div className={`bg-light-surface dark:bg-dark-surface flex flex-col  gap-3 rounded-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
             <div className='flex justify-between items-center p-5 border-b border-light-border dark:border-dark-border'>
                 <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
                 {loading && <Button variant='blue'><ButtonLoader />Analyzing</Button>}
@@ -69,7 +69,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
         </div>
     }
 
-    if (!analysis) return <div className={`bg-light-border dark:bg-dark-surface flex flex-col rounded-[3px] border border-dark-border xss:w-[90vw] md:w-[50vw] xl:w-[42vw] transition-all duration-300`}>
+    if (!analysis) return <div className={`bg-light-border dark:bg-dark-surface flex flex-col rounded-[3px] border border-dark-border transition-all duration-300`}>
         <div className='flex justify-between items-center p-5 border-b border-dark-border'>
             <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
             {loading ? <Button variant='blue'><ButtonLoader />Analyzing</Button> : <Button variant='blue' onClick={handleanalysis}><Play size={14} />Analyse</Button>}
