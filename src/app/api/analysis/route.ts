@@ -60,7 +60,7 @@ export const POST = tryCatch(async (req: Request) => {
                 }
             })
 
-            return NextResponse.json({ success: false, message: "Couldnt complete Analysis" }, { status: 400 })
+            return NextResponse.json({success: false, message: "Couldnt complete Analysis" }, { status: 400 })
         }
 
         const outputstring = JSON.stringify(object);

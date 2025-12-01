@@ -5,8 +5,6 @@ import { SendEmail } from "./actions/email-actions";
 import prisma from "./server/db/db";
 
 
-
-
 export const auth = betterAuth({
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {
