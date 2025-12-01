@@ -82,7 +82,7 @@ function sample() {
                     <div onClick={() => setshowcode({ show: sample.id === showcode.id ? !showcode.show : true, id: sample.id })} className='flex justify-between p-5 select-none cursor-pointer'>
                         <div className='flex gap-3 items-center'>
                             <StatusIcon type={sample.type} variant={sample.severity} />
-                            <div className='xss:text-[8px] md:text-xs'>{sample.sampletitle}</div>
+                            <div className='xss:text-[9px] md:text-xs'>{sample.sampletitle}</div>
                         </div>
                         <div className='flex items-center xss:gap-1 md:gap-3'>
                             <RiskText variant={sample.severity}>{sample.severity}</RiskText>
@@ -92,7 +92,7 @@ function sample() {
                     <AnimatePresence>
                         {showcode.show && showcode.id === sample.id && <motion.div layout initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }}>
                             <div className='pb-5 px-5 flex flex-col gap-3'>
-                                <p className=' dark:text-dark-text-muted text-xs'>{sample.sampledesc}</p>
+                                <p className=' dark:text-dark-text-muted xss:text-[9px] md:text-xs'>{sample.sampledesc}</p>
                                 <p className='text-[10px] lg:text-[11px]'>{sample.samplelocation}</p>
                                  <div className='dark:bg-dark-surface bg-light-surface border-light-border p-4 rounded-[3px] border dark:border-dark-accent/40 '>
                                     <p className='xss:text-[10px] lg:text-xs flex gap-2 items-center'><CircleCheckBig className='text-emerald-500 xss:size-3 lg:size-4 ' />Suggested fix</p>

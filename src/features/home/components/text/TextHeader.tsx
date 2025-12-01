@@ -17,10 +17,10 @@ function TextHeader() {
                     >
                         o
                     </motion.span>
-                    <motion.span initial={{ bottom: 0 }} whileInView={{ bottom: -20 }} transition={{ duration: 1.3, ease: "linear" }} className='relative '>
+                    <motion.span initial={{ bottom: 0 }} whileInView={{ bottom: -20 }} transition={{ duration: 1.3, ease: "linear" }} viewport={{ amount: "all" }} className='relative '>
                         p
                     </motion.span>
-                    <motion.span initial={{ bottom: 0 }} whileInView={{ bottom: 25 }} transition={{ duration: 2.2, ease: "linear" }} className='relative text-indigo-600'>
+                    <motion.span initial={{ bottom: 0 }} whileInView={{ bottom: 25 }} transition={{ duration: 2.2, ease: "linear" }} viewport={{ amount: "all" }} className='relative text-indigo-600'>
                         e
                     </motion.span>
                 </span>

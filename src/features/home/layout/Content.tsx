@@ -35,8 +35,8 @@ function Content({ session }: { session: Session | null }) {
 
 
     return (
-        <main className=' relative flex flex-col justify-center items-center'>
-            <p className="text-xs bg-indigo-600/20 text-indigo-500 px-2 py-1 border rounded-full w-fit text-center">Powered by Gemini AI</p>
+        <main className=' relative flex flex-col justify-center items-center gap-3'>
+            <p className="text-xs text-indigo-600 px-2 py-1 border border-indigo-500/40 rounded-full w-fit text-center">Powered by Gemini AI</p>
             <header className='min-h-[50vh]'>
                 <div className="h-60 w-10 rounded-full bg-indigo-400/30 blur-3xl fixed z-50 -left-15">
                 </div>
