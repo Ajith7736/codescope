@@ -8,7 +8,7 @@ function Navbar() {
 
 
     return (
-        <div className='sticky top-0 z-20 dark:bg-dark-background/80 bg-light-background/20 backdrop-blur-2xl dark:backdrop-blur-xl'>
+        <nav className='sticky top-0 z-20 dark:bg-dark-background/80 bg-light-background/80  backdrop-blur-xl'>
             <Container className='min-h-[10vh] flex items-center justify-between'>
                 <Link href={"/"} className='text-2xl xss:text-lg flex items-center gap-3 font-family-bebas'><span><Code size={20} className='bg-indigo-600 p-1 rounded-[3px] text-white h-7 w-7' strokeWidth={3}/></span>CodeScope AI</Link>
                 <div className='flex gap-5 items-center text-lg'>
@@ -16,7 +16,7 @@ function Navbar() {
                     <div><ThemeToggler /></div>
                 </div>
             </Container>
-        </div>
+        </nav>
 
     )
 }
