@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import SampleAnalysis from "../components/sample/SampleAnalysis"
 import IconCircle from "../components/icons/icon"
+import TextHeader from "../components/text/TextHeader"
+import Footer from "./Footer"
 
 function Content({ session }: { session: Session | null }) {
 
@@ -44,7 +46,7 @@ function Content({ session }: { session: Session | null }) {
 
                 <motion.div initial={{ opacity: 0, translateY: -10 }} whileInView={{ opacity: 1, translateY: 0 }} viewport={{once : true}} className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-80 w-full h-full'>
                     <div className="font-extrabold xss:text-4xl  md:text-7xl text-center">
-                        Analyze your whole <span className="text-indigo-600">github</span> codebase at the speed of AI
+                        Analyze your whole <span className="text-indigo-600">Github</span> codebase at the speed of AI
                     </div>
                     <div className='text-center font-family-sans text-light-activeborder font-semibold xss:text-xs lg:text-sm'>Detect architecture flaws, security risks, and bottlenecks instantly. Get <span className=' text-indigo-600 italic text-base font-family-bebas'>AI-powered</span> refactoring suggestions directly in your repo.</div>
                     <div className='flex gap-5 mt-5 items-center'>
@@ -66,9 +68,12 @@ function Content({ session }: { session: Session | null }) {
             </motion.div>
 
         
-            <IconCircle />
+            {/* <IconCircle /> */}
 
+                <TextHeader />
 
+                <Footer />
+            
         </div >
 
     )
