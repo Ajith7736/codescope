@@ -13,6 +13,7 @@ export const POST = tryCatch(async (req: Request) => {
         where: { userId }
     })
 
+
     if (project.length === 0) {
         return success({ message: "No project" })
     }
