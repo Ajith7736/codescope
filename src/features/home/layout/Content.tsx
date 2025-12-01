@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import SampleAnalysis from "../components/sample/SampleAnalysis"
-import IconCircle from "../components/icons/icon"
 import TextHeader from "../components/text/TextHeader"
 import Footer from "./Footer"
 
@@ -36,15 +35,15 @@ function Content({ session }: { session: Session | null }) {
 
 
     return (
-        <div className=' relative flex flex-col justify-center items-center'>
-            <div className="text-xs bg-indigo-600/20 text-indigo-500 px-2 py-1 border rounded-full w-fit">Powered by Gemini AI</div>
-            <div className='min-h-[50vh]'>
+        <main className=' relative flex flex-col justify-center items-center'>
+            <p className="text-xs bg-indigo-600/20 text-indigo-500 px-2 py-1 border rounded-full w-fit text-center">Powered by Gemini AI</p>
+            <header className='min-h-[50vh]'>
                 <div className="h-60 w-10 rounded-full bg-indigo-400/30 blur-3xl fixed z-50 -left-15">
                 </div>
                 <div className="h-60 w-10 rounded-full bg-pink-400/30  blur-3xl fixed z-50 -right-15">
                 </div>
 
-                <motion.div initial={{ opacity: 0, translateY: -10 }} whileInView={{ opacity: 1, translateY: 0 }} viewport={{once : true}} className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-80 w-full h-full'>
+                <motion.div initial={{ opacity: 0, translateY: -10 }} whileInView={{ opacity: 1, translateY: 0 }} viewport={{ once: true }} className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-80 w-full h-full'>
                     <div className="font-extrabold xss:text-4xl  md:text-7xl text-center">
                         Analyze your whole <span className="text-indigo-600">Github</span> codebase at the speed of AI
                     </div>
@@ -54,27 +53,31 @@ function Content({ session }: { session: Session | null }) {
                         <Link href={"https://github.com/Ajith7736/codescope"} target="_blank"><button className='p-3 rounded-md cursor-pointer hover:bg-light-surface-hover hover:dark:bg-dark-surface-hover/50 transition duration-300 dark:backdrop-blur-2xl xss:text-sm md:text-base'>Github</button></Link>
                     </div>
                 </motion.div>
-            </div>
+            </header>
 
-            <div className='relative p-5 flex flex-col md:flex-wrap gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 '>
+            <section className='relative p-5 flex flex-col md:flex-wrap gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 w-full'>
                 {cards.map((card) => {
                     return <Card key={card.title} logo={card.logo} title={card.title} desc={card.desc} />
                 })}
-            </div>
+            </section>
 
-            <motion.div initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="flex relative  flex-col lg:flex-row lg:gap-3 items-center lg:items-baseline justify-between">
+            <motion.section initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="flex relative  flex-col lg:flex-row lg:gap-3 items-center lg:items-baseline justify-between">
                 <SampleCode />
                 <SampleAnalysis />
-            </motion.div>
+            </motion.section>
 
-        
+
             {/* <IconCircle /> */}
 
+            <section>
                 <TextHeader />
+            </section>
 
+            <footer className="w-full">
                 <Footer />
-            
-        </div >
+            </footer>
+
+        </main>
 
     )
 }
