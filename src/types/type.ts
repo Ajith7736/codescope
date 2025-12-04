@@ -123,3 +123,15 @@ export interface showcodeprops {
     id: string | null,
     show: boolean
 }
+
+
+export interface planadvprops {
+    message: string
+}
+
+export interface plansprops {
+    pricing: string,
+    plantype: string,
+    plandesc: string,
+    planadv: planadvprops[]
+}

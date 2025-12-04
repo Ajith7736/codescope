@@ -1,3 +1,4 @@
+"use client"
 import { useTheme } from "next-themes"
 
 
@@ -13,8 +14,8 @@ function Beam() {
         <path d="M113.46 263.46H314.46V113.46" stroke="#2B7FFF" />
       </g>
       <defs>
-        <filter id="filter0_dddddd_1_2" x="0" y="0" width="428.421" height="377.421" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <filter id="filter0_dddddd_1_2" x="0" y="0" width="428.421" height="377.421" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
           <feOffset />
           <feGaussianBlur stdDeviation="1.35072" />
