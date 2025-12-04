@@ -2,16 +2,22 @@
 import { Code, File, Github, Shield, TrendingUp } from "lucide-react"
 import Card from '../components/card/Card'
 import SampleCode from "../components/sample/SampleCode"
-import { CardProps, Session } from '@/types/type'
+import { CardProps, Session, showcodeprops } from '@/types/type'
 import Link from 'next/link'
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import SampleAnalysis from "../components/sample/SampleAnalysis"
 import TextHeader from "../components/text/TextHeader"
 import Footer from "./Footer"
+import Beam from "../components/beam/Beam"
+import { useState } from "react"
 
 function Content({ session }: { session: Session | null }) {
 
+    const [showcode, setshowcode] = useState<showcodeprops>({
+        id: null,
+        show: false
+    })
 
     const cards: CardProps[] = [
         {
@@ -63,11 +69,10 @@ function Content({ session }: { session: Session | null }) {
 
             <motion.section initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="flex relative  flex-col lg:flex-row lg:gap-3 items-center lg:items-baseline justify-between">
                 <SampleCode />
-                <SampleAnalysis />
+                <SampleAnalysis showcode={showcode} setshowcode={setshowcode}/>
+                {!showcode.show && <Beam />}
             </motion.section>
 
-
-            {/* <IconCircle /> */}
 
             <section>
                 <TextHeader />

@@ -1,17 +1,16 @@
 "use client"
-import React, { useState } from 'react'
+import React, { SetStateAction, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import StatusIcon from '@/ui/icon/StatusIcon'
 import RiskText from '@/ui/Text/RiskText'
 import { ChevronDown, CircleCheckBig } from 'lucide-react'
 import Syntax from '@/ui/SyntaxHighlighter/Syntax'
+import { showcodeprops } from '@/types/type'
 
-function sample() {
-    const [showcode, setshowcode] = useState<any>({
-        id: null,
-        show: false
-    })
+
+function sample({ showcode, setshowcode }: { showcode: showcodeprops, setshowcode: React.Dispatch<React.SetStateAction<showcodeprops>> }) {
+
 
     const samples: any[] = [
         {
@@ -94,7 +93,7 @@ function sample() {
                             <div className='pb-5 px-5 flex flex-col gap-3'>
                                 <p className=' dark:text-dark-text-muted xss:text-[9px] md:text-xs'>{sample.sampledesc}</p>
                                 <p className='text-[10px] lg:text-[11px]'>{sample.samplelocation}</p>
-                                 <div className='dark:bg-dark-surface bg-light-surface border-light-border p-4 rounded-[3px] border dark:border-dark-accent/40 '>
+                                <div className='dark:bg-dark-surface bg-light-surface border-light-border p-4 rounded-[3px] border dark:border-dark-accent/40 '>
                                     <p className='xss:text-[10px] lg:text-xs flex gap-2 items-center'><CircleCheckBig className='text-emerald-500 xss:size-3 lg:size-4 ' />Suggested fix</p>
                                     <Syntax code={sample.suggestedcode} language={sample.suggesstedcodelanguage} />
                                 </div>

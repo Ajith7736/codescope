@@ -117,3 +117,9 @@ export interface recentanalysis {
     totalissues: number | null;
 }[]
 
+
+
+export interface showcodeprops {
+    id: string | null,
+    show: boolean
+}

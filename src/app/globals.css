@@ -16,6 +16,8 @@
 
 
 
+
+
 ::-webkit-scrollbar-thumb {
   background: rgb(100, 116, 139);
   border-radius: 10px;
@@ -46,7 +48,8 @@
   --foreground: #171717;
 }
 
-html, body {
+html,
+body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -54,66 +57,95 @@ html, body {
 
 
 @theme {
-        --color-dark-text-primary: #e2e8f0;        /* Slate 200 */
-        --color-dark-text-on-hover: #ffffff;       /* White */
+  --color-dark-text-primary: #e2e8f0;
+  /* Slate 200 */
+  --color-dark-text-on-hover: #ffffff;
+  /* White */
 
-        --color-dark-border: #1e293b;              /* Slate 800 */
-        --color-dark-border-strong: #1e293b;
+  --color-dark-border: #1e293b;
+  /* Slate 800 */
+  --color-dark-border-strong: #1e293b;
 
-        --color-dark-surface: #0f172a;             /* Slate 900 */
-        --color-dark-surface-hover: #1e293b;       /* Slate 800 */
+  --color-dark-surface: #0f172a;
+  /* Slate 900 */
+  --color-dark-surface-hover: #1e293b;
+  /* Slate 800 */
 
-        --color-dark-input-bg: #020617;            /* Slate 950 */
-        --color-dark-input-border: #1e293b;        /* Slate 800 */
+  --color-dark-input-bg: #020617;
+  /* Slate 950 */
+  --color-dark-input-border: #1e293b;
+  /* Slate 800 */
 
-        --color-dark-accent: #6366f1;              /* Indigo 500 */
-        --color-dark-accent-hover: #818cf8;        /* Slightly lighter indigo */
+  --color-dark-accent: #6366f1;
+  /* Indigo 500 */
+  --color-dark-accent-hover: #818cf8;
+  /* Slightly lighter indigo */
 
-        --color-dark-text-muted: #94a3b8;          /* Slate 400 */
+  --color-dark-text-muted: #94a3b8;
+  /* Slate 400 */
 
-        --color-dark-background: rgba(2, 6, 23, 1); /* Slate 950 */
+  --color-dark-background: rgba(2, 6, 23, 1);
+  /* Slate 950 */
 
 
-                /* Light Theme */
-        --color-light-text-primary: #0f172a;       /* Slate 900 */
-        --color-light-text-on-hover: #020617;      /* Slate 950 */
+  /* Light Theme */
+  --color-light-text-primary: #0f172a;
+  /* Slate 900 */
+  --color-light-text-on-hover: #020617;
+  /* Slate 950 */
 
-        --color-light-border: #e2e8f0;             /* Slate 200 */
+  --color-light-border: #e2e8f0;
+  /* Slate 200 */
 
-        --color-light-background: #ffffff;         /* White */
-        --color-light-surface: #f8fafc;            /* Slate 50 */
-        --color-light-surface-hover: #f1f5f9;      /* Slate 100 */
+  --color-light-background: #ffffff;
+  /* White */
+  --color-light-surface: #f8fafc;
+  /* Slate 50 */
+  --color-light-surface-hover: #f1f5f9;
+  /* Slate 100 */
 
-        --color-light-input-bg: #ffffff;           /* White */
-        --color-light-accent: #6366f1;             /* Indigo 500 */
+  --color-light-input-bg: #ffffff;
+  /* White */
+  --color-light-accent: #6366f1;
+  /* Indigo 500 */
 
-        --color-light-text-muted: #64748b;         /* Slate 500 */
+  --color-light-text-muted: #64748b;
+  /* Slate 500 */
 
-        --breakpoint-xss: 340px;
-        --font-family-mono: var(--font-jetbrains), ui-monospace, "Courier New", monospace;
-        --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-        --font-family-bebas: var(--font-bebas)
-  }
+  --breakpoint-xss: 340px;
+  --font-family-mono: var(--font-jetbrains), ui-monospace, "Courier New", monospace;
+  --font-family-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-family-bebas: var(--font-bebas)
+}
 
 .chart-container .recharts-wrapper:focus,
 .chart-container .recharts-surface:focus {
   outline: none !important;
 }
 
-      .animate-beam-flow {
-        stroke-dasharray: 200 2000; 
-        stroke-dashoffset: 2200;   
-        animation: beam-flow 6s linear infinite;
-      }
+.beam-light path {
+  stroke-dasharray: 400;
+  animation: infinite 1.7s beam-start ease-in-out;
+}
 
-      @keyframes beam-flow {
-        0% {
-          stroke-dashoffset: 2200;
-        }
-        100% {
-          stroke-dashoffset: -800; /* End slightly after the path end */
-        }
-      }
+@keyframes beam-start {
+  0% {
+    stroke-dashoffset: 400;
+  }
 
-      
+  100% {
+    stroke-dashoffset: -400;
+  }
+}
+
+@keyframes beam-end {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -400;
+  }
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
