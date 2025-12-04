@@ -13,6 +13,14 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
         show: false
     });
 
+    useEffect(() => {
+        if (!session) {
+            localStorage.removeItem("auth-loading");
+        }
+    }, [])
+
+
+
 
     useEffect(() => {
         const loading = localStorage.getItem("auth-loading");

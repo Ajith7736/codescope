@@ -63,7 +63,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${jetBrainsMono.variable} ${inter.variable} ${bebas.variable}`}>
-      <body
+      <body suppressHydrationWarning
         className={`${jetBrainsMono.className} antialiased bg-light-background dark:bg-dark-background`}
       >
         <Providers>
