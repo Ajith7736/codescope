@@ -1,30 +1,28 @@
+import { failure, success, tryCatch } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-    try {
-        const { projectId } = await req.json();
+export const POST = tryCatch(async (req: Request) => {
+    const { projectId } = await req.json();
 
-        if (!projectId) {
-            return NextResponse.json({ message: "projectId not recieved" }, { status: 400 })
-        }
+    if (!projectId) {
+        return failure({ message: "projectId not recieved" })
+    }
 
-        const project = await prisma.project.findUnique({
-            where: { id: projectId },
-            include: {
-                analysis: {
-                    include: {
-                        issues: true
-                    }
+    const project = await prisma.project.findUnique({
+        where: { id: projectId },
+        include: {
+            analysis: {
+                include: {
+                    issues: true
                 }
             }
-        })
+        }
+    })
 
 
-        if (!project) return NextResponse.json({ message: "project not found" }, { status: 404 })
+    if (!project) return failure({ message: "project not found" }, 404)
 
-        return NextResponse.json({ message: "success", project }, { status: 200 })
-    } catch (err) {
-        return NextResponse.json({ message: "Server Error" }, { status: 500 })
-    }
+    return success({ message: "success", project })
 }
+)

@@ -1,13 +1,10 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 
 function TextHeader() {
 
-
-
     return (
         <>
-            <div className='flex relative h-[30vh] px-13 items-center xss:text-6xl xl:text-8xl font-extrabold justify-center'>
+            <div className='flex relative h-[30vh] md:px-13 items-center xss:text-6xl xl:text-8xl font-extrabold justify-center'>
                 <span>Codesc
                     <motion.span
                         initial={{ bottom: 0 }}

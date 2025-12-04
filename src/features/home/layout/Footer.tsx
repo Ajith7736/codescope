@@ -1,25 +1,43 @@
-import Container from '@/ui/container'
+"use client"
+import { Linkprops } from '@/types/type'
 import { Code } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import { UrlObject } from 'url'
 
 function Footer() {
+
+    interface linksprops {
+        name : string,
+        link : string
+    }
+
+    const links : linksprops[] = [
+        {
+            name: "Github",
+            link: "https://github.com/Ajith7736/codescope"
+        },
+        {
+            name: "Vercel",
+            link: "https://vercel.com"
+        },
+        {
+            name: "Nextjs",
+            link: "https://nextjs.org/"
+        }
+    ]
     return (
         <div className='md:px-20 overflow-hidden bg-light-surface relative dark:bg-dark-border/30 border-t border-light-border dark:border-dark-border  p-5 w-full flex justify-between'>
-                <Link href={"/"} className='text-2xl xss:text-lg flex items-center gap-3 font-extrabold'><span><Code size={20} className='bg-indigo-600 p-1 rounded-[3px] text-white h-7 w-7' strokeWidth={3} /></span>CodeScope AI</Link>
-                <div className='flex flex-row gap-3 text-light-text-on-hover dark:text-dark-text-on-hover items-center'>
-                    <ul className='text-xs'>
-                        <Link href={"https://github.com/Ajith7736/codescope"} target='_blank' className='hover:underline'><li>Github</li></Link>
+            <Link href={"/"} className='text-2xl xss:text-xs flex items-center gap-3 font-extrabold'>CodeScope AI</Link>
+            <div className='flex flex-row gap-3 text-light-text-on-hover dark:text-dark-text-on-hover items-center'>
+                {links.map((item, index) => {
+                    return <ul key={index} className='xss:text-[8px] md:text-xs'>
+                        <li><a href={`${item.link}`} target='_blank' className='underline'>{item.name}</a></li>
                     </ul>
-                    <ul className='text-xs'>
-                        <Link href={"https://vercel.com"} target='_blank' className='hover:underline'><li>Vercel</li></Link>
-                    </ul>
-                    <ul className='text-xs'>
-                        <Link href={"https://nextjs.org/"} target='_blank' className='hover:underline'><li>Nextjs</li></Link>
-                    </ul>
-                </div>
-                <div className='h-8 w-20 dark:bg-indigo-600/60   rounded-full blur-2xl absolute left-0'></div>
-                <div className='h-8 w-20 dark:bg-indigo-600/60 rounded-full blur-2xl absolute right-0'></div>
+                })}
+            </div>
+            <div className='h-8 w-20 -z-10 dark:bg-indigo-600/60   rounded-full blur-2xl absolute left-0'></div>
+            <div className='h-8 w-20 -z-10 dark:bg-indigo-600/60 rounded-full blur-2xl absolute right-0'></div>
         </div>
     )
 }

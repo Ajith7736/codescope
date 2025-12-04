@@ -1,14 +1,13 @@
-import { success } from "@/lib/server/api/api";
+import { failure, success, tryCatch } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
-import { NextResponse } from "next/server";
 
 
-export async function POST(req: Request) {
-    try {
+export const POST = tryCatch(async (req: Request) => {
+
         const { userId }: { userId: string } = await req.json();
 
         if (!userId) {
-            return NextResponse.json({ sucess: false, message: "Something went wrong!" }, { status: 400 })
+            return failure({message : "Something went wrong!"},400)
         }
 
         const projects = await prisma.project.findMany({
@@ -70,7 +69,4 @@ export async function POST(req: Request) {
 
 
         return success({ message: "Success", projects, totalanalysis, totalprojects, analysis, totalissues, criticalissues })
-    } catch (err) {
-        return NextResponse.json({ success: false, message: "Server Error" }, { status: 500 })
-    }
-}
+    })
