@@ -117,7 +117,7 @@ function Sidebar() {
                 </div>
                 <button ref={userref} className={`overflow-hidden relative ${showsidebar ? ' md:opacity-100' : 'md:opacity-0'} transition-all duration-300 ease-in-out flex flex-col items-start text-xs`}>
                     <ChevronsUpDown className='size-4' onClick={() => setshowuserblock(!showuserblock)} />
-                    <div className='fixed xss:right-3 md:left-30  bottom-20'>
+                    <div className='fixed xss:right-3 md:left-70  bottom-20'>
                         <AnimatePresence>
                             {showuserblock && <UserBlock />}
                         </AnimatePresence>

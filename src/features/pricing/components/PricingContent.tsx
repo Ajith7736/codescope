@@ -5,7 +5,7 @@ import { MoveLeft } from 'lucide-react'
 import { headers } from 'next/headers'
 import Link from 'next/link'
 
-async function Page() {
+async function PricingContent() {
 
     const session = await auth.api.getSession({
         headers: await headers()
@@ -18,9 +18,11 @@ async function Page() {
             plandesc: "Unleash the power of google gemini",
             planadv: [
                 {
-                    message: "Only 1 Project"
+                    message: "Limited AI Analysis"
                 }, {
-                    message: "Total 3 Analysis"
+                    message: "1 codebase Report"
+                }, {
+                    message: "Slow Queue Processing"
                 }
             ]
         },
@@ -30,7 +32,7 @@ async function Page() {
             plandesc: "Unleash the power of google gemini",
             planadv: [
                 {
-                    message: "Add upto 10 projects"
+                    message: "upto 10 codebase reports"
                 }, {
                     message: "Total 10 Analysis"
                 }
@@ -64,7 +66,9 @@ async function Page() {
                 </div>
             </section>
         </div>
+
     )
 }
 
-export default Page
+export default PricingContent
+

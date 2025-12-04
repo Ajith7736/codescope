@@ -4,10 +4,9 @@ import { Check } from 'lucide-react'
 
 function Card({ item }: { item: plansprops }) {
 
-
     return (
         <>
-            <div className='bg-dark-surface border md:w-[50%] lg:w-[40%] h-fit  rounded-md p-5 flex flex-col justify-center gap-5 border-dark-border'>
+            <div className='bg-dark-surface/30 border md:w-[50%] lg:w-[40%] h-fit  rounded-md p-5 flex flex-col justify-center gap-5 border-dark-border'>
                 <h1 className='text-2xl font-extrabold flex gap-3 items-center'>{item.pricing}<span className='text-xs'>/month</span></h1>
                 <h3 className='font-bold'>{item.plantype}</h3>
                 <p className='text-xs text-dark-text-muted'>{item.plandesc}</p>
@@ -16,7 +15,7 @@ function Card({ item }: { item: plansprops }) {
                         return <li key={index} className='text-xs flex gap-2 items-center'><Check size={15} className='text-emerald-500' />{adv.message}</li>
                     })}
                 </ul>
-                <Button variant='blue' className='font-extrabold'>Choose Plan</Button>
+                {item.plantype !== "Free Tier" && <Button variant='blue' className='font-extrabold'>Choose Plan</Button>}
             </div>
         </>
 
