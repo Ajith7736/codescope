@@ -12,7 +12,7 @@ function Card({ item }: { item: plansprops }) {
                 <p className='text-xs text-dark-text-muted'>{item.plandesc}</p>
                 <ul className='flex flex-col gap-3'>
                     {item.planadv?.map((adv, index) => {
-                        return <li key={index} className='text-xs flex gap-2 items-center'><Check size={15} className='text-emerald-500' />{adv.message}</li>
+                        return <li key={index} className='text-xs flex gap-2 items-center'><Check size={15} className='text-emerald-500' />{adv.message} </li>
                     })}
                 </ul>
                 {item.plantype !== "Free Tier" && <Button variant='blue' className='font-extrabold'>Choose Plan</Button>}

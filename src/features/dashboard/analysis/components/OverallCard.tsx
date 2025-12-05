@@ -32,7 +32,7 @@ function OverallCard() {
             <Activity size={60} color={'rgba(131, 131, 131,0.1)'} className='absolute right-5' />
             <SmallText className='text-dark-text-muted'>OVERALL SCORE</SmallText>
 
-                {projectdata && <div className='chart-container w-full h-[250px] flex flex-col items-center justify-center'><ResponsiveContainer width="100%" height="80%">
+                {projectdata && <div className='chart-container w-full min-w-0 h-[250px] flex flex-col items-center justify-center'><ResponsiveContainer width="100%" height={200}>
                     <RadialBarChart
                         cx="50%"
                         cy="50%"

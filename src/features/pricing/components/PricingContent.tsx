@@ -57,7 +57,7 @@ async function PricingContent() {
             <Link href={session ? '/Dashboard' : '/'} className='flex gap-2 text-sm items-center dark:hover:bg-dark-surface-hover transition-all duration-300 p-3 rounded-md'><MoveLeft size={13} />Back</Link>
             <section className='flex flex-col  items-center w-full'>
                 <header>
-                    <h1 className='text-center font-extrabold text-4xl'>PRICING</h1>
+                    <h1 className='text-center font-extrabold text-4xl'>BILLING</h1>
                 </header>
                 <div className='p-10 w-screen flex xss:flex-col md:flex-row xss:justify-center md:justify-center gap-4'>
                     {plans.map((item, i) => {

@@ -1,5 +1,5 @@
-import { ChevronsUpDown, CircleX, Code, Computer, LayoutDashboard, ListCheck } from 'lucide-react'
-import React, { useRef, useState } from 'react'
+import { ChevronsUpDown, CircleX, Code, Computer, LayoutDashboard } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useMediaQuery } from 'react-responsive'
 import { useOutsideClick } from '@/hooks/Outsideclick'
@@ -10,18 +10,25 @@ import Image from 'next/image'
 import UserBlock from './UserBlock'
 import { usePathname, useRouter } from 'next/navigation'
 import { useSidebar } from '@/context/SidebarProvider'
-import { useProject } from '@/context/ProjectProvider'
 
 function Sidebar() {
     const isLargescreen = useMediaQuery({ minWidth: 768 })
     const sideref = useRef<HTMLDivElement>(null);
     const userref = useRef<HTMLButtonElement>(null);
-    const { setshowsidebar , showsidebar} = useSidebar();
+    const { setshowsidebar, showsidebar } = useSidebar();
     const { data: session, isPending } = useSession();
     const [showuserblock, setshowuserblock] = useState<boolean>(false);
     const router = useRouter();
     const pathname = usePathname();
     const page = pathname.split("/")[pathname.split("/").length - 1];
+    const [isProductPage, setisProductPage] = useState(false)
+
+
+    useEffect(() => {
+        if (pathname.startsWith("/Dashboard/Projects/")) {
+            setisProductPage(true)
+        }
+    }, [pathname])
 
 
     useOutsideClick(sideref, () => {
@@ -32,6 +39,8 @@ function Sidebar() {
     useOutsideClick(userref, () => {
         setshowuserblock(false)
     })
+
+
 
 
     const Links: Linkprops[] = [
@@ -67,7 +76,7 @@ function Sidebar() {
                                 if (!isLargescreen) setshowsidebar(false)
                                 router.push(link.name === "projects" ? "/Dashboard/Projects" : "/Dashboard")
                             }}
-                            className={`py-3 rounded-md ${ link.name !== page.toLowerCase() && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`) } relative cursor-pointer ${ link.name === page.toLowerCase() ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10': 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}`: 'text-light-text-muted dark:text-dark-text-muted'}`}>
+                            className={`py-3 rounded-md ${link.name !== page.toLowerCase() && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`)} relative cursor-pointer ${link.name === page.toLowerCase() ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10' : 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}` : 'text-light-text-muted dark:text-dark-text-muted'}`}>
                             <div className={`flex items-center w-full gap-4 ${showsidebar ? 'px-4' : 'px-2'} transition-all duration-300`}>
                                 {link.name === page.toLowerCase() && showsidebar && <div className={`absolute left-0 bg-indigo-500 w-[3px] h-6 rounded-r-full `}></div>}
                                 <div className='flex group' >
