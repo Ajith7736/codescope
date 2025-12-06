@@ -1,4 +1,4 @@
-import { ChevronsUpDown, CircleX, Code, Computer, LayoutDashboard } from 'lucide-react'
+import { ChartLine, ChevronsUpDown, CircleX, ClipboardList, Code, Computer, LayoutDashboard } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useMediaQuery } from 'react-responsive'
@@ -10,6 +10,8 @@ import Image from 'next/image'
 import UserBlock from './UserBlock'
 import { usePathname, useRouter } from 'next/navigation'
 import { useSidebar } from '@/context/SidebarProvider'
+import { cn } from '@/lib/utils'
+import { usePage } from '@/context/PageProvider'
 
 function Sidebar() {
     const isLargescreen = useMediaQuery({ minWidth: 768 })
@@ -22,11 +24,15 @@ function Sidebar() {
     const pathname = usePathname();
     const page = pathname.split("/")[pathname.split("/").length - 1];
     const [isProductPage, setisProductPage] = useState(false)
+    const { currentprojectpage, setcurrentprojectpage } = usePage();
 
 
     useEffect(() => {
+        console.log(pathname);
         if (pathname.startsWith("/Dashboard/Projects/")) {
             setisProductPage(true)
+        } else {
+            setisProductPage(false);
         }
     }, [pathname])
 
@@ -55,6 +61,24 @@ function Sidebar() {
         }
     ]
 
+    const ProductLink: Linkprops[] = [
+        {
+            icon: <LayoutDashboard className='xss:size-4 md:size-5' />,
+            name: "dashboard",
+            route: "/Dashboard"
+        }, {
+            icon: <Computer className='xss:size-4 md:size-5' />,
+            name: "projects",
+            route: "/Dashboard/Projects"
+        }, {
+            icon: <ChartLine className='xss:size-4 md:size-5' />,
+            name: "analysis",
+        }, {
+            icon: <ClipboardList className='xss:size-4 md:size-5' />,
+            name: "overview",
+        }
+    ]
+
     if (isPending) return <Loading />
 
 
@@ -64,26 +88,26 @@ function Sidebar() {
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
                         <Code strokeWidth={4} className='xss:size-8 md:size-9 bg-indigo-600 text-white rounded-xl  p-2' />
-                        <div className={`overflow-hidden ${showsidebar ? 'md:visible md:opacity-100' : 'md:invisible md:opacity-0'} transition-all duration-400 ease-in-out`}>Codescope</div>
+                        <div className={` overflow-hidden ${showsidebar ? 'md:visible md:opacity-100' : 'md:invisible md:opacity-0'} transition-all duration-400 ease-in-out`}>Codescope</div>
                     </div>
                     {!isLargescreen && <CircleX size={16} className='cursor-pointer' onClick={() => setshowsidebar(false)} />}
                 </div>
                 <div className='relative flex flex-col mt-10 gap-3 xss:text-sm'>
-                    {Links.map((link) => {
+                    {(isProductPage ? ProductLink : Links).map((link) => {
                         return <div
                             key={link.name}
                             onClick={() => {
                                 if (!isLargescreen) setshowsidebar(false)
                                 router.push(link.name === "projects" ? "/Dashboard/Projects" : "/Dashboard")
                             }}
-                            className={`py-3 rounded-md ${link.name !== page.toLowerCase() && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`)} relative cursor-pointer ${link.name === page.toLowerCase() ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10' : 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}` : 'text-light-text-muted dark:text-dark-text-muted'}`}>
+                            className={cn(`py-3 hover:rounded-md ${link.name !== page.toLowerCase() && currentprojectpage !== link.name && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`)} relative cursor-pointer ${link.name === page.toLowerCase() || (currentprojectpage === link.name && isProductPage) ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10' : 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}` : 'text-light-text-muted dark:text-dark-text-muted'}`, link.css)}>
                             <div className={`flex items-center w-full gap-4 ${showsidebar ? 'px-4' : 'px-2'} transition-all duration-300`}>
                                 {link.name === page.toLowerCase() && showsidebar && <div className={`absolute left-0 bg-indigo-500 w-[3px] h-6 rounded-r-full `}></div>}
-                                <div className='flex group' >
+                                <div className={cn('flex group')} >
                                     <button className='cursor-pointer'>
                                         {link.icon}
                                     </button>
-                                    {!showsidebar && <motion.button className='fixed text-indigo-500 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity duration-400 left-20 bg-light-hovergray border dark:bg-dark-surface border-light-gray dark:border-dark-border rounded-md shadow-md px-2 py-1 w-fit capitalize'>
+                                    {!showsidebar && <motion.button className='fixed text-indigo-500 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity duration-400 left-20 bg-light-hovergray border dark:bg-dark-surface border-light-gray dark:border-dark-border rounded-md shadow-md px-2 py-1 w-fit capitalize'>
                                         {link.name}
                                     </motion.button>}
                                 </div>
