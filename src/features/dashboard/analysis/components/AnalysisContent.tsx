@@ -1,25 +1,16 @@
 "use client"
 
-import SecondTitle from '@/ui/Text/SecondTitle'
-import SmallText from '@/ui/Text/SmallText'
-import { RefreshCcw } from 'lucide-react'
-import OverallCard from './OverallCard'
-import { Activity, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import Loading from '@/app/loading'
-import useFetch from '@/hooks/useFetch'
-import Button from '@/ui/Buttons/Button'
 import { useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectProvider'
-import MetaData from './MetaData'
-import Overview from './Overview'
-import AnalysisCard from './Analysis'
-import RepoDetail from './RepoDetail'
+import ProjectHeader from './ProjectHeader'
+import AnalysisPage from './AnalysisPage'
 
 
 function AnalysisContent({ id }: { id: string }) {
-  const [currentanalysis, setcurrentanalysis] = useState<"Architecture" | "Security" | "Performance" | "Overview">("Architecture");
   const { projectdata, setprojectdata } = useProject();
   const router = useRouter();
 
@@ -57,84 +48,17 @@ function AnalysisContent({ id }: { id: string }) {
   }, [data])
 
 
-  const Analysis: ("Architecture" | "Security" | "Performance")[] = ["Architecture", "Security", "Performance"]
 
 
-  const {
-    data: successres,
-    loading: updateloader,
-    fetchdata: handleupdate
-  } = useFetch(
-    "/api/update-repo",
-    "PUT",
-    {
-      owner: projectdata?.ownername,
-      repo: projectdata?.projectname,
-      projectId: projectdata?.id,
-      lastcommit: projectdata?.lastcommit
-    })
 
-
-  useEffect(() => {
-    if (successres) {
-      refetch();
-    }
-  }, [successres])
 
 
   if (isLoading) return <Loading />
 
   return (
     <div className='h-screen bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
-      <div className='p-5 border w-full bg-light-surface dark:bg-dark-surface flex justify-between items-center border-light-border dark:border-dark-border border-t-0 border-x-0'>
-        <div className='w-[50%]'>
-          <SecondTitle>{projectdata?.projectname}</SecondTitle>
-          <div className='mt-1'>
-            <SmallText textcolor='text-light-black/80 dark:text-dark-text-muted' className='lg:text-xs'>Last commit • {projectdata?.lastcommit}</SmallText>
-          </div>
-        </div>
-        <div>
-          {updateloader ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />fetching</Button> : <Button variant='blue' onClick={handleupdate}><RefreshCcw size={15} />Re-fetch</Button>}
-        </div>
-      </div>
-      <div className='flex flex-col xl:flex-row xss:items-center xl:items-start'>
-        <div>
-          <div className='flex flex-col items-center'>
-            <OverallCard />
-          </div>
-
-          <div className='flex flex-col items-center'>
-            <MetaData />
-          </div>
-
-          {projectdata && <div className='flex flex-col items-center'>
-            <Overview summary={projectdata?.analysis.find((item) => item.type === currentanalysis)?.summary} />
-          </div>}
-
-        </div>
-
-        <div className='flex flex-col w-full items-center'>
-          <div className='m-4 xss:w-84 md:w-[460px] lg:w-lg'>
-            <div className='bg-light-surface dark:bg-dark-surface flex  xss:text-[9px]  md:text-xs border border-b-0 rounded-t-md border-light-border dark:border-dark-border'>
-              {Analysis.map((item, index) => {
-                return <div key={index} className={`font-bold border transition-all duration-300 cursor-pointer hover:bg-light-accent/5 hover:dark:bg-dark-surface-hover/30  ${currentanalysis === item ? 'text-light-text-primary dark:text-dark-text-on-hover' : 'text-light-text-muted dark:text-dark-text-muted'} border-light-border dark:border-dark-border w-[35%] text-center p-5 ${item === "Architecture" ? 'border-y-0 border-l-0' : item === "Performance" ? 'border-y-0 border-r-0' : 'border-0'}`} onClick={() => setcurrentanalysis(item)}>{item}</div>
-              })}
-            </div>
-            <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
-              <AnalysisCard type='Architecture' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Architecture")} />
-            </Activity>
-            <Activity mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
-              <AnalysisCard type='Performance' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Performance")} />
-            </Activity>
-            <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
-              <AnalysisCard type='Security' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Security")} />
-            </Activity>
-            <Activity mode={currentanalysis === "Overview" ? 'visible' : 'hidden'}>
-              <RepoDetail projectcode={projectdata?.projectcode} projectId={projectdata?.id} projecttree={projectdata?.projecttree} />
-            </Activity>
-          </div>
-        </div>
-      </div>
+      <ProjectHeader projectdata={projectdata} refetch={refetch}/>
+      <AnalysisPage projectdata={projectdata} refetch={refetch}/>
     </div>
   )
 }

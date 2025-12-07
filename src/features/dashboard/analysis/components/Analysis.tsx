@@ -16,7 +16,7 @@ import AnalysisLoader from '@/ui/loaders/AnalysisLoader'
 
 
 
-function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefined, refetch: () => void, type: "Architecture" | "Security" | "Performance" }) {
+function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefined, refetch: Function, type: "Architecture" | "Security" | "Performance" }) {
 
     const { projectdata } = useProject();
     const [showcode, setshowcode] = useState<{ show: boolean, id: string | null | undefined }>({

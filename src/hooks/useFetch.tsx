@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'sonner';
 
-function useFetch(url: string, method: string, body: any,refetch? : () => void) {
+function useFetch(url: string, method: string, body: any,refetch? : Function) {
     const [data, setdata] = useState<any | null>(null);
     const [loading, setloading] = useState<boolean>(false);
     const [error, seterror] = useState<string | null>(null);

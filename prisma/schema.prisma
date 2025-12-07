@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  //  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -32,7 +32,7 @@ model Session {
   ipAddress String?
   userAgent String?
   userId    String
-  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -85,30 +85,30 @@ model Project {
 }
 
 model Analysis {
-  id          String   @id @default(uuid())
-  type        String
-  totalissues Int?
-  status      String   @default("pending")
-  issues      Issues[]
-  summary     String?
-  projectId   String
-  analysis_output    Json?
-  score       Int?
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  id              String   @id @default(uuid())
+  type            String
+  totalissues     Int?
+  status          String   @default("pending")
+  issues          Issues[]
+  summary         String?
+  projectId       String
+  analysis_output Json?
+  score           Int?
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
 }
 
 model Issues {
-  id            String   @id @default(uuid())
-  severity      String
-  issuetitle    String
-  issuedesc     String
-  issuelocation String
-  suggesstedfix String
+  id                     String   @id @default(uuid())
+  severity               String
+  issuetitle             String
+  issuedesc              String
+  issuelocation          String
+  suggesstedfix          String
   suggesstedcodelanguage String?
-  suggesstedcode String?
-  analysisId    String
-  analysis      Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
-  createdAt     DateTime @default(now())
+  suggesstedcode         String?
+  analysisId             String
+  analysis               Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  createdAt              DateTime @default(now())
 }

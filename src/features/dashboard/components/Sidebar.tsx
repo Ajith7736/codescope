@@ -98,12 +98,20 @@ function Sidebar() {
                             key={link.name}
                             onClick={() => {
                                 if (!isLargescreen) setshowsidebar(false)
-                                router.push(link.name === "projects" ? "/Dashboard/Projects" : "/Dashboard")
+                                if (link.name === "projects") {
+                                    router.push("/Dashboard/Projects")
+                                } else if (link.name === "dashboard") {
+                                    router.push("/Dashboard")
+                                } else if (link.name === "analysis") {
+                                    currentprojectpage !== link.name && setcurrentprojectpage("analysis")
+                                } else if (link.name === "overview") {
+                                    currentprojectpage !== link.name && setcurrentprojectpage("explainer")
+                                }
                             }}
                             className={cn(`py-3 hover:rounded-md ${link.name !== page.toLowerCase() && currentprojectpage !== link.name && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`)} relative cursor-pointer ${link.name === page.toLowerCase() || (currentprojectpage === link.name && isProductPage) ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10' : 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}` : 'text-light-text-muted dark:text-dark-text-muted'}`, link.css)}>
                             <div className={`flex items-center w-full gap-4 ${showsidebar ? 'px-4' : 'px-2'} transition-all duration-300`}>
-                                {link.name === page.toLowerCase() && showsidebar && <div className={`absolute left-0 bg-indigo-500 w-[3px] h-6 rounded-r-full `}></div>}
-                                <div className={cn('flex group')} >
+                                {(link.name === page.toLowerCase() || currentprojectpage === link.name) && showsidebar && <div className={`absolute left-0 bg-indigo-500 w-[3px] h-6 rounded-r-full `}></div>}
+                                <div className={'flex group'} >
                                     <button className='cursor-pointer'>
                                         {link.icon}
                                     </button>
