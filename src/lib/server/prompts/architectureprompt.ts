@@ -69,5 +69,7 @@ export default function architectureprompt(projectcode: string, projecttree: str
         Be direct, technical, and actionable. Avoid vague statements like "improve code quality" - instead say "Extract the 200-line handleSubmit function into smaller, single-responsibility functions".
 
         NOTE : Dont give any other analysis that comes under Security and Performance Analysis
+
+        Begin the analysis now
 `
 }

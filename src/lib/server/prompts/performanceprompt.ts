@@ -1,5 +1,5 @@
-export default function performanceprompt(projectcode: string, projecttree: string,previousanalysis? : string) {
-    return `You are a performance analysis expert with deep knowledge of optimization techniques across all tech stacks, profiling tools, and performance testing methodologies.
+export default function performanceprompt(projectcode: string, projecttree: string, previousanalysis?: string) {
+  return `You are a performance analysis expert with deep knowledge of optimization techniques across all tech stacks, profiling tools, and performance testing methodologies.
 
 ---Code---
 ${projectcode}
@@ -220,5 +220,6 @@ const [user, posts, comments] = await Promise.all([
 Focus on high-impact, easily fixable performance wins first, then address deeper architectural performance issues.
 
 NOTE : Dont give any other analysis that comes under Security and Architecture Analysis
+ Begin the analysis now
 `
 }

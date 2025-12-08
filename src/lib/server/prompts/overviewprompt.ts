@@ -34,7 +34,7 @@ export function Overviewprompt(projectcode: string | undefined, projecttree: str
         - Highlight key design patterns or architectural decisions
         - Map the file/folder structure to functionality
 
-        ## 4. Key Components Breakdown
+        ## 4. Key Features
         For each major component:
         - Name and purpose
         - Main files/directories involved
@@ -50,17 +50,20 @@ export function Overviewprompt(projectcode: string | undefined, projecttree: str
 
         ## Structure your response as:
 
-        ### 📊 Technology Stack
+        ### Summary
+        [overall summary of the repo]
+
+        ### 🔧 Key Features
+        [Break down major parts with their responsibilities]
+
+        ### 📊 Tech Stack
         [List languages, frameworks, and tools with brief descriptions]
 
-        ### 🎯 Project Overview
+        ### 🎯 Use Cases
         [Clear explanation of what it does and why it exists]
 
         ### 🏗️ Architecture
         [Describe the high-level design with analogies if helpful]
-
-        ### 🔧 Key Components
-        [Break down major parts with their responsibilities]
 
         ### 🔄 How It Works
         [Explain the main workflows and data flow]
@@ -96,7 +99,8 @@ export function Overviewprompt(projectcode: string | undefined, projecttree: str
         - If something is unclear from the code, state assumptions clearly
         - Prioritize practical understanding over theoretical perfection
         - Adapt your explanation depth based on the project's complexity
-        - Output text should be in the format of readme file code.
+        - Dont try to add any features that is not in the codebase.
+        - Only give the details about the features that is in the codebase.
 
         Begin your analysis now.
     `

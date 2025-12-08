@@ -105,7 +105,7 @@ function Sidebar() {
                                 } else if (link.name === "analysis") {
                                     currentprojectpage !== link.name && setcurrentprojectpage("analysis")
                                 } else if (link.name === "overview") {
-                                    currentprojectpage !== link.name && setcurrentprojectpage("explainer")
+                                    currentprojectpage !== link.name && setcurrentprojectpage("overview")
                                 }
                             }}
                             className={cn(`py-3 hover:rounded-md ${link.name !== page.toLowerCase() && currentprojectpage !== link.name && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`)} relative cursor-pointer ${link.name === page.toLowerCase() || (currentprojectpage === link.name && isProductPage) ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10' : 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}` : 'text-light-text-muted dark:text-dark-text-muted'}`, link.css)}>

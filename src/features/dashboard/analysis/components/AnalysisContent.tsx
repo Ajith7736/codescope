@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from 'react'
+import { Activity, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import Loading from '@/app/loading'
@@ -8,10 +8,13 @@ import { useRouter } from 'next/navigation'
 import { useProject } from '@/context/ProjectProvider'
 import ProjectHeader from './ProjectHeader'
 import AnalysisPage from './AnalysisPage'
+import { usePage } from '@/context/PageProvider'
+import OverviewPage from './OverviewPage'
 
 
 function AnalysisContent({ id }: { id: string }) {
   const { projectdata, setprojectdata } = useProject();
+  const { currentprojectpage } = usePage();
   const router = useRouter();
 
   const { data, isLoading, refetch } = useQuery({
@@ -57,8 +60,13 @@ function AnalysisContent({ id }: { id: string }) {
 
   return (
     <div className='h-screen bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
-      <ProjectHeader projectdata={projectdata} refetch={refetch}/>
-      <AnalysisPage projectdata={projectdata} refetch={refetch}/>
+      <ProjectHeader projectdata={projectdata} refetch={refetch} />
+      <Activity mode={currentprojectpage === "analysis" ? 'visible' : 'hidden'}>
+        <AnalysisPage projectdata={projectdata} refetch={refetch} />
+      </Activity>
+      <Activity mode={currentprojectpage === "overview" ? 'visible' : 'hidden'}>
+        <OverviewPage projectdata={projectdata}/>
+      </Activity>
     </div>
   )
 }
