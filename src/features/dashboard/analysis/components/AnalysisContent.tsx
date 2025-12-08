@@ -9,7 +9,7 @@ import { useProject } from '@/context/ProjectProvider'
 import ProjectHeader from './ProjectHeader'
 import AnalysisPage from './AnalysisPage'
 import { usePage } from '@/context/PageProvider'
-import OverviewPage from './OverviewPage'
+import OverviewPage from '../../Overview/components/OverviewPage'
 
 
 function AnalysisContent({ id }: { id: string }) {

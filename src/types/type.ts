@@ -136,3 +136,5 @@ export interface plansprops {
     plandesc: string,
     planadv: planadvprops[]
 }
+
+export type DotProps = "amber" | "emerald" | "blue";

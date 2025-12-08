@@ -12,7 +12,7 @@ export const POST = tryCatch(async (req: Request) => {
     if (!userId || !projectId) {
         return failure({ message: "UserId not found" }, 404)
     }
-    const schema = OverviewSchema();
+    const schema = OverviewSchema;
 
     const prompt = Overviewprompt(projectcode, projecttree)
 

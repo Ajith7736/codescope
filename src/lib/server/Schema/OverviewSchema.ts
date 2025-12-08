@@ -1,15 +1,14 @@
-import { z } from "zod"
+import { z } from "zod";
 
-export function OverviewSchema() {
-    const schema = z.object({
-        summary: z.string(),
-        keyfeatures: z.array(z.string()),
-        techstack: z.array(z.string()),
-        Architecture : z.array(z.string()),
-        Howitworks : z.array(z.string()),
-        gettingstarted : z.array(z.string()),
-        NotableFeatures : z.array(z.string())
-    })
+export const OverviewSchema = z.object({
+    summary: z.string(),
+    keyFeatures: z.array(z.string()).nonempty(),
+    techStack: z.array(z.string()).nonempty(),
+    architecture: z.array(z.string()).nonempty(),
+    howItWorks: z.array(z.string()).nonempty(),
+    gettingStarted: z.array(z.string()).nonempty(),
+    notableFeatures: z.array(z.string()).nonempty(),
+});
 
-    return schema;
-}
+export type Overview = z.infer<typeof OverviewSchema>;
+
