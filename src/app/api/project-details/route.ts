@@ -16,7 +16,8 @@ export const POST = tryCatch(async (req: Request) => {
                 include: {
                     issues: true
                 }
-            }
+            },
+            overview : true
         }
     })
 

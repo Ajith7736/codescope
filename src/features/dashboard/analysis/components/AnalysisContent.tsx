@@ -65,7 +65,7 @@ function AnalysisContent({ id }: { id: string }) {
         <AnalysisPage projectdata={projectdata} refetch={refetch} />
       </Activity>
       <Activity mode={currentprojectpage === "overview" ? 'visible' : 'hidden'}>
-        <OverviewPage projectdata={projectdata}/>
+        <OverviewPage overview={projectdata?.overview} projectdata={projectdata} refetch={refetch} />
       </Activity>
     </div>
   )

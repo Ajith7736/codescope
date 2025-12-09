@@ -57,7 +57,7 @@ export function Overviewprompt(projectcode: string | undefined, projecttree: str
         [Break down major parts with their responsibilities]
 
         ### 📊 Tech Stack
-        [List languages, frameworks, and tools with brief descriptions]
+        [List languages, frameworks, and tools and dont give any breif description and each one should be in a seperate string in the array]
 
         ### 🎯 Use Cases
         [Clear explanation of what it does and why it exists]
@@ -101,6 +101,7 @@ export function Overviewprompt(projectcode: string | undefined, projecttree: str
         - Adapt your explanation depth based on the project's complexity
         - Dont try to add any features that is not in the codebase.
         - Only give the details about the features that is in the codebase.
+        - Output should not contain any readme like structured text.
 
         Begin your analysis now.
     `

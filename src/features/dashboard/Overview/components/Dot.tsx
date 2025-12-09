@@ -10,7 +10,7 @@ function Dot({ variant = "amber" }: { variant?: DotProps}) {
     }
 
     return (
-        <div className={cn(`h-[5px] w-[5px] rounded-full`, variants[variant])}></div>
+        <div className={cn(`h-[3px] w-[3px] rounded-full`, variants[variant])}></div>
     )
 }
 

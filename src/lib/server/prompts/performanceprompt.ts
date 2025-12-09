@@ -219,7 +219,11 @@ const [user, posts, comments] = await Promise.all([
 
 Focus on high-impact, easily fixable performance wins first, then address deeper architectural performance issues.
 
-NOTE : Dont give any other analysis that comes under Security and Architecture Analysis
- Begin the analysis now
+   ##IMPORTANT NOTES
+- Dont give any other analysis that comes under Security and Architecture Analysis.
+- Dont show any issues that is not in the code
+
+
+Begin the analysis now
 `
 }

@@ -32,7 +32,7 @@ export interface Linkprops {
     icon: React.ReactElement,
     name: "dashboard" | "analysis" | "projects" | "overview",
     route?: string
-    css? : string
+    css?: string
 }
 
 export interface DashCardProps {
@@ -73,6 +73,7 @@ export interface Project {
     createdAt: Date;
     branch: string;
     analysis: Analysis[];
+    overview: Overview;
 }
 
 export interface Analysis {
@@ -138,3 +139,19 @@ export interface plansprops {
 }
 
 export type DotProps = "amber" | "emerald" | "blue";
+
+export interface Overview {
+    summary: string,
+    keyFeatures: OverviewObject[],
+    useCases: OverviewObject[],
+    techStack: string[],
+    architecture: OverviewObject[],
+    howItWorks: OverviewObject[],
+    gettingStarted: OverviewObject[],
+    notableFeatures: OverviewObject[]
+}
+
+export interface OverviewObject {
+    title: string,
+    explaination: string
+}

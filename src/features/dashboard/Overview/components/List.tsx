@@ -1,12 +1,12 @@
-import React from 'react'
 import Dot from './Dot'
-import { DotProps } from '@/types/type'
+import { DotProps, OverviewObject } from '@/types/type'
 
-function List({ item, variant }: { item: string, variant: DotProps }) {
+function List({ item, variant }: { item: OverviewObject, variant: DotProps }) {
     return (
-        <li className='flex items-center gap-3'>
-            <Dot variant={variant} />
-            <h1>{item}</h1>
+        <li className='flex flex-col items-baseline gap-2  pl-4'>
+            {/* <Dot variant={variant} /> */}
+            <h1 className='text-bold text-xs font-bold'>{item.title} :</h1>
+            <p className='pl-1 text-[11px]'>{item.explaination}</p>
         </li>
     )
 }
