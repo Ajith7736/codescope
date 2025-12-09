@@ -17,7 +17,7 @@ function AnalysisContent({ id }: { id: string }) {
   const { currentprojectpage } = usePage();
   const router = useRouter();
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading, refetch , isRefetching } = useQuery({
     queryKey: ["projectdata", id],
     queryFn: async () => {
       const res = await fetch("/api/project-details", {
@@ -65,7 +65,7 @@ function AnalysisContent({ id }: { id: string }) {
         <AnalysisPage projectdata={projectdata} refetch={refetch} />
       </Activity>
       <Activity mode={currentprojectpage === "overview" ? 'visible' : 'hidden'}>
-        <OverviewPage overview={projectdata?.overview} projectdata={projectdata} refetch={refetch} />
+        <OverviewPage overview={projectdata?.overview} isRefetching={isRefetching} projectdata={projectdata} refetch={refetch} />
       </Activity>
     </div>
   )

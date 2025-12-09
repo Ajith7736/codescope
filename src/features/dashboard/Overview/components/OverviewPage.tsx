@@ -8,7 +8,7 @@ import { BookOpen, GitBranch, Layers, Lightbulb, Rocket, SparklesIcon, Workflow,
 import ListContent from './ListContent'
 import BasicLoader from '@/ui/loaders/BasicLoader'
 
-function OverviewPage({ overview, refetch, projectdata }: { refetch: Function, projectdata: Pick<Project, "id" | "projectcode" | "projecttree"> | null, overview: Overview | null | undefined }) {
+function OverviewPage({ overview, refetch, projectdata, isRefetching }: { refetch: Function, isRefetching: Boolean, projectdata: Pick<Project, "id" | "projectcode" | "projecttree"> | null, overview: Overview | null | undefined }) {
   const { data: session } = useSession();
   const { data, loading, fetchdata: fetchoverview } = useFetch("/api/overview", "POST", { projectId: projectdata?.id, projectcode: projectdata?.projectcode, projecttree: projectdata?.projecttree, userId: session?.user.id }, refetch)
 
@@ -19,10 +19,10 @@ function OverviewPage({ overview, refetch, projectdata }: { refetch: Function, p
       <div className='dark:bg-dark-surface border rounded-md dark:border-dark-border w-full'>
         <div className='p-3 border-b border-dark-border flex justify-between'>
           <h1 className='text-xs flex gap-2 items-center text-indigo-500 font-extrabold'><SparklesIcon className='size-4' />AI Explain</h1>
-          {loading ? <Button variant='blue'><ButtonLoader />Overview</Button> : <Button onClick={fetchoverview} variant='blue'>Overview</Button>}
+          {loading || isRefetching ? <Button variant='blue'><ButtonLoader />Overview</Button> : <Button onClick={fetchoverview} variant='blue'>Overview</Button>}
         </div>
 
-        {loading ? <div className='p-5 flex items-center justify-center'><BasicLoader /></div> : overview ? <>
+        {loading || isRefetching ? <div className='p-5 flex flex-col text-xs items-center justify-center text-dark-text-muted italic'><BasicLoader /> This may take few seconds.</div> : overview ? <>
           <div className='p-6 flex flex-col gap-6'>
             <div className='bg-indigo-600/10 p-4 flex flex-col gap-2 rounded-md border border-dark-border'>
               <h1 className='text-xs font-extrabold text-indigo-500'>SUMMARY</h1>
