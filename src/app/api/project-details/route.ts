@@ -1,6 +1,5 @@
 import { failure, success, tryCatch } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
-import { NextResponse } from "next/server";
 
 export const POST = tryCatch(async (req: Request) => {
     const { projectId } = await req.json();
