@@ -4,8 +4,8 @@ import React, { createContext, useContext, useState } from "react";
 interface PageProps {
     currentpage: "dashboard" | "analysis" | "projects",
     setcurrentpage: React.Dispatch<React.SetStateAction<"dashboard" | "analysis" | "projects">>
-    currentprojectpage: "analysis" | "overview",
-    setcurrentprojectpage: React.Dispatch<React.SetStateAction<"analysis" | "overview">>
+    currentprojectpage: "analysis" | "overview" | "settings",
+    setcurrentprojectpage: React.Dispatch<React.SetStateAction<"analysis" | "overview" | "settings">>
 
 }
 
@@ -13,7 +13,7 @@ const PageContext = createContext<PageProps | undefined>(undefined)
 
 export function PageProvider({ children }: { children: React.ReactNode }) {
     const [currentpage, setcurrentpage] = useState<"dashboard" | "analysis" | "projects">("dashboard")
-    const [currentprojectpage, setcurrentprojectpage] = useState<"analysis" | "overview">("analysis")
+    const [currentprojectpage, setcurrentprojectpage] = useState<"analysis" | "overview" | "settings">("analysis")
     return (<PageContext.Provider value={{ currentpage, setcurrentpage, currentprojectpage, setcurrentprojectpage }}>
         {children}
     </PageContext.Provider>)

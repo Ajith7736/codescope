@@ -1,5 +1,5 @@
 "use client"
-import { Code, File, Github, Shield, TrendingUp } from "lucide-react"
+import { Code, Github, Shield, TrendingUp } from "lucide-react"
 import Card from '../components/card/Card'
 import SampleCode from "../components/sample/SampleCode"
 import { CardProps, Session, showcodeprops } from '@/types/type'
@@ -9,8 +9,8 @@ import { motion } from "framer-motion"
 import SampleAnalysis from "../components/sample/SampleAnalysis"
 import TextHeader from "../components/text/TextHeader"
 import Footer from "./Footer"
-import Beam from "../components/beam/Beam"
 import { useState } from "react"
+import Beam from "../components/Beam/Beam"
 
 function Content({ session }: { session: Session | null }) {
 

@@ -16,7 +16,7 @@ import AnalysisLoader from '@/ui/loaders/AnalysisLoader'
 
 
 
-function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefined, refetch: Function, type: "Architecture" | "Security" | "Performance" }) {
+function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching: boolean, analysis: Analysis | undefined, refetch: Function, type: "Architecture" | "Security" | "Performance" }) {
 
     const { projectdata } = useProject();
     const [showcode, setshowcode] = useState<{ show: boolean, id: string | null | undefined }>({
@@ -72,7 +72,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
     if (!analysis) return <div className={`bg-light-border dark:bg-dark-surface flex flex-col rounded-[3px] border border-dark-border transition-all duration-300`}>
         <div className='flex justify-between items-center p-5 border-b border-dark-border'>
             <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
-            {loading ? <Button variant='blue'><ButtonLoader />Analyzing</Button> : <Button variant='blue' onClick={handleanalysis}><Play size={14} />Analyse</Button>}
+            {loading ? <Button variant='blue'><ButtonLoader />Analyzing</Button> : <Button variant='blue' onClick={handleanalysis}><Play size={12} />Analyse</Button>}
         </div>
         <div className='p-5'>
             <h1 className='text-[12px] italic text-dark-text-muted'>No Issues</h1>
@@ -94,7 +94,7 @@ function AnalysisCard({ analysis, refetch, type }: { analysis: Analysis | undefi
                     {reanalysisloading ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />Analyzing</Button> : <Button variant='blue' onClick={handlereanalysis} ><RefreshCcw size={15} />Re-Analyse</Button>}
                 </div>
                 <div className='flex flex-col gap-1 p-5'>
-                    <h1 className='text-sm flex gap-2'>Score : <span className='font-extrabold' style={{ color: getcolor(analysis.score) }}><Number n={analysis.score} /></span></h1>
+                    <h1 className='xss:text-xs md:text-sm flex gap-2'>Score : <span className='font-extrabold' style={{ color: getcolor(analysis.score) }}><Number n={analysis.score} /></span></h1>
                 </div>
                 <div className='p-5 flex flex-col gap-3'>
                     <h1 className='text-xs italic'>Issues Detected</h1>

@@ -1,13 +1,12 @@
 import React, { Activity, useState } from 'react'
 import AnalysisCard from './Analysis'
-import RepoDetail from './RepoDetail'
 import OverallCard from './OverallCard'
 import MetaData from './MetaData'
 import { Project } from '@/types/type'
 import Overview from './Overview'
 
-function AnalysisPage({ projectdata, refetch }: { projectdata: Project | null, refetch: Function }) {
-  
+function AnalysisPage({ projectdata, refetch, isRefetching }: { isRefetching: boolean, projectdata: Project | null, refetch: Function }) {
+
   const [currentanalysis, setcurrentanalysis] = useState<"Architecture" | "Security" | "Performance" | "Overview">("Architecture");
   const Analysis: ("Architecture" | "Security" | "Performance")[] = ["Architecture", "Security", "Performance"]
 
@@ -36,16 +35,13 @@ function AnalysisPage({ projectdata, refetch }: { projectdata: Project | null, r
             })}
           </div>
           <Activity mode={currentanalysis === "Architecture" ? 'visible' : 'hidden'}>
-            <AnalysisCard type='Architecture' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Architecture")} />
+            <AnalysisCard type='Architecture' isRefetching={isRefetching} refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Architecture")} />
           </Activity>
           <Activity mode={currentanalysis === "Performance" ? 'visible' : 'hidden'}>
-            <AnalysisCard type='Performance' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Performance")} />
+            <AnalysisCard type='Performance' isRefetching={isRefetching} refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Performance")} />
           </Activity>
           <Activity mode={currentanalysis === "Security" ? 'visible' : 'hidden'}>
-            <AnalysisCard type='Security' refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Security")} />
-          </Activity>
-          <Activity mode={currentanalysis === "Overview" ? 'visible' : 'hidden'}>
-            <RepoDetail projectcode={projectdata?.projectcode} projectId={projectdata?.id} projecttree={projectdata?.projecttree} />
+            <AnalysisCard type='Security' isRefetching={isRefetching} refetch={refetch} analysis={projectdata?.analysis.find(item => item.type === "Security")} />
           </Activity>
         </div>
       </div>
