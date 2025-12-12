@@ -3,7 +3,7 @@ import { useTheme } from "next-themes"
 
 
 
-function Beam() {
+function BeamLight() {
 
   const { resolvedTheme } = useTheme();
 
@@ -59,4 +59,4 @@ function Beam() {
   )
 }
 
-export default Beam
+export default BeamLight

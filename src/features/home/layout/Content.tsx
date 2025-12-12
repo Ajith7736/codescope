@@ -10,7 +10,7 @@ import SampleAnalysis from "../components/sample/SampleAnalysis"
 import TextHeader from "../components/text/TextHeader"
 import Footer from "./Footer"
 import { useState } from "react"
-import Beam from "../components/Beam/Beam"
+import BeamLight from "../components/Beam/BeamLight"
 
 function Content({ session }: { session: Session | null }) {
 
@@ -70,7 +70,7 @@ function Content({ session }: { session: Session | null }) {
             <motion.section initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="flex relative  flex-col lg:flex-row lg:gap-3 items-center lg:items-baseline justify-between">
                 <SampleCode />
                 <SampleAnalysis showcode={showcode} setshowcode={setshowcode}/>
-                {!showcode.show && <Beam />}
+                {!showcode.show && <BeamLight />}
             </motion.section>
 
 
