@@ -10,6 +10,7 @@ import ProjectHeader from './ProjectHeader'
 import AnalysisPage from './AnalysisPage'
 import { usePage } from '@/context/PageProvider'
 import OverviewPage from '../../Overview/components/OverviewPage'
+import SettingsPage from '../../settings/SettingsPage'
 
 
 function AnalysisContent({ id }: { id: string }) {
@@ -17,7 +18,7 @@ function AnalysisContent({ id }: { id: string }) {
   const { currentprojectpage } = usePage();
   const router = useRouter();
 
-  const { data, isLoading, refetch , isRefetching } = useQuery({
+  const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ["projectdata", id],
     queryFn: async () => {
       const res = await fetch("/api/project-details", {
@@ -51,21 +52,19 @@ function AnalysisContent({ id }: { id: string }) {
   }, [data])
 
 
-
-
-
-
-
   if (isLoading) return <Loading />
 
   return (
     <div className='h-screen bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
       <ProjectHeader projectdata={projectdata} refetch={refetch} />
       <Activity mode={currentprojectpage === "analysis" ? 'visible' : 'hidden'}>
-        <AnalysisPage projectdata={projectdata} refetch={refetch} />
+        <AnalysisPage projectdata={projectdata} isRefetching={isRefetching} refetch={refetch} />
       </Activity>
       <Activity mode={currentprojectpage === "overview" ? 'visible' : 'hidden'}>
         <OverviewPage overview={projectdata?.overview} isRefetching={isRefetching} projectdata={projectdata} refetch={refetch} />
+      </Activity>
+      <Activity mode={currentprojectpage === "settings" ? 'visible' : 'hidden'}>
+        <SettingsPage projectId={projectdata?.id} refetch={refetch}/>
       </Activity>
     </div>
   )

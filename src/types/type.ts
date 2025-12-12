@@ -30,7 +30,7 @@ export type VerifyEmailProps = {
 
 export interface Linkprops {
     icon: React.ReactElement,
-    name: "dashboard" | "analysis" | "projects" | "overview",
+    name: "dashboard" | "analysis" | "projects" | "overview" | "settings",
     route?: string
     css?: string
 }
