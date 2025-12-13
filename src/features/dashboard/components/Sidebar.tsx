@@ -1,4 +1,4 @@
-import { ChartLine, ChevronsUpDown, CircleX, ClipboardList, Code, Computer, LayoutDashboard, Settings } from 'lucide-react'
+import { ChartLine, ChevronsUpDown, CircleX, ClipboardList, Code, Computer, CreditCard, LayoutDashboard, Settings } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useMediaQuery } from 'react-responsive'
@@ -58,6 +58,10 @@ function Sidebar() {
             icon: <Computer className='xss:size-4 md:size-5' />,
             name: "projects",
             route: "/Dashboard/Projects"
+        }, {
+            icon: <CreditCard className='xss:size-4 md:size-5' />,
+            name: "billing",
+            route: "/Pricing"
         }
     ]
 
@@ -77,7 +81,7 @@ function Sidebar() {
             icon: <ClipboardList className='xss:size-4 md:size-5' />,
             name: "overview",
         }, {
-            icon: <Settings className='xss:size-4 md:size-5'/>,
+            icon: <Settings className='xss:size-4 md:size-5' />,
             name: "settings"
         }
     ]
@@ -86,7 +90,7 @@ function Sidebar() {
 
 
     return (
-        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} bg-light-surface dark:bg-gray-900 md:static xss:absolute border-r border-light-border dark:border-dark-border   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
+        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} bg-light-surface dark:bg-gray-950 md:static xss:absolute border-r border-light-border dark:border-dark-border   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
             <div>
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
@@ -111,6 +115,8 @@ function Sidebar() {
                                     currentprojectpage !== link.name && setcurrentprojectpage("overview")
                                 } else if (link.name === "settings") {
                                     currentprojectpage !== link.name && setcurrentprojectpage("settings")
+                                } else if( link.name === "billing") {
+                                    router.push("/Pricing");
                                 }
                             }}
                             className={cn(`py-3 hover:rounded-md ${link.name !== page.toLowerCase() && currentprojectpage !== link.name && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`)} relative cursor-pointer ${link.name === page.toLowerCase() || (currentprojectpage === link.name && isProductPage) ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10' : 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}` : 'text-light-text-muted dark:text-dark-text-muted'}`, link.css)}>
