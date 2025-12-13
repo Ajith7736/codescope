@@ -10,8 +10,10 @@ import Loading from "@/app/loading";
 
 
 function UserBlock() {
+    
     const { refetch } = useSession();
     const [isloading, setisloading] = useState<boolean>(false)
+
     const handlelogout = async () => {
         setisloading(true);
         await signOut();

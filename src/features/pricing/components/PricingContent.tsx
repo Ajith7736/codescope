@@ -1,16 +1,14 @@
-import Card from '@/features/pricing/components/Card'
-import { auth } from '@/lib/auth'
-import { plansprops } from '@/types/type'
-import { MoveLeft } from 'lucide-react'
-import { headers } from 'next/headers'
-import Link from 'next/link'
+"use client"
+import { useSession } from "@/lib/auth-client"
+import { plansprops } from "@/types/type"
+import Button from "@/ui/Buttons/Button"
+import { CircleCheck, MoveLeft } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
-async function PricingContent() {
-
-    const session = await auth.api.getSession({
-        headers: await headers()
-    })
-
+export const PricingContent = () => {
+    const { data: session } = useSession();
+    const router = useRouter();
     const plans: plansprops[] = [
         {
             pricing: "$0",
@@ -18,11 +16,15 @@ async function PricingContent() {
             plandesc: "Unleash the power of google gemini",
             planadv: [
                 {
-                    message: "Limited AI Analysis"
+                    message: "Only 1 Project"
                 }, {
-                    message: "1 codebase Report"
+                    message: "Total 3 Analysis"
                 }, {
-                    message: "Slow Queue Processing"
+                    message: "AI-powered fix suggestions"
+                }, {
+                    message: "Full Security, performance and architecture analysis"
+                }, {
+                    message: "AI Repo Overview"
                 }
             ]
         },
@@ -32,43 +34,67 @@ async function PricingContent() {
             plandesc: "Unleash the power of google gemini",
             planadv: [
                 {
-                    message: "upto 10 codebase reports"
+                    message: "Add upto 10 projects"
                 }, {
-                    message: "Total 10 Analysis"
+                    message: "10 Analysis per month"
+                }, {
+                    message: "AI-powered fix suggestions"
+                }, {
+                    message: "Full Security, performance and architecture analysis"
+                }, {
+                    message: "AI Repo Overview"
                 }
             ]
         },
         {
-            pricing: "$10",
+            pricing: "$20",
             plantype: "Pro",
             plandesc: "Unleash the power of google gemini",
             planadv: [
                 {
                     message: "Unlimited Projects"
                 }, {
-                    message: "Unlimited Ai Analysis"
+                    message: "Unlimited Analysis"
+                }, {
+                    message: "AI-powered fix suggestions"
+                }, {
+                    message: "Full Security, performance and architecture analysis"
+                }, {
+                    message: "AI Repo Overview"
                 }
             ]
         }
     ]
 
     return (
-        <div className='p-5 flex flex-col items-start h-screen'>
-            <Link href={session ? '/Dashboard' : '/'} className='flex gap-2 text-sm items-center dark:hover:bg-dark-surface-hover transition-all duration-300 p-3 rounded-md'><MoveLeft size={13} />Back</Link>
-            <section className='flex flex-col  items-center w-full'>
-                <header>
-                    <h1 className='text-center font-extrabold text-4xl'>BILLING</h1>
-                </header>
-                <div className='p-10 w-screen flex xss:flex-col md:flex-row xss:justify-center md:justify-center gap-4'>
-                    {plans.map((item, i) => {
-                        return <Card key={i} item={item} />
+        <div className="bg-black py-5 min-h-screen">
+            <div className="mx-5 w-fit">
+                <Link href={"/"} className="flex gap-3 items-center hover:bg-dark-surface p-3 text-sm rounded-md"><MoveLeft className="size-4" /><span>Back</span></Link>
+            </div>
+            <div className="flex flex-col items-center gap-5 px-5">
+                <h1 className="text-3xl font-extrabold">Billing</h1>
+
+                <div className="flex xss:flex-col md:flex-row w-full md:h-[60vh] md:items-center md:justify-center gap-5">
+                    {plans.map((item, index) => {
+                        return <div key={index} className="conic p-px rounded-xl">
+                            <div className="bg-black flex flex-col items-baseline gap-5 w-full h-[50vh] justify-between relative p-5 overflow-hidden rounded-xl">
+                                <div className="size-20 bg-white/30 blur-2xl -top-5 -left-5 absolute rounded-full z-10"></div>
+                                <h1 className="font-extrabold text-2xl">{item.pricing}</h1>
+                                <h1 className="text-base font-bold">{item.plantype}</h1>
+                                <p className="text-xs text-gray-600 italic">{item.plandesc}</p>
+                                <hr className="dark:border-gray-600/30 border w-full" />
+                                <div className="flex flex-col gap-3">
+                                    {item.planadv.map((adv, idx) => {
+                                        return <p key={idx} className="text-xs flex items-center gap-3"><CircleCheck className="size-4 text-emerald-600" />{adv.message}</p>
+                                    })}
+                                </div>
+                              {session ?  <Button className="rounded-full font-extrabold w-[40%]">Buy</Button> :  <Button onClick={() => { router.push("/Signup")}} className="font-extrabold w-full">Get Started</Button>} 
+                            </div>
+                        </div>
                     })}
                 </div>
-            </section>
+            </div>
         </div>
 
     )
 }
-
-export default PricingContent
-
