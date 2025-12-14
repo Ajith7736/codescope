@@ -9,6 +9,7 @@ function Button({ variant = "default", icons, children, onClick, className }: { 
         blue: "bg-indigo-600 cursor-pointer hover:bg-indigo-700 text-white"
     }
 
+
     return (
         <button onClick={onClick && onClick} className={cn(className,`${variants[variant]} p-2 rounded-md xss:text-[11px] md:text-xs flex items-center gap-2  justify-center transition-all duration-300`)}>{icons} {children}</button>
     )

@@ -135,6 +135,7 @@ export interface plansprops {
     pricing: string,
     plantype: string,
     plandesc: string,
+    planid?: string,
     planadv: planadvprops[]
 }
 
