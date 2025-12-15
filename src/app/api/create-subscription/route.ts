@@ -4,7 +4,7 @@ import Razorpay from "razorpay"
 
 const getrazorpay = () => {
     if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-        throw new Error("Razorpay env variables are missing")
+        throw new Error("Razorpay id or key is missing")
     }
 
     return new Razorpay({
