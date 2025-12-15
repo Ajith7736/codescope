@@ -23,7 +23,7 @@ function RecentProject({ projects, isLoading }: { projects: Project[], isLoading
             {isLoading ? <div className='p-5 flex justify-center'><BasicLoader /></div> :
                 <div>
                     {projects.length === 0 ? <div className='p-8 text-xs'>No Projects</div> : projects.map((project,index) => {
-                        return <div key={project.id} onClick={() => router.push(`/Dashboard/Projects/${project.id}`)} className={`p-8 hover:bg-light-accent/5 hover:dark:bg-indigo-500/5 transition-all duration-300 cursor-pointer ${index !== projects.length - 1 && 'border-b border-light-border dark:border-dark-border'}`}>
+                        return <div key={project.id} onClick={() => router.push(`/Dashboard/Projects/${project.id}`)} className={`p-8 hover:bg-light-accent/5 hover:dark:bg-dark-accent/10 transition-all duration-300 cursor-pointer ${index !== projects.length - 1 && 'border-b border-light-border dark:border-dark-border'}`}>
                             <div className='flex gap-4 items-center justify-between'>
                                 <div className='flex gap-2 items-center'>
                                     <div className='bg-indigo-600 text-white md:h-8 rounded-md md:w-8 xss:w-7 xss:h-7 p-1 flex items-center justify-center'><Code aria-label="Code project" strokeWidth={3}/></div>

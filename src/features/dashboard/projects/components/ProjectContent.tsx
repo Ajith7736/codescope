@@ -113,7 +113,7 @@ function ProjectContent() {
           Your Projects
         </div>
         {projectdata?.length > 0 ? projectdata?.map((item) => {
-          return <div key={item.id} className='p-6 cursor-pointer border border-light-border dark:border-dark-border hover:bg-dark-accent/5 transition-all duration-300 border-t-0'>
+          return <div key={item.id} className='p-6 cursor-pointer border border-light-border dark:border-dark-border hover:bg-dark-accent/10 transition-all duration-300 border-t-0'>
             <Link href={`/Dashboard/Projects/${item.id}`} className='flex justify-between items-center text-sm'>
               <div className='flex flex-col gap-2'>
                 <h1 className='xss:text-[15px] md:text-base'>{item.projectname}</h1>
