@@ -44,16 +44,15 @@ model Subscription {
   id                     String             @id @default(uuid())
   userId                 String
   planId                 String             @db.VarChar(50)
-  planName               String?            @db.VarChar(100)
-  amount                 Int
-  currency               String?            @db.VarChar(10)
   razorpaySubscriptionId String?            @db.VarChar(100)
   razorpayPaymentId      String?            @db.VarChar(100)
   status                 SubscriptionStatus @default(PENDING)
   createdAt              DateTime           @default(now())
   updatedAt              DateTime           @updatedAt
-  user                   User               @relation(fields: [userId], references: [id])
+  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                   Plan               @relation(fields: [planId], references: [id])
 
+  @@unique([razorpaySubscriptionId])
   @@map("subscriptions")
 }
 
@@ -66,19 +65,17 @@ enum SubscriptionStatus {
 }
 
 model Plan {
-  id String @id @default(uuid())
-  name String @unique
-  description String
-  price Int
-  currency String @default("INR")
-  isFree Boolean @default(false)
-
-  razorpayPlanId String? 
-
-  features Json
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String         @id @default(uuid())
+  name           String         @unique
+  description    String
+  price          Int
+  currency       String         @default("INR")
+  isFree         Boolean        @default(false)
+  razorpayPlanId String?        @unique
+  features       Json
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  subscriptions  Subscription[]
 }
 
 model Account {
