@@ -2,10 +2,18 @@ import { failure, success, tryCatch } from "@/lib/server/api/api"
 import prisma from "@/lib/server/db/db";
 import Razorpay from "razorpay"
 
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+const getrazorpay = () => {
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+        throw new Error("Razorpay env variables are missing")
+    }
+
+    return new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
+}
+
+const razorpay = getrazorpay();
 
 export const POST = tryCatch(async (req: Request) => {
     const { planId, userId } = await req.json();
