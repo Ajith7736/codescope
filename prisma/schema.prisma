@@ -65,6 +65,22 @@ enum SubscriptionStatus {
   FAILED
 }
 
+model Plan {
+  id String @id @default(uuid())
+  name String @unique
+  description String
+  price Int
+  currency String @default("INR")
+  isFree Boolean @default(false)
+
+  razorpayPlanId String? 
+
+  features Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Account {
   id                    String    @id
   accountId             String

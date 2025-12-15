@@ -15,26 +15,23 @@ export const POST = tryCatch(async (req: Request) => {
     }
 
     const userdata = await prisma.user.findUnique({
-        where : {
-            id : userId
-        },
-        select : {
-            email : true,
-            name : true
+        where: {
+            id: userId
         }
     })
 
-    const subscription = await razorpay.subscriptions.create({
-        plan_id: planId,
-        total_count: 12,
-        customer_notify: 1,
-        notify_info : {
-            notify_email : userdata?.email
+    if (userdata) {
+        const subscription = await razorpay.subscriptions.create({
+            plan_id: planId,
+            total_count: 12,
+        })
+
+        if (subscription) {
+            return success({ id: subscription.id, key: process.env.RAZORPAY_KEY_ID, entity: subscription.entity });
+        } else {
+            return failure({ message: "subscription failed" })
         }
-    })
-
-    console.log(subscription);
+    }
 
 
-    return success({ id: subscription.id, key: process.env.RAZORPAY_KEY_ID, entity: subscription.entity });
 })
