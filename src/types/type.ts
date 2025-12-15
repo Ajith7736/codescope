@@ -131,11 +131,14 @@ export interface planadvprops {
     message: string
 }
 
-export interface plansprops {
-    pricing: string,
-    plantype: string,
-    plandesc: string,
-    planadv: planadvprops[]
+export interface PlanProps {
+    id: string
+    name: string
+    description: string
+    price: number
+    currency: "INR" | "USD"
+    razorpayPlanId?: string
+    features: String[]
 }
 
 export type DotProps = "amber" | "emerald" | "blue";
@@ -154,4 +157,10 @@ export interface Overview {
 export interface OverviewObject {
     title: string,
     explaination: string
+}
+
+export interface razorProps {
+    id: string;
+    key: string;
+    entity: string;
 }

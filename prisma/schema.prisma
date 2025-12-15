@@ -3,22 +3,23 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id            String    @id
+  id            String         @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean        @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
   projects      Project[]
+  subscription  Subscription[]
 
   @@unique([email])
   @@map("user")
@@ -37,6 +38,47 @@ model Session {
 
   @@unique([token])
   @@map("session")
+}
+
+model Subscription {
+  id                     String             @id @default(uuid())
+  userId                 String
+  planId                 String             @db.VarChar(50)
+  planName               String?            @db.VarChar(100)
+  amount                 Int
+  currency               String?            @db.VarChar(10)
+  razorpaySubscriptionId String?            @db.VarChar(100)
+  razorpayPaymentId      String?            @db.VarChar(100)
+  status                 SubscriptionStatus @default(PENDING)
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+  user                   User               @relation(fields: [userId], references: [id])
+
+  @@map("subscriptions")
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  FAILED
+}
+
+model Plan {
+  id String @id @default(uuid())
+  name String @unique
+  description String
+  price Int
+  currency String @default("INR")
+  isFree Boolean @default(false)
+
+  razorpayPlanId String? 
+
+  features Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {

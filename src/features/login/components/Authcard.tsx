@@ -14,8 +14,11 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
     });
 
     useEffect(() => {
-        if (!session) {
-            localStorage.removeItem("auth-loading");
+        const loading = localStorage.getItem("auth-loading");
+        if (!session && loading) {
+            setTimeout(() => {
+                localStorage.removeItem("auth-loading");
+            }, 3000)
         }
     }, [])
 

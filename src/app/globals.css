@@ -83,7 +83,6 @@ body {
   /* Slate 400 */
 
   --color-dark-background: black;
-  /* Slate 950 */
 
 
   /* Light Theme */
@@ -136,15 +135,6 @@ body {
   }
 }
 
-@keyframes beam-end {
-  0% {
-    stroke-dashoffset: 0;
-  }
-
-  100% {
-    stroke-dashoffset: -400;
-  }
-}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
