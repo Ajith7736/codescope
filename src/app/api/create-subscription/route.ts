@@ -1,45 +1,69 @@
 import { failure, success, tryCatch } from "@/lib/server/api/api"
-import prisma from "@/lib/server/db/db";
+import prisma from "@/lib/server/db/db"
 import Razorpay from "razorpay"
+
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
 
 const getrazorpay = () => {
     if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
         throw new Error("Razorpay id or key is missing")
     }
-
     return new Razorpay({
         key_id: process.env.RAZORPAY_KEY_ID,
         key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 }
 
-const razorpay = getrazorpay();
-
 export const POST = tryCatch(async (req: Request) => {
     const { planId, userId } = await req.json();
 
-    if (!planId) {
-        return failure({ message: "plan id is required" })
+    if (!planId || !userId) {
+        return failure({ message: "planId and userId are required" })
     }
 
-    const userdata = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
         where: {
             id: userId
         }
     })
 
-    if (userdata) {
-        const subscription = await razorpay.subscriptions.create({
-            plan_id: planId,
-            total_count: 12,
-        })
-
-        if (subscription) {
-            return success({ id: subscription.id, key: process.env.RAZORPAY_KEY_ID, entity: subscription.entity });
-        } else {
-            return failure({ message: "subscription failed" })
-        }
+    if (!user) {
+        return failure({ message: "User not found " })
     }
 
+    const razorpay = getrazorpay();
+
+    const subscription = await razorpay.subscriptions.create({
+        plan_id: planId,
+        total_count: 12,
+    })
+
+    const plan = await prisma.plan.findUnique({
+        where: {
+            razorpayPlanId: planId
+        },
+        select: {
+            id: true
+        }
+    })
+
+    if (!plan) {
+        return failure({ message: "Plan not found in DB" })
+    }
+
+    if (!subscription) {
+        return failure({ message: "subscription failed" })
+    }
+
+    await prisma.subscription.create({
+        data: {
+            planId: plan.id,
+            userId,
+            razorpaySubscriptionId: subscription.id,
+        }
+    })
+
+    return success({ id: subscription.id, key: process.env.RAZORPAY_KEY_ID, entity: subscription.entity });
 
 })

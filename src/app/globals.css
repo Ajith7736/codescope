@@ -141,8 +141,8 @@ body {
 .conic {
   background: linear-gradient(
   330deg,
-  rgba(54, 54, 54, .5),
-  rgba(21, 21, 21, .9),
+  rgba(54, 54, 54, .4),
+  rgba(21, 21, 21, .5),
   rgba(182, 182, 182, .3)
 );
 

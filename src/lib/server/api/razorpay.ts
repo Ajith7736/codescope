@@ -34,8 +34,7 @@ export async function verifypayment(paymentId: string, razorpaySignature: string
 
         const data = await res.json()
 
-        console.log(data);
-
+        return data;
     } catch (err) {
         console.error(err);
         toast.error("Server Error");

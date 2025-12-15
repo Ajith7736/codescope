@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import Script from "next/script"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 export const PricingContent = () => {
     const { data: session } = useSession();
@@ -27,9 +28,12 @@ export const PricingContent = () => {
 
             const data = await res.json();
 
+            if (!res.ok) {
+                return toast.error(data.message)
+            }
+
             return data;
         },
-        enabled: !!session?.user.id,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
@@ -39,7 +43,6 @@ export const PricingContent = () => {
     useEffect(() => {
         if (data?.success) {
             setplans(data.plans)
-            console.log(data);
         }
     }, [data])
 
@@ -67,7 +70,13 @@ export const PricingContent = () => {
                 color: "#000000",
             },
             handler: async function (response: any) {
-                await verifypayment(response.razorpay_payment_id, response.razorpay_signature, response.razorpay_subscription_id);
+                const data = await verifypayment(response.razorpay_payment_id, response.razorpay_signature, response.razorpay_subscription_id);
+
+                if (!data.success) {
+                    toast.error(data.message)
+                } else {
+                    toast.success(data.message)
+                }
             },
         });
 
