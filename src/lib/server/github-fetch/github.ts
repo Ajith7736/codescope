@@ -3,12 +3,11 @@ import mostusedlang from "./mostused";
 import filtertree from "./filtertree";
 import gettree from "./gettree";
 import getbranch from "./getbranch";
-import { GithubTree } from "@/types/type";
 import getcommit from "./getcommit";
 
 
 
-type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string, mostused: string, tree: GithubTree[], status: number, lastcommit: string, treestring: string, branch: string }
+type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string, mostused: string, treelength: number, status: number, lastcommit: string, treestring: string, branch: string }
 
 export default async function github(owner: string, repo: string, prevcommit?: string): Promise<Response> {
     const MAX_FILESIZE = 500 * 1024;
@@ -52,6 +51,8 @@ export default async function github(owner: string, repo: string, prevcommit?: s
 
     const { tree, treestring } = await gettree(owner, repo, branch);
 
+    const treelength = tree.length;
+
 
     const { totalsize, ValidFiles } = await filtertree(tree, MAX_FILESIZE);
 
@@ -69,12 +70,12 @@ export default async function github(owner: string, repo: string, prevcommit?: s
         const contents = await getcontent(batchedfiles, owner, repo, branch)
 
         const validcontents = await contents.filter(Boolean);
-        
+
         RepoContent += validcontents.join("");
     }
 
 
     const mostused: string = await mostusedlang(owner, repo)
 
-    return { success: true, message: "success", RepoContent, mostused, tree, status: 200, lastcommit, treestring, branch }
+    return { success: true, message: "success", RepoContent, mostused, treelength, status: 200, lastcommit, treestring, branch }
 }

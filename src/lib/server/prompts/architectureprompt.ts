@@ -7,7 +7,11 @@ export default function architectureprompt(projectcode: string, projecttree: str
         ---Project-Tree---
         ${projecttree}
 
-        ${previousanalysis && `---PreviousAnalysis-- ${previousanalysis}`}
+        ${previousanalysis && `
+            ---PreviousAnalysis--${previousanalysis}
+            ## IMPORTANT
+                  Check whether all the previousanalysis issues are resolved and if any of the issues is not resolved then add the same issue to the result you will give and the data should be same as the previousanalysis issue.
+            `}
 
         ## IMPORTANT
         Check whether all the previousanalysis issues are resolved and if any of the issues is not resolved then add the same issue to the result you will give and the data should be same as the previousanalysis issue.

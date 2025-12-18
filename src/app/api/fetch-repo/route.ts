@@ -25,7 +25,7 @@ export const POST = tryCatch(async (req: Request) => {
         return failure({ message }, status)
 
     } else {
-        const { RepoContent, branch, message, mostused, treestring, lastcommit, tree } = res;
+        const { RepoContent, branch, message, mostused, treestring, lastcommit, treelength } = res;
 
         const project = await prisma.project.create({
             data: {
@@ -36,7 +36,7 @@ export const POST = tryCatch(async (req: Request) => {
                 mostused,
                 lastcommit,
                 branch,
-                totalfiles: tree.length,
+                totalfiles: treelength,
                 userId: userId
             }
         })

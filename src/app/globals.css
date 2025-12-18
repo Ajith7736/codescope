@@ -1,4 +1,7 @@
+@import 'ldrs/react/Ring.css';
+@import 'ldrs/react/Ring2.css';
 @import "tailwindcss";
+
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;

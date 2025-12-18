@@ -1,5 +1,4 @@
 import { Ring2, } from 'ldrs/react'
-import 'ldrs/react/Ring2.css'
 import { Layers, Shield, Zap } from 'lucide-react'
 
 

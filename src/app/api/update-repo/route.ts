@@ -19,20 +19,23 @@ export const PUT = tryCatch(async (req: Request) => {
         }
 
     } else {
-        const { RepoContent, message, mostused, status, lastcommit, tree } = res;
+        const { RepoContent, message, mostused, status, lastcommit, treelength, treestring } = res;
 
-        const project = await prisma.project.update({
-            where: {
-                id: projectId,
-                projectname: repo
-            },
-            data: {
-                mostused,
-                projectcode: RepoContent,
-                totalfiles: tree.length,
-                lastcommit
-            }
-        })
+        
+
+            const project = await prisma.project.update({
+                where: {
+                    id: projectId
+                },
+                data: {
+                    mostused,
+                    projectcode: RepoContent,
+                    totalfiles: treelength,
+                    lastcommit,
+                    projecttree: treestring
+                }
+            })
+
 
         return NextResponse.json({ message, project }, { status })
     }

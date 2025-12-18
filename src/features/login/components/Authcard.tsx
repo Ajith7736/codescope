@@ -19,16 +19,9 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
             setTimeout(() => {
                 localStorage.removeItem("auth-loading");
             }, 3000)
-        }
-    }, [])
-
-
-
-
-    useEffect(() => {
-        const loading = localStorage.getItem("auth-loading");
-        if (loading) {
+        } else if (loading) {
             const json = JSON.parse(loading);
+            console.log(json);
             if (json.show) {
                 setisloading({
                     provider: json.provider,
@@ -36,7 +29,6 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
                 })
             }
         }
-
     }, [])
 
 
