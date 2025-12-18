@@ -64,12 +64,13 @@ export default async function github(owner: string, repo: string, prevcommit?: s
 
     for (let i = 0; i < ValidFiles.length; i += BATCH_SIZE) {
 
-        const batchedfiles = ValidFiles.splice(i, i + BATCH_SIZE);
+        const batchedfiles = ValidFiles.slice(i, i + BATCH_SIZE);
 
         const contents = await getcontent(batchedfiles, owner, repo, branch)
 
         const validcontents = await contents.filter(Boolean);
-        RepoContent = validcontents.join("");
+        
+        RepoContent += validcontents.join("");
     }
 
 

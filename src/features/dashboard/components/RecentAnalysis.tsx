@@ -1,11 +1,10 @@
-import { Analysis, Project, recentanalysis } from '@/types/type'
+import { recentanalysis } from '@/types/type'
 import StatusIcon from '@/ui/icon/StatusIcon'
 import BasicLoader from '@/ui/loaders/BasicLoader'
 import IssuesText from '@/ui/Text/IssuesText'
 import ProjectText from '@/ui/Text/ProjectText'
 import SecondTitle from '@/ui/Text/SecondTitle'
 import SmallText from '@/ui/Text/SmallText'
-import { Shield } from 'lucide-react'
 
 
 function RecentAnalysis({ analysis, isLoading }: { analysis: recentanalysis[], isLoading: boolean }) {
@@ -34,7 +33,7 @@ function RecentAnalysis({ analysis, isLoading }: { analysis: recentanalysis[], i
                     </div>
                 </div>
 
-            }) : <div className='p-8 text-xs'>No Projects</div>}
+            }) : <div className='p-8 text-xs text-center'>No Projects</div>}
 
         </div>
     )

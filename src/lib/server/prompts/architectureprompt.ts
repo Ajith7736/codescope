@@ -9,6 +9,9 @@ export default function architectureprompt(projectcode: string, projecttree: str
 
         ${previousanalysis && `---PreviousAnalysis-- ${previousanalysis}`}
 
+        ## IMPORTANT
+        Check whether all the previousanalysis issues are resolved and if any of the issues is not resolved then add the same issue to the result you will give and the data should be same as the previousanalysis issue.
+
         ## Your Goals:
 
         1. **Tech Stack Identification**: Determine what technologies are being used (web app, mobile app, AI/ML, backend services, etc.)
