@@ -13,11 +13,12 @@ export const PUT = tryCatch(async (req: Request) => {
             id: projectId
         },
         select: {
-            projectcode: true
+            projectcode: true,
+            commitid: true
         }
     })
 
-    const res = await githubrefetch(owner, repo, lastcommit, branch, project?.projectcode);
+    const res = await githubrefetch(owner, repo, branch, project?.projectcode, project?.commitid);
 
     if (!res.success) {
 
@@ -34,21 +35,21 @@ export const PUT = tryCatch(async (req: Request) => {
 
 
 
-            const project = await prisma.project.update({
-                where: {
-                    id: projectId
-                },
-                data: {
-                    mostused,
-                    projectcode: RepoContent,
-                    totalfiles: treelength,
-                    lastcommit,
-                    projecttree: treestring
-                }
-            })
+        const project = await prisma.project.update({
+            where: {
+                id: projectId
+            },
+            data: {
+                mostused,
+                projectcode: RepoContent,
+                totalfiles: treelength,
+                lastcommit,
+                projecttree: treestring
+            }
+        })
 
 
         return NextResponse.json({ message, project }, { status })
-        }
+    }
 
 })

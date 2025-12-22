@@ -116,6 +116,7 @@ model Project {
   ownername   String
   mostused    String
   lastcommit  String
+  commitid    String?     @unique
   totalfiles  Int
   branch      String?
   analysis    Analysis[]

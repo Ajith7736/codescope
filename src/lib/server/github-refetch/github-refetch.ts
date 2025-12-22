@@ -8,7 +8,7 @@ import { filterfiles } from "./filterfiles";
 
 type Response = { success: false, message: string, status: number } | { success: true, message: string, RepoContent: string | undefined, mostused: string, treelength: number, status: number, lastcommit: string, treestring: string }
 
-export async function githubrefetch(owner: string, repo: string, previouscommit: string, branch: string, projectcode: string | undefined): Promise<Response> {
+export async function githubrefetch(owner: string, repo: string, branch: string, projectcode: string | undefined, previouscommitid: string | null | undefined): Promise<Response> {
 
 
     const res = await getcommit(owner, repo, branch);
@@ -32,14 +32,14 @@ export async function githubrefetch(owner: string, repo: string, previouscommit:
 
 
 
-    if (previouscommit && lastcommit === previouscommit) {
+    if (previouscommitid && commitsha === previouscommitid) {
         return { success: false, message: "Repo is upto date", status: 200 }
     }
 
     const [branchres, { tree, treestring }, commits] = await Promise.all([
         getbranch(owner, repo),
         gettree(owner, repo, branch),
-        getlatestcommit(owner, repo, branch, previouscommit)
+        getlatestcommit(owner, repo, branch, previouscommitid!)
     ])
 
 

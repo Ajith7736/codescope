@@ -1,4 +1,4 @@
-export async function getlatestcommit(owner: string, repo: string, branch: string, previouscommit: string) {
+export async function getlatestcommit(owner: string, repo: string, branch: string, previouscommitid: string) {
     const commitsres = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits?sha=${branch}&per_page=10`, {
         headers: {
             Authorization: `token ${process.env.GITHUB_TOKEN}`,
@@ -10,12 +10,14 @@ export async function getlatestcommit(owner: string, repo: string, branch: strin
     const commits: string[] = [];
 
     for (let i = 0; i < commitdata.length; i++) {
-        if (commitdata[i].commit.message === previouscommit) {
+        if (commitdata[i].sha === previouscommitid) {
             break;
         } else {
             commits.push(commitdata[i].sha);
         }
     }
+
+    console.log(commits);
 
     return commits;
 }
