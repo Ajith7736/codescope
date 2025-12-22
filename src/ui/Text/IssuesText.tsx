@@ -9,7 +9,7 @@ function IssuesText({ number }: { number: number }) {
         bg = "bg-blue-500/10 border border-blue-500/30 text-blue-500"
     } else if (number >= 6 && number <= 10) {
         bg = "bg-orange-500/10 border border-orange-500/30 text-orange-500"
-    } else if (number >= 11 && number <= 15) {
+    } else if (number >= 11) {
         bg = "bg-red-500/10 border border-red-500/30 text-red-500"
     }
 

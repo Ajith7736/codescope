@@ -1,5 +1,4 @@
 import getcontent from "./getcontent";
-import mostusedlang from "./mostused";
 import filtertree from "./filtertree";
 import gettree from "./gettree";
 import getbranch from "./getbranch";
@@ -28,6 +27,8 @@ export default async function github(owner: string, repo: string, prevcommit?: s
 
     const resdata = await res.json();
     const branch = await resdata.default_branch;
+
+    const mostused = resdata.language;
 
     //get last commit message
 
@@ -74,8 +75,6 @@ export default async function github(owner: string, repo: string, prevcommit?: s
         RepoContent += validcontents.join("");
     }
 
-
-    const mostused: string = await mostusedlang(owner, repo)
 
     return { success: true, message: "success", RepoContent, mostused, treelength, status: 200, lastcommit, treestring, branch }
 }

@@ -1,12 +1,23 @@
 import { tryCatch } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
-import github from "@/lib/server/github-fetch/github";
+import { githubrefetch } from "@/lib/server/github-refetch/github-refetch";
 import { NextResponse } from "next/server";
 
-export const PUT = tryCatch(async (req: Request) => {
-    const { owner, repo, projectId, lastcommit }: { owner: string, repo: string, projectId: string, lastcommit: string } = await req.json();
 
-    const res = await github(owner, repo, lastcommit);
+export const PUT = tryCatch(async (req: Request) => {
+    const { owner, repo, projectId, lastcommit, branch }: { owner: string, branch: string, repo: string, projectId: string, lastcommit: string } = await req.json();
+
+
+    const project = await prisma.project.findUnique({
+        where: {
+            id: projectId
+        },
+        select: {
+            projectcode: true
+        }
+    })
+
+    const res = await githubrefetch(owner, repo, lastcommit, branch, project?.projectcode);
 
     if (!res.success) {
 
@@ -21,7 +32,7 @@ export const PUT = tryCatch(async (req: Request) => {
     } else {
         const { RepoContent, message, mostused, status, lastcommit, treelength, treestring } = res;
 
-        
+
 
             const project = await prisma.project.update({
                 where: {
@@ -38,6 +49,6 @@ export const PUT = tryCatch(async (req: Request) => {
 
 
         return NextResponse.json({ message, project }, { status })
-    }
-}
-)
+        }
+
+})

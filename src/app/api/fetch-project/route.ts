@@ -18,5 +18,6 @@ export const POST = tryCatch(async (req: Request) => {
         return success({ message: "No project" })
     }
 
+
     return success({ message: "Project fetched successfully", project })
 }) 

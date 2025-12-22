@@ -6,7 +6,7 @@ import SmallText from '@/ui/Text/SmallText'
 import { RefreshCcw } from 'lucide-react'
 import { useEffect } from 'react'
 
-function ProjectHeader({ projectdata, refetch }: { projectdata: Pick<Project, "lastcommit" | "projectname" | "id" | "ownername"> | null, refetch: Function }) {
+function ProjectHeader({ projectdata, refetch }: { projectdata: Pick<Project, "lastcommit" | "branch" | "projectname" | "id" | "ownername"> | null, refetch: Function }) {
 
     const {
         data: successres,
@@ -19,7 +19,8 @@ function ProjectHeader({ projectdata, refetch }: { projectdata: Pick<Project, "l
             owner: projectdata?.ownername,
             repo: projectdata?.projectname,
             projectId: projectdata?.id,
-            lastcommit: projectdata?.lastcommit
+            lastcommit: projectdata?.lastcommit,
+            branch: projectdata?.branch
         })
 
 

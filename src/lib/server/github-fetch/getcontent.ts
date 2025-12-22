@@ -17,7 +17,7 @@ export default async function getcontent(filteredfiles: GithubTree[], owner: str
 
             const filecontent = await res.text();
 
-            return `\n------Path : ${file.path}-----\n\n-----FileName : ${file.path.split("/")[file.path.split("/").length - 1]}----\n\n${filecontent}\n\n`;
+            return `\n------Path : ${file.path}-----\n\n-----FileName : ${file.path.split("/")[file.path.split("/").length - 1]}----\n\n${filecontent}\n\n----End : ${file.path}----\n\n`;
 
         } catch (err) {
             console.error("Something went wrong")
