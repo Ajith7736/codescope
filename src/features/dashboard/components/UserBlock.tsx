@@ -49,7 +49,7 @@ function UserBlock() {
                 </div>
             </div>
             {/* <Link href={'/Pricing'} className="py-3 px-2 cursor-pointer hover:bg-dark-accent/10 w-full flex gap-2  text-start"><CreditCard className="size-4" />Billing</Link> */}
-            <div className='py-3 px-2 cursor-pointer w-full hover:bg-dark-accent/10 flex gap-2 text-start border-t border-dark-border' onClick={handlelogout}><LogOut className="size-4" />Logout</div>
+            <div className='py-3 px-2 cursor-pointer text-xs w-full hover:bg-dark-accent/10 flex gap-2 text-start border-t border-dark-border' onClick={handlelogout}><LogOut className="size-4" />Logout</div>
         </motion.div>
     )
 }

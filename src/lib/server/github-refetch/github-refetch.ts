@@ -77,7 +77,6 @@ export async function githubrefetch(owner: string, repo: string, branch: string,
 
             const text = await res.text();
 
-            console.log(text);
 
             RepoContent.set(
                 path,
@@ -91,7 +90,6 @@ export async function githubrefetch(owner: string, repo: string, branch: string,
 
     ValidFiles.forEach((file) => {
         if (projectcode?.includes(`------Path : ${file}-----`)) {
-
 
             const startindex = projectcode.indexOf(`------Path : ${file}-----`);
             const endindex = projectcode.indexOf(`----End : ${file}----`)
@@ -126,7 +124,6 @@ export async function githubrefetch(owner: string, repo: string, branch: string,
         }
     });
 
-    console.log(fullcode)
 
 
     return { success: true, lastcommit, message: "Successfully fetched", mostused, RepoContent: fullcode, treestring, treelength: tree.length, status: 200 }

@@ -1,7 +1,8 @@
-export const delay = (): Promise<void> => {
+export const delay = (t? : number): Promise<void> => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve();
-        }, 2000);
+        }, t ? t : 
+        2000);
     })
 }
