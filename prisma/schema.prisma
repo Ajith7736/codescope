@@ -41,27 +41,88 @@ model Session {
 }
 
 model Subscription {
-  id                     String             @id @default(uuid())
-  userId                 String
-  planId                 String             @db.VarChar(50)
-  razorpaySubscriptionId String?            @db.VarChar(100)
-  razorpayPaymentId      String?            @db.VarChar(100)
-  status                 SubscriptionStatus @default(PENDING)
-  createdAt              DateTime           @default(now())
-  updatedAt              DateTime           @updatedAt
-  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan                   Plan               @relation(fields: [planId], references: [id])
+  id                       String             @id @default(uuid())
+  userId                   String
+  planId                   String             @db.VarChar(50)
+  razorpay_subscription_id String?            @db.VarChar(100)
+  status                   SubscriptionStatus @default(PENDING)
+  quantity                 Int
+  total_count              Int?
+  paid_count               Int
+  remaining_count          Int
+  current_start            DateTime?
+  current_end              DateTime?
+  charge_at                DateTime?
+  activated_at             DateTime?
+  cancelled_at             DateTime?
+  halted_at                DateTime?
+  paused_at                DateTime?
+  resumed_at               DateTime?
+  completed_at             DateTime?
+  last_payment_at          DateTime?
+  payments                 Payment[]
+  createdAt                DateTime           @default(now())
+  updatedAt                DateTime           @updatedAt
+  user                     User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                     Plan               @relation(fields: [planId], references: [id])
+  invoices                 Invoice[]
 
-  @@unique([razorpaySubscriptionId])
+  @@unique([razorpay_subscription_id])
   @@map("subscriptions")
+}
+
+model Payment {
+  id                       String        @id @default(uuid())
+  razorpay_payment_id      String        @unique
+  razorpay_subscription_id String?
+  subscription             Subscription? @relation(fields: [razorpay_subscription_id], references: [razorpay_subscription_id])
+  amount                   Float
+  currency                 String        @default("INR")
+  status                   PaymentStatus
+  method                   String?
+  email                    String?
+  contact                  String?
+  error_code               String?
+  error_desc               String?
+  captured_at              DateTime?
+  createdAt                DateTime      @default(now())
+
+  @@map("payment")
+}
+
+model Invoice {
+  id                       String    @id @default(cuid())
+  razorpay_subscription_id String
+  razorpay_invoice_id      String    @unique
+  razorpay_payment_id      String?
+  amount                   Int
+  currency                 String
+  status                   String
+  billingStart             DateTime?
+  billingEnd               DateTime?
+  paidAt                   DateTime?
+  createdAt                DateTime  @default(now())
+
+  subscription Subscription @relation(fields: [razorpay_subscription_id], references: [id])
+
+  @@map("invoice")
 }
 
 enum SubscriptionStatus {
   PENDING
   ACTIVE
+  AUTHENTICATED
+  HALTED
   CANCELLED
   EXPIRED
   FAILED
+}
+
+enum PaymentStatus {
+  CAPTURED
+  FAILED
+  AUTHORIZED
+  PAID
 }
 
 model Plan {
@@ -116,7 +177,7 @@ model Project {
   ownername   String
   mostused    String
   lastcommit  String
-  commitid    String?     @unique
+  commitid    String?    @unique
   totalfiles  Int
   branch      String?
   analysis    Analysis[]

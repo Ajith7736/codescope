@@ -160,6 +160,7 @@ export interface OverviewObject {
 }
 
 export interface razorProps {
+    success?: boolean,
     id: string;
     key: string;
     entity: string;

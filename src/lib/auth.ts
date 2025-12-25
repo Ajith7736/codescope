@@ -3,6 +3,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { SendEmail } from "./actions/email-actions";
 import prisma from "./server/db/db";
+import { customSession } from "better-auth/plugins";
 
 
 export const auth = betterAuth({
@@ -35,5 +36,26 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
         }
     },
-    plugins: [nextCookies()],
+    plugins: [nextCookies(),
+        customSession(async ({ user, session }) => {
+            const subscription = await prisma.subscription.findFirst({
+                where : {
+                    userId : user.id,
+                    status : "ACTIVE"
+                },
+                select : {
+                    id : true,
+                    planId : true,
+                    plan : true,
+                    status : true,
+                    createdAt : true
+                }
+            })
+            return {
+                user,
+                session,
+                subscription
+            };
+        }),
+    ],
 });

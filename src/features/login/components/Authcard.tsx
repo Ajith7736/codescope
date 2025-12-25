@@ -48,12 +48,15 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
             });
             if (error) {
                 toast.error("SignIn Failed");
-                localStorage.removeItem("auth-loading")
+                localStorage.removeItem("auth-loading");
+                setisloading({provider : null , show : false});
             }
 
         } catch (err) {
+            console.log(err);
             toast.error("Server Error")
             localStorage.removeItem("auth-loading")
+            setisloading({provider : null , show : false});
         }
     }
 

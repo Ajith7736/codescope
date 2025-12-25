@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
             { protocol: "https", hostname: "lh3.googleusercontent.com" },
         ]
     },
-    typedRoutes: true
+    typedRoutes: true,
 };
 
 export default nextConfig;

@@ -22,6 +22,21 @@ export const POST = tryCatch(async (req: Request) => {
         return failure({ message: "planId and userId are required" })
     }
 
+    const existingsubscription = await prisma.subscription.findFirst({
+        where: {
+            userId,
+            status: "ACTIVE"
+        },
+        select: {
+            id: true
+        }
+    })
+
+
+    if (existingsubscription) {
+        return failure({ message: "An active subscription already exists" })
+    }
+
     const user = await prisma.user.findUnique({
         where: {
             id: userId
@@ -37,6 +52,10 @@ export const POST = tryCatch(async (req: Request) => {
     const subscription = await razorpay.subscriptions.create({
         plan_id: planId,
         total_count: 12,
+        notes: {
+            userId,
+            planId
+        }
     })
 
     const plan = await prisma.plan.findUnique({
@@ -56,13 +75,15 @@ export const POST = tryCatch(async (req: Request) => {
         return failure({ message: "subscription failed" })
     }
 
-    await prisma.subscription.create({
-        data: {
-            planId: plan.id,
-            userId,
-            razorpaySubscriptionId: subscription.id,
-        }
-    })
+    console.log(subscription);
+
+    // await prisma.subscription.create({
+    //     data: {
+    //         planId: plan.id,
+    //         userId,
+    //         razorpay_subscription_id: subscription.id,
+    //     }
+    // })
 
     return success({ id: subscription.id, key: process.env.RAZORPAY_KEY_ID, entity: subscription.entity });
 
