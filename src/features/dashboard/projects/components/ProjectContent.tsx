@@ -32,7 +32,7 @@ function ProjectContent() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ userId: session?.user.id })
+        body: JSON.stringify({ userId: session?.user?.id })
       })
       const data = await res.json();
 
@@ -47,7 +47,7 @@ function ProjectContent() {
 
       return data;
     },
-    enabled: !!session?.user.id,
+    enabled: !!session?.user?.id,
     refetchOnMount: false
   })
 
@@ -68,7 +68,7 @@ function ProjectContent() {
     }
   }, [link])
 
-  const { data: resdata, loading, fetchdata: getgithubdata } = useFetch("/api/fetch-repo", "POST", { owner: Owner, repo: Repo, userId: session?.user.id })
+  const { data: resdata, loading, fetchdata: getgithubdata } = useFetch("/api/fetch-repo", "POST", { owner: Owner, repo: Repo, userId: session?.user?.id })
 
   useEffect(() => {
     if (resdata && resdata.project) {
@@ -106,8 +106,8 @@ function ProjectContent() {
               className='text-sm bg-light-black text-light-white bg-indigo-600 shadow-sm  shadow-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 cursor-pointer p-2 rounded-[3px]'
               disabled={errorText.length > 0 || link === ""}
               onClick={() => {
-                if (projectdata.length < 3) {
-                  getgithubdata
+                if (projectdata?.length < 3 || !projectdata) {
+                  getgithubdata();
                 } else {
                   router.push("/Pricing")
                 }
@@ -116,11 +116,11 @@ function ProjectContent() {
         </div>
         {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
-      {(!session?.subscription || session.subscription.plan.name === "Basic") && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-dark-input-border w-40 h-2 rounded-full'><div className='bg-indigo-500 h-2 rounded-full'
+      {(!session?.subscription || (session?.subscription?.status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-dark-input-border w-40 h-2 rounded-full'><div className='bg-indigo-500 h-2 rounded-full'
         style={{
-          width: !session?.subscription ? projectdata.length / 3 * 100 + "%" : projectdata.length / 10 * 100 + "%"
+          width: !session?.subscription ? projectdata?.length / 3 * 100 + "%" : projectdata?.length / 10 * 100 + "%"
         }}
-      ></div></div><div className='text-dark-text-muted italic'>{projectdata.length} / {session?.subscription?.plan.name === "Basic" ? 10 : 3}</div></div>}
+      ></div></div><div className='text-dark-text-muted italic'>{projectdata ? projectdata.length : 0} / {session?.subscription?.plan.name === "Basic" ? 10 : 3}</div></div>}
       <div className=' xss:w-85 md:w-110 lg:w-190'>
         <div className='border p-5 xss:text-sm rounded-t-md font-extrabold border-light-border dark:border-dark-border'>
           Your Projects

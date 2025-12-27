@@ -9,7 +9,7 @@ function SettingsPage({ projectId, refetch }: { projectId: string | undefined, r
 
   const router = useRouter();
 
-  const { fetchdata: handledelete, loading } = useFetch("/api/delete-project", "DELETE", { projectId, userId: session?.user.id })
+  const { fetchdata: handledelete, loading } = useFetch("/api/delete-project", "DELETE", { projectId, userId: session?.user?.id })
 
   const handleproject = async () => {
     await handledelete();

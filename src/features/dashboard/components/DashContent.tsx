@@ -42,7 +42,7 @@ function DashContent() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ userId: session?.user.id })
+        body: JSON.stringify({ userId: session?.user?.id })
       })
 
       const data = await res.json();
@@ -54,7 +54,7 @@ function DashContent() {
 
       return data;
     },
-    enabled: !!session?.user.id,
+    enabled: !!session?.user?.id,
     refetchOnMount: false,
     refetchOnWindowFocus: false
   })

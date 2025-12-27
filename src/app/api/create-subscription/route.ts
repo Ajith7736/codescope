@@ -25,7 +25,7 @@ export const POST = tryCatch(async (req: Request) => {
     const existingsubscription = await prisma.subscription.findFirst({
         where: {
             userId,
-            status: "ACTIVE"
+            status: "active"
         },
         select: {
             id: true
@@ -75,7 +75,6 @@ export const POST = tryCatch(async (req: Request) => {
         return failure({ message: "subscription failed" })
     }
 
-    console.log(subscription);
 
     // await prisma.subscription.create({
     //     data: {

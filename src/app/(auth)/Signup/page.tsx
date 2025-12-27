@@ -44,6 +44,7 @@ function Page() {
     const { message, success } = await signUp(data.email, data.password, data.name);
     if (success) {
       toast.success(message)
+      router.push("/SignIn")
     } else {
       toast.error(message)
     }

@@ -13,7 +13,7 @@ export const auth = betterAuth({
                 to: user.email,
                 subject: "Verify your email address",
                 url,
-                name : user.name
+                name: user.name
             });
         },
         sendOnSignUp: true,
@@ -37,25 +37,50 @@ export const auth = betterAuth({
         }
     },
     plugins: [nextCookies(),
-        customSession(async ({ user, session }) => {
-            const subscription = await prisma.subscription.findFirst({
-                where : {
-                    userId : user.id,
-                    status : "ACTIVE"
+    customSession(async ({ user: userdata, session }) => {
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userdata.id
+            },
+            select: {
+                id: true,
+                createdAt: true,
+                updatedAt: true,
+                email: true,
+                emailVerified: true,
+                name: true,
+                image: true,
+                razorpay_customer_id: true,
+                subscription_end_date: true,
+                subscription_status: true
+            }
+        })
+
+        const subscription = await prisma.subscription.findFirst({
+            where: {
+                userId: userdata.id,
+                status: "active"
+            },
+            select: {
+                id: true,
+                planId: true,
+                plan : {
+                    select : {
+                        razorpayPlanId : true,
+                        name : true
+                    }
                 },
-                select : {
-                    id : true,
-                    planId : true,
-                    plan : true,
-                    status : true,
-                    createdAt : true
-                }
-            })
-            return {
-                user,
-                session,
-                subscription
-            };
-        }),
+                status: true,
+                createdAt: true,
+            }
+        })
+
+        return {
+            user,
+            session,
+            subscription
+        };
+    }),
     ],
 });
