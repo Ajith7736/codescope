@@ -1,5 +1,6 @@
 import { failure, success, tryCatch } from "@/lib/server/api/api";
-import { handleInvoice, handlePaymentCapture } from "@/lib/server/razorpayactions.tsx/actions";
+import { validateWebhookSignature } from "razorpay/dist/utils/razorpay-utils";
+import { handleInvoice, handlePaymentCapture, handlePaymentFailed, handleSubscriptionActivated, handleSubscriptionAuthenticated, handleSubscriptionCancelled, handleSubscriptionCharged, handleSubscriptionHalted, handleSubscriptionPaused, handleSubscriptionResumed } from "@/lib/server/razorpayactions.tsx/actions";
 import { RazorpayInvoice, RazorpayOrder, RazorpayPayment, RazorpaySubscription, RazorpayWebhookEvent } from "@/types/razorpaytypes";
 import crypto from "crypto"
 
@@ -14,9 +15,7 @@ export const POST = tryCatch(async (req: Request) => {
         return failure({ message: "Missing signature" }, 404)
     }
 
-    const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET!).update(body).digest("hex");
-
-    if (expectedSignature !== recievedSignature) {
+    if (!validateWebhookSignature(body, recievedSignature, process.env.RAZORPAY_WEBHOOK_SECRET!)) {
         return failure({ message: "Verification Failed" })
     }
 
@@ -44,14 +43,29 @@ export const POST = tryCatch(async (req: Request) => {
         case 'invoice.paid':
             await handleInvoice(payload.payload.invoice?.entity!);
             break;
-        case 'subscription.authenticated':
-            console.log('authenticated')
-            break;
         case 'subscription.charged':
-            console.log('charged')
+            await handleSubscriptionCharged(payload.payload.subscription?.entity!, payload.payload.payment?.entity!)
             break;
+        case 'subscription.authenticated':
+            await handleSubscriptionAuthenticated(payload.payload.subscription?.entity!);
+            break
         case 'subscription.activated':
-            console.log('activated')
+            await handleSubscriptionActivated(payload.payload.subscription?.entity!);
+            break;
+        case 'payment.failed':
+            await handlePaymentFailed(payload.payload.payment?.entity!);
+            break;
+        case 'subscription.cancelled':
+            await handleSubscriptionCancelled(payload.payload.subscription?.entity!)
+            break;
+        case 'subscription.halted':
+            await handleSubscriptionHalted(payload.payload.subscription?.entity!)
+            break;
+        case 'subscription.paused':
+            await handleSubscriptionPaused(payload.payload.subscription?.entity!)
+            break;
+        case 'subscription.resumed':
+            await handleSubscriptionResumed(payload.payload.subscription?.entity!)
             break;
     }
 

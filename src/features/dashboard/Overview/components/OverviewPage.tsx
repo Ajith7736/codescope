@@ -10,7 +10,7 @@ import BasicLoader from '@/ui/loaders/BasicLoader'
 
 function OverviewPage({ overview, refetch, projectdata, isRefetching }: { refetch: Function, isRefetching: Boolean, projectdata: Pick<Project, "id" | "projectcode" | "projecttree"> | null, overview: Overview | null | undefined }) {
   const { data: session } = useSession();
-  const { loading, fetchdata: fetchoverview } = useFetch("/api/overview", "POST", { projectId: projectdata?.id, projectcode: projectdata?.projectcode, projecttree: projectdata?.projecttree, userId: session?.user.id }, refetch)
+  const { loading, fetchdata: fetchoverview } = useFetch("/api/overview", "POST", { projectId: projectdata?.id, projectcode: projectdata?.projectcode, projecttree: projectdata?.projecttree, userId: session?.user?.id }, refetch)
 
 
   return (

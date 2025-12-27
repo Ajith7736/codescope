@@ -139,11 +139,11 @@ function Sidebar() {
                 </div>
             </div>
             <div className={`text-center flex items-center xss:gap-4 md:gap-3 ${showsidebar && 'hover:bg-dark-accent/10 lg:gap-6  hover:dark:bg-dark-hovergray justify-center'} min-w-4 rounded-lg cursor-pointer transition-all duration-300 xss:p-2 md:p-1.5 lg:p-2`}>
-                {session?.user.image ?
+                {session?.user?.image ?
                     <Image
                         height={15}
                         width={15}
-                        src={session?.user.image}
+                        src={session?.user?.image}
                         alt="profile pic"
                         className='rounded-full size-6.5'
                         onClick={() => {
@@ -161,10 +161,10 @@ function Sidebar() {
                     </div>}
                 <div className={`overflow-hidden ${showsidebar ? 'md:visible ' : 'md:invisible'} min-w-fit transition-all duration-300 easeInOut flex flex-col items-start text-xs`}>
                     <div>
-                        {session?.user.name}
+                        {session?.user?.name}
                     </div>
                     <div>
-                        {session?.user.email}
+                        {session?.user?.email}
                     </div>
                 </div>
                 <button ref={userref} className={`overflow-hidden relative ${showsidebar ? ' md:opacity-100' : 'md:opacity-0'} transition-all duration-300 ease-in-out flex flex-col items-start text-xs`}>

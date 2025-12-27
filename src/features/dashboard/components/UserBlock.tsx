@@ -29,11 +29,11 @@ function UserBlock() {
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className='transition-all duration-300 bg-light-surface dark:bg-dark-surface rounded-md border shadow-md border-light-border dark:border-dark-border p-1 w-60 xss:text-xs md:text-sm flex flex-col items-start gap-1'>
             <div className="p-2 w-full items-center hover:bg-dark-accent/10 flex flex-row gap-3">
-                {session?.user.image ?
+                {session?.user?.image ?
                     <Image
                         height={15}
                         width={15}
-                        src={session?.user.image}
+                        src={session?.user?.image}
                         alt="profile pic"
                         className='rounded-ful size-6.5'
                     />
@@ -44,8 +44,8 @@ function UserBlock() {
                         </div>
                     </div>}
                 <div className="flex flex-col items-start">
-                    <p>{session?.user.name}</p>
-                    <p className="text-[12px]">{session?.user.email}</p>
+                    <p>{session?.user?.name}</p>
+                    <p className="text-[12px]">{session?.user?.email}</p>
                 </div>
             </div>
             {/* <Link href={'/Pricing'} className="py-3 px-2 cursor-pointer hover:bg-dark-accent/10 w-full flex gap-2  text-start"><CreditCard className="size-4" />Billing</Link> */}
