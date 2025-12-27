@@ -116,7 +116,7 @@ function ProjectContent() {
         </div>
         {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
-      {(!session?.subscription || (session?.subscription?.status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-dark-input-border w-40 h-2 rounded-full'><div className='bg-indigo-500 h-2 rounded-full'
+      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-dark-input-border w-40 h-2 rounded-full'><div className='bg-indigo-500 h-2 rounded-full'
         style={{
           width: !session?.subscription ? projectdata?.length / 3 * 100 + "%" : projectdata?.length / 10 * 100 + "%"
         }}

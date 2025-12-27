@@ -61,6 +61,7 @@ export const PricingContent = () => {
                 planId,
                 show: true
             });
+            setverifying(true);
             const data: razorProps = await createsubscription(planId, session?.user?.id);
 
             if (data.success) {
@@ -79,16 +80,8 @@ export const PricingContent = () => {
                         email: session?.user?.email,
                     },
                     handler: async function (response: any) {
-                        console.log(response);
-                        // const data = await verifypayment(response.razorpay_payment_id, response.razorpay_signature, response.razorpay_subscription_id);
-                        // setverifying(true);
-                        // await delay(4000);
-                        // if (!data.success) {
-                        //     toast.error(data.message)
-                        // } else {
-                        //     toast.success(data.message)
-                        // }
-                        // refetch();
+                        console.log("completed");
+                        refetch();
                     },
                 });
 
@@ -129,18 +122,17 @@ export const PricingContent = () => {
                 <h3 className="text-sm text-dark-text-primary">Manage your subscription and billing settings. Choose the plan that best fits your development needs.</h3>
                 <div className="flex xss:flex-col md:flex-row md:flex-wrap w-full md:h-[60vh] md:items-center md:justify-center gap-8">
                     {plans?.map((item, index) => {
-                        return <div key={index} className={`${
-                            (session?.subscription?.planId === item.razorpayPlanId
-                            &&
-                            session
-                            &&
-                            session?.subscription?.status === "active") ? 'dark:bg-white/50 bg-black/30' : 'conic'} relative p-px rounded-xl xss:w-full md:w-[70%] lg:w-[30%]`}>
+                        return <div key={index} className={`${(session?.subscription?.planId === item.razorpayPlanId
+                                &&
+                                session
+                                &&
+                                session?.user?.subscription_status === "active") ? 'dark:bg-white/50 bg-black/30' : 'conic'} relative p-px rounded-xl xss:w-full md:w-[70%] lg:w-[30%]`}>
                             {(
                                 session?.subscription?.planId === item.razorpayPlanId
                                 &&
                                 session
                                 &&
-                                session?.subscription?.status === "active"
+                                session?.user?.subscription_status === "active"
                             )
                                 &&
                                 <div className="dark:bg-white bg-light-surface-hover w-fit text-dark-background  px-5 py-[4px] rounded-full text-[12px] font-extrabold absolute flex items-center justify-center -top-[10px] z-10 left-2">CURRENT PLAN</div>}

@@ -1,14 +1,18 @@
-import { RazorpayInvoice, RazorpayOrder, RazorpayPayment, RazorpaySubscription } from "@/types/razorpaytypes";
+import { RazorpayInvoice, RazorpayPayment, RazorpaySubscription } from "@/types/razorpaytypes";
 import prisma from "../db/db";
 
-const Subscriptionstatus_Priority = {
-    "CREATED": 0,
-    "AUTHENTICATED": 1,
-    "ACTIVE": 2,
-    "CHARGED": 2,
-    "PAUSED": 3,
-    "HALTED": 4,
-    "CANCELLED": 5
+const AllowedTransitions: Record<string, string[]> = {
+    created: ['authenticated'],
+    authenticated: ['active'],
+    active: ['paused', 'halted', 'cancelled', 'completed'],
+    paused: ['active', 'cancelled', 'completed'],
+    halted: ['active', 'cancelled', 'completed'],
+    cancelled: [],
+    completed: []
+}
+
+function canTransition(from: string, to: string) {
+    return AllowedTransitions[from].includes(to);
 }
 
 export async function handlePaymentCapture(payment: RazorpayPayment) {
@@ -57,14 +61,14 @@ export async function handleInvoice(invoice: RazorpayInvoice) {
             razorpay_invoice_id: invoice.id,
             razorpay_payment_id: invoice.payment_id,
             status: 'paid',
-            paidAt: new Date()
+            paidAt: new Date(invoice.paid_at! * 1000)
         }
     })
 
 }
 
 export async function handleSubscriptionCharged(subscription: RazorpaySubscription, payment: RazorpayPayment) {
-    console.log("\n\n\n\nsubscription charged start\n\n\n\n")
+
     await prisma.payment.update({
         where: {
             razorpay_payment_id: payment.id
@@ -73,6 +77,7 @@ export async function handleSubscriptionCharged(subscription: RazorpaySubscripti
             razorpay_subscription_id: subscription.id,
         }
     })
+
 
     await prisma.subscription.upsert({
         where: {
@@ -86,7 +91,6 @@ export async function handleSubscriptionCharged(subscription: RazorpaySubscripti
             userId: subscription.notes.userId,
             planId: subscription.plan_id,
             quantity: subscription.quantity,
-            status: "charged",
             remaining_count: subscription.remaining_count,
             paid_count: subscription.paid_count,
         },
@@ -101,10 +105,10 @@ export async function handleSubscriptionCharged(subscription: RazorpaySubscripti
             last_payment_at: new Date(),
             userId: subscription.notes.userId,
             planId: subscription.plan_id,
-            status: "charged",
             total_count: subscription.total_count
         }
     })
+
 
     await prisma.invoice.update({
         where: {
@@ -115,57 +119,86 @@ export async function handleSubscriptionCharged(subscription: RazorpaySubscripti
         }
     })
 
-    console.log("\n\n\n\nsubscription charged finished\n\n\n\n")
 }
 
 export async function handleSubscriptionAuthenticated(subscription: RazorpaySubscription) {
-    console.log("\n\n\n\nsubscription authentication start\n\n\n\n")
-    await prisma.subscription.upsert({
+
+
+    const previous_subscription = await prisma.subscription.findUnique({
         where: {
             razorpay_subscription_id: subscription.id
         },
-        update: {
-            status: "authenticated",
-            quantity: subscription.quantity,
-            paid_count: subscription.paid_count,
-            remaining_count: subscription.remaining_count
-        },
-        create: {
-            razorpay_subscription_id: subscription.id,
-            quantity: subscription.quantity,
-            userId: subscription.notes.userId,
-            planId: subscription.plan_id,
-            status: "authenticated",
-            total_count: subscription.total_count,
-            paid_count: subscription.paid_count,
-            remaining_count: subscription.remaining_count
+        select: {
+            status: true
         }
     })
-    console.log("\n\n\n\nsubscription authentication finished\n\n\n\n")
+
+    if (previous_subscription) {
+        await prisma.subscription.update({
+            where: {
+                razorpay_subscription_id: subscription.id
+            },
+            data: {
+                status: canTransition(previous_subscription.status, "authenticated") ? "authenticated" : previous_subscription.status,
+                quantity: subscription.quantity,
+                paid_count: subscription.paid_count,
+                remaining_count: subscription.remaining_count
+            }
+        })
+    } else {
+        await prisma.subscription.create({
+            data: {
+                razorpay_subscription_id: subscription.id,
+                quantity: subscription.quantity,
+                userId: subscription.notes.userId,
+                planId: subscription.plan_id,
+                status: "authenticated",
+                total_count: subscription.total_count,
+                paid_count: subscription.paid_count,
+                remaining_count: subscription.remaining_count
+            }
+        })
+    }
+
 }
 
 export async function handleSubscriptionActivated(subscription: RazorpaySubscription) {
-    console.log("\n\n\n\nsubscription activation start\n\n\n\n")
-    await prisma.subscription.upsert({
+
+    const previous_subscription = await prisma.subscription.findUnique({
         where: {
             razorpay_subscription_id: subscription.id
         },
-        update: {
-            activated_at: new Date(),
-            status: "active"
-        },
-        create: {
-            razorpay_subscription_id: subscription.id,
-            quantity: subscription.quantity,
-            userId: subscription.notes.userId,
-            planId: subscription.plan_id,
-            status: "active",
-            total_count: subscription.total_count,
-            paid_count: subscription.paid_count,
-            remaining_count: subscription.remaining_count,
-            activated_at: new Date(),
+        select: {
+            status: true
         }
     })
+
+    if (previous_subscription) {
+        await prisma.subscription.update({
+            where: {
+                razorpay_subscription_id: subscription.id
+            },
+            data: {
+                activated_at: new Date(),
+                status: canTransition(previous_subscription.status, "active") ? "active" : previous_subscription.status
+            }
+        })
+    } else {
+        await prisma.subscription.create({
+            data: {
+                razorpay_subscription_id: subscription.id,
+                quantity: subscription.quantity,
+                userId: subscription.notes.userId,
+                planId: subscription.plan_id,
+                status: "active",
+                total_count: subscription.total_count,
+                paid_count: subscription.paid_count,
+                remaining_count: subscription.remaining_count,
+                activated_at: new Date()
+            }
+        })
+    }
+
 
     await prisma.user.update({
         where: {
@@ -176,7 +209,6 @@ export async function handleSubscriptionActivated(subscription: RazorpaySubscrip
             subscription_end_date: new Date(subscription.current_end * 1000)
         }
     })
-    console.log("\n\n\n\nsubscription activation finished\n\n\n\n")
 }
 
 export async function handlePaymentFailed(payment: RazorpayPayment) {
@@ -200,5 +232,124 @@ export async function handlePaymentFailed(payment: RazorpayPayment) {
             method: payment.method
         }
     })
+}
+
+export async function handleSubscriptionCancelled(subscription: RazorpaySubscription) {
+    await prisma.subscription.update({
+        where: {
+            razorpay_subscription_id: subscription.id
+        },
+        data: {
+            status: "cancelled",
+            cancelled_at: new Date(),
+        }
+    })
+
+    await prisma.user.update({
+        where: {
+            razorpay_customer_id: subscription.customer_id!,
+        },
+        data: {
+            subscription_status: "cancelled",
+            subscription_end_date: null
+        }
+    });
+
+}
+
+export async function handleSubscriptionHalted(subscription: RazorpaySubscription) {
+
+    await prisma.subscription.update({
+        where: {
+            razorpay_subscription_id: subscription.id
+        },
+        data: {
+            halted_at: new Date(),
+            status: "halted"
+        }
+    })
+
+    await prisma.user.update({
+        where: {
+            razorpay_customer_id: subscription.customer_id!
+        },
+        data: {
+            subscription_status: "halted",
+            subscription_end_date: new Date(subscription.current_end * 1000)
+        }
+    })
+
+}
+
+export async function handleSubscriptionCompleted(subscription: RazorpaySubscription) {
+
+    await prisma.subscription.update({
+        where: {
+            razorpay_subscription_id: subscription.id
+        },
+        data: {
+            completed_at: new Date(),
+            status: "completed"
+        }
+    })
+
+    await prisma.user.update({
+        where: {
+            razorpay_customer_id: subscription.customer_id!
+        },
+        data: {
+            subscription_status: "completed",
+            subscription_end_date: null
+        }
+    })
+
+}
+
+export async function handleSubscriptionPaused(subscription: RazorpaySubscription) {
+
+    await prisma.subscription.update({
+        where: {
+            razorpay_subscription_id: subscription.id
+        },
+        data: {
+            paused_at: new Date(),
+            status: "paused"
+        }
+    })
+
+    await prisma.user.update({
+        where: {
+            razorpay_customer_id: subscription.customer_id!
+        },
+        data: {
+            subscription_status: "paused",
+            subscription_end_date: new Date(subscription.current_end * 1000)
+        }
+    })
+
+}
+
+export async function handleSubscriptionResumed(subscription: RazorpaySubscription) {
+
+    await prisma.subscription.update({
+        where: {
+            razorpay_subscription_id: subscription.id
+        },
+        data: {
+            resumed_at: new Date(),
+            status: "active"
+        }
+    })
+
+    await prisma.user.update({
+        where: {
+            razorpay_customer_id: subscription.customer_id!
+        },
+        data: {
+            subscription_status: "active",
+            subscription_end_date: new Date(subscription.current_end * 1000)
+        }
+    })
+
 }
 
