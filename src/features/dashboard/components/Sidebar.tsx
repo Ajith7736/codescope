@@ -115,8 +115,8 @@ function Sidebar() {
                                     currentprojectpage !== link.name && setcurrentprojectpage("overview")
                                 } else if (link.name === "settings") {
                                     currentprojectpage !== link.name && setcurrentprojectpage("settings")
-                                } else if( link.name === "billing") {
-                                    router.push("/Pricing");
+                                } else if (link.name === "billing") {
+                                    router.push("/Billing");
                                 }
                             }}
                             className={cn(`py-3 hover:rounded-md ${link.name !== page.toLowerCase() && currentprojectpage !== link.name && (showsidebar ? `hover:bg-indigo-500/10 hover:dark:text-dark-text-on-hover hover:text-light-text-on-hover` : `hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover`)} relative cursor-pointer ${link.name === page.toLowerCase() || (currentprojectpage === link.name && isProductPage) ? `${isLargescreen ? (showsidebar ? 'text-indigo-500 bg-indigo-500/10' : 'text-indigo-500') : 'text-indigo-500 bg-indigo-500/10'}` : 'text-light-text-muted dark:text-dark-text-muted'}`, link.css)}>
@@ -171,7 +171,7 @@ function Sidebar() {
                     <ChevronsUpDown className='size-4' onClick={() => setshowuserblock(!showuserblock)} />
                     <div className='fixed xss:right-3 md:left-70  bottom-20'>
                         <AnimatePresence>
-                            {showuserblock && <UserBlock />}
+                            {showuserblock && <UserBlock setshowuserblock={setshowuserblock} />}
                         </AnimatePresence>
                     </div>
                 </button>

@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { auth } from "../auth"
+import { success } from "zod";
 
 
 export const signUp = async (email: string, password: string, name: string): Promise<{ success: boolean, message: string }> => {
@@ -50,6 +51,38 @@ export const signIn = async (email: string, password: string) => {
 export const signOut = async () => {
     await auth.api.signOut({
         headers: await headers(),
+    })
+}
+
+
+export const UnlinkAccount = async (providerId: string, accountId: string) => {
+    try {
+        await auth.api.unlinkAccount({
+            body: {
+                providerId,
+                accountId
+            },
+            headers: await headers()
+        })
+
+        return {
+            success: true,
+            message: "Successfully unlinked your account"
+        }
+    } catch (erorr) {
+        const e = erorr as Error;
+        return {
+            success: false,
+            message: e.message || "Failed to unlink"
+        }
+    }
+}
+
+export const DeleteAccount = async () => {
+    await auth.api.deleteUser({
+        body :{
+            callbackURL : "/Signup"
+        }
     })
 }
 

@@ -1,4 +1,4 @@
-import { PanelLeft } from 'lucide-react'
+import { PanelLeft, Settings } from 'lucide-react'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -8,13 +8,20 @@ function Nav({ handlesidebar }: { handlesidebar: () => void }) {
     const formattedpath = pathname.split("/")
     const path = formattedpath[formattedpath.length - 1];
 
+    console.log(formattedpath)
+
 
     return (
-        <div className='flex  items-center p-5 gap-3 bg-light-white/10 bg-light-background dark:bg-dark-background backdrop-blur-3xl'>
-            <button><PanelLeft onClick={handlesidebar} className='size-5 cursor-pointer' /></button>
-            <div className='flex gap-2'>
-                <Link href={"/Dashboard"} className={`xss:text-xs  capitalize ${path === "Dashboard" ? "text-black dark:text-white" : "text-dark-text-muted"}`}> Dashboard</Link>
-                {formattedpath.length > 2 && <div className='xss:text-xs  capitalize cursor-default'>&gt; {path == "Projects" ? formattedpath[2] : <><Link href={"/Dashboard/Projects"}><span className='text-dark-text-muted'>{formattedpath[2]}</span></Link> &gt; Analysis</>}</div>}
+        <div className=' p-5 flex justify-between bg-light-background dark:bg-dark-background '>
+            <div className='flex items-center gap-3 '>
+                <button><PanelLeft onClick={handlesidebar} className='size-4 cursor-pointer' /></button>
+                <div className='flex gap-2'>
+                    <Link href={"/Dashboard"} className={`xss:text-xs  capitalize ${path === "Dashboard" ? "text-black dark:text-white" : "text-gray-600"}`}> DASHBOARD</Link>
+                    {formattedpath.length > 2 && <div className='xss:text-xs  capitalize cursor-default'>&gt; {path == "Projects" ? formattedpath[2].toUpperCase() : <><Link href={"/Dashboard/Projects"}><span className='text-dark-text-on-hover'>{formattedpath[2].toUpperCase()}</span></Link></>}</div>}
+                </div>
+            </div>
+            <div>
+                <Link href={"/Dashboard/Settings"}><Settings className='size-4 cursor-pointer text-dark-text-muted' /></Link>
             </div>
         </div>
     )
