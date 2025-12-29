@@ -24,8 +24,8 @@ function ThemeToggler() {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ ease: "easeInOut", delay: 0 }}>
                 {theme === "light" ?
-                    <Sun  onClick={() => setTheme("dark")} className='xss:size-4 md:size-5'/> :
-                    <Moon  onClick={() => setTheme("light")}  className='xss:size-4 md:size-5'/>
+                    <Sun  onClick={() => setTheme("dark")} className='xss:size-4'/> :
+                    <Moon  onClick={() => setTheme("light")}  className='xss:size-4'/>
                 }
             </motion.div>
         </button >

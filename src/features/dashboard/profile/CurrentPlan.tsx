@@ -28,7 +28,7 @@ function CurrentPlan({ subscription }: {
 
                 </div>
                 <div>
-                    <button className="bg-indigo-600 transition-all duration-300 hover:bg-indigo-700 cursor-pointer flex gap-3 items-center py-2 px-9 rounded-md text-[12px] font-extrabold">Upgrade Plan <ArrowUpRight className="size-4" /></button>
+                    <button className="bg-indigo-600 transition-all duration-300 hover:bg-indigo-700 cursor-pointer flex gap-3 items-center py-2 px-9 rounded-md text-[12px] font-extrabold text-white">Upgrade Plan <ArrowUpRight className="size-4" /></button>
                 </div>
             </div>
         </div>

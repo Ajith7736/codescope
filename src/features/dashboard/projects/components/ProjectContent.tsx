@@ -117,7 +117,7 @@ function ProjectContent() {
         </div>
         {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
-      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-dark-input-border w-40 h-2 rounded-full'><div className='bg-indigo-500 h-2 rounded-full'
+      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'><div className='bg-indigo-500 h-2 rounded-full'
         style={{
           width: !session?.subscription ? projectdata?.length / 3 * 100 + "%" : projectdata?.length / 10 * 100 + "%"
         }}
@@ -126,7 +126,7 @@ function ProjectContent() {
         <div className='border p-5 xss:text-sm rounded-t-md font-extrabold border-light-border dark:border-dark-border'>
           Your Projects
         </div>
-        {isRefetching ? <div className='p-8 border-t-0 text-sm flex items-center justify-center border rounded-b-md border-dark-border'><BasicLoader /></div> :
+        {isRefetching ? <div className='p-8 border-t-0 text-sm flex items-center justify-center border rounded-b-md border-light-border dark:border-dark-border'><BasicLoader /></div> :
           projectdata?.length > 0 ? projectdata?.map((item) => {
             return <div key={item.id} className='p-6 cursor-pointer border border-light-border dark:border-dark-border hover:bg-dark-accent/10 transition-all duration-300 border-t-0'>
               <Link href={`/Dashboard/Projects/${item.id}`} className='flex justify-between items-center text-sm'>
@@ -137,7 +137,7 @@ function ProjectContent() {
                 <ChevronRight strokeWidth={1} className='size-5' />
               </Link>
             </div>
-          }) : <div className='p-8 border-t-0 text-sm  border rounded-b-md border-dark-border'>No Projects</div>
+          }) : <div className='p-8 border-t-0 text-sm  border rounded-b-md border-light-border dark:border-dark-border'>No Projects</div>
         }
 
       </div>

@@ -117,14 +117,14 @@ export const PricingContent = () => {
             </div>
             <div className="flex flex-col items-center gap-10 px-5">
                 <h1 className="xss:text-3xl md:text-4xl font-extrabold">BILLING</h1>
-                <h3 className="text-xs text-dark-text-primary">Manage your subscription and billing settings. Choose the plan that best fits your development needs.</h3>
+                <h3 className="text-xs text-light-text-muted dark:text-dark-text-primary">Manage your subscription and billing settings. Choose the plan that best fits your development needs.</h3>
                 <div className="flex xss:flex-col md:flex-row md:flex-wrap w-full md:h-[60vh] md:items-center md:justify-center gap-8">
                     {plans?.map((item, index) => {
                         return <div key={index} className={`${(session?.subscription?.planId === item.razorpayPlanId
                             &&
                             session
                             &&
-                            session?.user?.subscription_status === "active") ? 'dark:bg-white/50 bg-black/30' : 'conic'} relative p-px rounded-xl xss:w-full md:w-[70%] lg:w-[30%]`}>
+                            session?.user?.subscription_status === "active") ? 'dark:bg-white/50 bg-black/30 p-px' : 'conic'} relative dark:p-px rounded-xl xss:w-full md:w-[70%] lg:w-[30%]`}>
                             {(
                                 session?.subscription?.planId === item.razorpayPlanId
                                 &&
@@ -134,7 +134,7 @@ export const PricingContent = () => {
                             )
                                 &&
                                 <div className="dark:bg-white bg-light-surface-hover w-fit text-dark-background  px-5 py-[4px] rounded-full text-[12px] font-extrabold absolute flex items-center justify-center -top-[10px] z-10 left-2">CURRENT PLAN</div>}
-                            <div className="dark:bg-black bg-gray-400/20 shadow-lg flex flex-col items-baseline gap-5 w-full h-[60vh] justify-between relative p-8 overflow-hidden rounded-xl">
+                            <div className="dark:bg-black bg-light-surface border border-light-border dark:border-none shadow-lg flex flex-col items-baseline gap-5 w-full h-[60vh] justify-between relative p-8 overflow-hidden rounded-xl">
                                 <div className="size-20 dark:bg-white/30 bg-light-accent/20 blur-2xl -top-5 -left-5 absolute rounded-full z-10"></div>
                                 <div className="flex gap-2 items-center">
                                     <h1 className="font-extrabold text-2xl">{item.currency === "USD" ? '$' : '₹'}{item.price} </h1>

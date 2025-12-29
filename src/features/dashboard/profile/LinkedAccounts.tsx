@@ -30,12 +30,12 @@ function LinkedAccounts({ item, refetch, isRefetching }: {
         <div key={item.providerId} className="bg-dark-accent/10 p-4 flex justify-between items-center rounded-[11px]">
             <div className="flex gap-4 items-center">
                 {item.providerId === "google" ?
-                    <div className="bg-dark-accent/10 p-3 rounded-lg border border-dark-border">
+                    <div className="bg-dark-accent/10 p-3 rounded-lg border border-light-text-muted/20 dark:border-dark-border">
                         <Chrome className="size-5" />
                     </div>
 
                     :
-                    <div className="bg-dark-accent/10 p-3 rounded-lg border border-dark-border">
+                    <div className="bg-dark-accent/10 p-3 rounded-lg border border-light-text-muted/20 dark:border-dark-border">
                         <Github className="size-5" />
                     </div>}
                 <div className="flex flex-col gap-1">

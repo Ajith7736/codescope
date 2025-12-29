@@ -14,6 +14,7 @@ export const ProfileCard = ({ session }: { session: Session }) => {
                     height={80}
                     src={session?.user?.image}
                     alt="profile pic"
+                    className="rounded-full"
                 /> : <div className="relative w-20 h-20 overflow-hidden bg-gray-300 rounded-full dark:bg-gray-600">
                     <svg className="absolute w-22 h-22 text-gray-400 -left-1 top-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
                 </div>}
@@ -26,16 +27,16 @@ export const ProfileCard = ({ session }: { session: Session }) => {
                 <h1 className="text-lg font-bold font-sans">{session?.user?.name}</h1>
                 <div>{session?.user?.subscription_status === "active" ? <div className="dark:bg-indigo-600/20 dark:text-indigo-600 border p-1 w-fit  font-extrabold">{session.subscription?.plan.name === "Basic" ? <>Basic</> : <>Pro</>}</div> : <div className="dark:bg-indigo-600/20 dark:text-indigo-600 border p-1 w-fit  font-extrabold">Free Tier</div>}</div>
             </div>
-            <p className="flex gap-2 items-center text-[12px] text-dark-text-muted/50"><Mail size={16} className="text-indigo-600 " />{session?.user?.email}</p>
+            <p className="flex gap-2 items-center text-[12px] text-gray-600"><Mail size={16} className="text-indigo-600 " />{session?.user?.email}</p>
         </div>
         <div className="flex gap-4">
             <div className="flex flex-col items-center gap-2">
-                <h4 className="text-[10px] text-dark-text-muted/50">MEMBER SINCE</h4>
+                <h4 className="text-[10px] text-gray-600">MEMBER SINCE</h4>
                 <p className="text-[10px] ">{session?.user?.createdAt.toLocaleDateString()}</p>
             </div>
             <hr className="border h-10 border-dark-border" />
             <div className="flex flex-col items-center gap-2">
-                <h4 className="text-[10px] text-dark-text-muted/50">ACCOUNT STATUS</h4>
+                <h4 className="text-[10px] text-gray-600">ACCOUNT STATUS</h4>
                 <h4 className="text-[10px] text-emerald-500 flex items-center gap-2">active <span className="w-1 h-1 bg-emerald-500 rounded-full"></span></h4>
             </div>
         </div>

@@ -53,7 +53,7 @@ function UserBlock({ setshowuserblock }: { setshowuserblock: React.Dispatch<Reac
                 </div>
             </div>
 
-            <Link href={'/Dashboard/Profile'} className={` py-3 px-2 text-xs cursor-pointer  w-full flex gap-2  text-start ${params === "/Dashboard/Profile" ? "text-dark-text-on-hover" : "text-dark-text-muted hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover transition-all duration-300  hover:bg-dark-accent/10"}`} onClick={() => {
+            <Link href={'/Dashboard/Profile'} className={` py-3 px-2 text-xs cursor-pointer  w-full flex gap-2  text-start ${params === "/Dashboard/Profile" ? "text-light-text-on-hover dark:text-dark-text-on-hover" : "text-dark-text-muted hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover transition-all duration-300  hover:bg-dark-accent/10"}`} onClick={() => {
                 setshowsidebar(false)
                 setshowuserblock(false)
             }}><User className="size-4" />Profile</Link>

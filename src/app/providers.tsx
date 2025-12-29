@@ -1,7 +1,6 @@
 "use client"
 
 import { PageProvider } from "@/context/PageProvider";
-import { ProjectProvider } from "@/context/ProjectProvider";
 import SidebarProvider from "@/context/SidebarProvider";
 import ToastWrapper from "@/lib/ToastWrapper";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
