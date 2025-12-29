@@ -28,7 +28,6 @@ function Sidebar() {
 
 
     useEffect(() => {
-        console.log(pathname);
         if (pathname.startsWith("/Dashboard/Projects/")) {
             setisProductPage(true)
         } else {

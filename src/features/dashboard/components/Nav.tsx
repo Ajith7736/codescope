@@ -8,7 +8,6 @@ function Nav({ handlesidebar }: { handlesidebar: () => void }) {
     const formattedpath = pathname.split("/")
     const path = formattedpath[formattedpath.length - 1];
 
-    console.log(formattedpath)
 
 
     return (

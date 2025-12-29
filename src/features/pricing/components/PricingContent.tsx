@@ -80,7 +80,6 @@ export const PricingContent = () => {
                         email: session?.user?.email,
                     },
                     handler: async function (response: any) {
-                        console.log("completed");
                         await refetch();
                     },
                 });
@@ -105,7 +104,6 @@ export const PricingContent = () => {
 
     if (verifying) return <VerificationLoader />
 
-    console.log(session);
 
 
     return (

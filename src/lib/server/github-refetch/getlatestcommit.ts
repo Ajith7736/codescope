@@ -17,7 +17,6 @@ export async function getlatestcommit(owner: string, repo: string, branch: strin
         }
     }
 
-    console.log(commits);
 
     return commits;
 }

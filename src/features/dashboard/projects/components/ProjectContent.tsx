@@ -12,6 +12,7 @@ import useFetch from '@/hooks/useFetch'
 import githublinkchecker from '@/lib/githublinkchecker'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import BasicLoader from '@/ui/loaders/BasicLoader'
 
 
 function ProjectContent() {
@@ -24,7 +25,7 @@ function ProjectContent() {
   const router = useRouter();
 
 
-  const { data, isLoading, isError, isRefetching } = useQuery({
+  const { data, isLoading, isRefetching, isError, refetch } = useQuery({
     queryKey: ["projects"],
     queryFn: async () => {
       const res = await fetch("/api/fetch-project", {
@@ -70,12 +71,13 @@ function ProjectContent() {
   const { data: resdata, loading, fetchdata: getgithubdata } = useFetch("/api/fetch-repo", "POST", { owner: Owner, repo: Repo, userId: session?.user?.id })
 
   useEffect(() => {
-    if (resdata && resdata.project) {
-      projectdata?.length > 0 ? setprojectdata([...projectdata, resdata.project]) : setprojectdata([resdata.project])
+    if (resdata?.success) {
+      refetch();
+      setlink('');
     }
   }, [resdata])
 
-  if (isLoading || isRefetching) return <Loading />
+  if (isLoading) return <Loading />
 
   if (isError) return <ErrorPage />
 
@@ -124,17 +126,20 @@ function ProjectContent() {
         <div className='border p-5 xss:text-sm rounded-t-md font-extrabold border-light-border dark:border-dark-border'>
           Your Projects
         </div>
-        {projectdata?.length > 0 ? projectdata?.map((item) => {
-          return <div key={item.id} className='p-6 cursor-pointer border border-light-border dark:border-dark-border hover:bg-dark-accent/10 transition-all duration-300 border-t-0'>
-            <Link href={`/Dashboard/Projects/${item.id}`} className='flex justify-between items-center text-sm'>
-              <div className='flex flex-col gap-2'>
-                <h1 className='xss:text-[15px] md:text-base'>{item.projectname}</h1>
-                <p className='xss:text-[10px] md:text-xs'>{item.totalfiles} Files • {item.mostused}</p>
-              </div>
-              <ChevronRight strokeWidth={1} className='size-5' />
-            </Link>
-          </div>
-        }) : <div className='p-8 border-t-0 text-sm  border rounded-b-md border-dark-border'>No Projects</div>}
+        {isRefetching ? <div className='p-8 border-t-0 text-sm flex items-center justify-center border rounded-b-md border-dark-border'><BasicLoader /></div> :
+          projectdata?.length > 0 ? projectdata?.map((item) => {
+            return <div key={item.id} className='p-6 cursor-pointer border border-light-border dark:border-dark-border hover:bg-dark-accent/10 transition-all duration-300 border-t-0'>
+              <Link href={`/Dashboard/Projects/${item.id}`} className='flex justify-between items-center text-sm'>
+                <div className='flex flex-col gap-2'>
+                  <h1 className='xss:text-[15px] md:text-base'>{item.projectname}</h1>
+                  <p className='xss:text-[10px] md:text-xs'>{item.totalfiles} Files • {item.mostused}</p>
+                </div>
+                <ChevronRight strokeWidth={1} className='size-5' />
+              </Link>
+            </div>
+          }) : <div className='p-8 border-t-0 text-sm  border rounded-b-md border-dark-border'>No Projects</div>
+        }
+
       </div>
     </div>
   )
