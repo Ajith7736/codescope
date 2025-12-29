@@ -120,13 +120,15 @@ model Plan {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
   subscriptions  Subscription[]
+
+  @@map("plan")
 }
 
 model Account {
   id                    String    @id
   accountId             String
   providerId            String
-  userId                String
+  userId                String    @unique
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -168,6 +170,8 @@ model Project {
   analysis    Analysis[]
   overview    Overview?
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("project")
 }
 
 model Overview {
@@ -182,6 +186,8 @@ model Overview {
   gettingStarted  Json
   notableFeatures Json
   project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("overview")
 }
 
 model Analysis {
@@ -197,6 +203,8 @@ model Analysis {
   analysis_output Json?
   project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   issues          Issues[]
+
+  @@map("analysis")
 }
 
 model Issues {
@@ -211,6 +219,8 @@ model Issues {
   suggesstedcode         String?
   suggesstedcodelanguage String?
   analysis               Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@map("issues")
 }
 
 enum SubscriptionStatus {

@@ -24,7 +24,7 @@ function ProjectContent() {
   const router = useRouter();
 
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, isRefetching } = useQuery({
     queryKey: ["projects"],
     queryFn: async () => {
       const res = await fetch("/api/fetch-project", {
@@ -47,8 +47,7 @@ function ProjectContent() {
 
       return data;
     },
-    enabled: !!session?.user?.id,
-    refetchOnMount: false
+    enabled: !!session?.user?.id
   })
 
   useEffect(() => {
@@ -76,7 +75,7 @@ function ProjectContent() {
     }
   }, [resdata])
 
-  if (isLoading) return <Loading />
+  if (isLoading || isRefetching) return <Loading />
 
   if (isError) return <ErrorPage />
 
@@ -109,7 +108,7 @@ function ProjectContent() {
                 if (projectdata?.length < 3 || !projectdata) {
                   getgithubdata();
                 } else {
-                  router.push("/Pricing")
+                  router.push("/Billing")
                 }
               }}
             />}

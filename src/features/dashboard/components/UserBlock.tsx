@@ -4,15 +4,19 @@ import { signOut } from '@/lib/actions/auth-actions';
 import { useSession } from '@/lib/auth-client';
 import Link from "next/link";
 import Image from "next/image";
-import { CreditCard, LogOut } from "lucide-react";
-import { useState } from "react";
+import { CreditCard, LogOut, User } from "lucide-react";
+import React, { useState } from "react";
 import Loading from "@/app/loading";
+import { useSidebar } from "@/context/SidebarProvider";
+import { usePathname } from "next/navigation";
 
 
-function UserBlock() {
-    
+function UserBlock({ setshowuserblock }: { setshowuserblock: React.Dispatch<React.SetStateAction<boolean>> }) {
+
     const { refetch } = useSession();
-    const [isloading, setisloading] = useState<boolean>(false)
+    const [isloading, setisloading] = useState<boolean>(false);
+    const params = usePathname();
+    const { setshowsidebar } = useSidebar();
 
     const handlelogout = async () => {
         setisloading(true);
@@ -35,7 +39,7 @@ function UserBlock() {
                         width={15}
                         src={session?.user?.image}
                         alt="profile pic"
-                        className='rounded-ful size-6.5'
+                        className='rounded-full size-6.5'
                     />
                     :
                     <div>
@@ -48,9 +52,15 @@ function UserBlock() {
                     <p className="text-[12px]">{session?.user?.email}</p>
                 </div>
             </div>
-            {/* <Link href={'/Pricing'} className="py-3 px-2 cursor-pointer hover:bg-dark-accent/10 w-full flex gap-2  text-start"><CreditCard className="size-4" />Billing</Link> */}
-            <div className='py-3 px-2 cursor-pointer text-xs w-full hover:bg-dark-accent/10 flex gap-2 text-start border-t border-dark-border' onClick={handlelogout}><LogOut className="size-4" />Logout</div>
-        </motion.div>
+
+            <Link href={'/Dashboard/Profile'} className={` py-3 px-2 text-xs cursor-pointer  w-full flex gap-2  text-start ${params === "/Dashboard/Profile" ? "text-dark-text-on-hover" : "text-dark-text-muted hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover transition-all duration-300  hover:bg-dark-accent/10"}`} onClick={() => {
+                setshowsidebar(false)
+                setshowuserblock(false)
+            }}><User className="size-4" />Profile</Link>
+            <Link href={'/Billing'} className="py-3 px-2 text-xs cursor-pointer text-dark-text-muted hover:text-light-text-on-hover hover:dark:text-dark-text-on-hover transition-all duration-300  hover:bg-dark-accent/10 w-full flex gap-2  text-start"><CreditCard className="size-4" />Billing</Link>
+            <hr className="border border-light-border dark:border-dark-border w-full"/>
+            <div className='py-3 px-2 cursor-pointer text-xs w-full text-dark-text-muted hover:text-red-400 transition-all duration-300  hover:bg-dark-accent/10 flex gap-2 text-start' onClick={handlelogout}><LogOut className="size-4" />Logout</div>
+        </motion.div >
     )
 }
 

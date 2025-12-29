@@ -7,7 +7,7 @@ import { PlanProps, razorProps } from "@/types/type"
 import ButtonLoader from "@/ui/loaders/ButtonLoader"
 import { VerificationLoader } from "@/ui/loaders/VerificationLoader"
 import { useQuery } from "@tanstack/react-query"
-import { CircleCheck, MoveLeft } from "lucide-react"
+import { CircleCheck, Lock, MoveLeft } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import Script from "next/script"
@@ -61,10 +61,10 @@ export const PricingContent = () => {
                 planId,
                 show: true
             });
-            setverifying(true);
             const data: razorProps = await createsubscription(planId, session?.user?.id);
 
             if (data.success) {
+                setverifying(true);
                 if (!(window as any).Razorpay) {
                     console.error("Razorpay SDK not loaded");
                     return;
@@ -81,7 +81,7 @@ export const PricingContent = () => {
                     },
                     handler: async function (response: any) {
                         console.log("completed");
-                        refetch();
+                        await refetch();
                     },
                 });
 
@@ -118,15 +118,15 @@ export const PricingContent = () => {
                 <Link href={session ? "/Dashboard" : "/"} className="flex gap-3 items-center hover:dark:bg-dark-surface hover:bg-light-surface transition-all duration-300 p-3 text-sm rounded-md"><MoveLeft className="size-4" /><span>Back</span></Link>
             </div>
             <div className="flex flex-col items-center gap-10 px-5">
-                <h1 className="xss:text-3xl md:text-4xl font-extrabold">Billing</h1>
-                <h3 className="text-sm text-dark-text-primary">Manage your subscription and billing settings. Choose the plan that best fits your development needs.</h3>
+                <h1 className="xss:text-3xl md:text-4xl font-extrabold">BILLING</h1>
+                <h3 className="text-xs text-dark-text-primary">Manage your subscription and billing settings. Choose the plan that best fits your development needs.</h3>
                 <div className="flex xss:flex-col md:flex-row md:flex-wrap w-full md:h-[60vh] md:items-center md:justify-center gap-8">
                     {plans?.map((item, index) => {
                         return <div key={index} className={`${(session?.subscription?.planId === item.razorpayPlanId
-                                &&
-                                session
-                                &&
-                                session?.user?.subscription_status === "active") ? 'dark:bg-white/50 bg-black/30' : 'conic'} relative p-px rounded-xl xss:w-full md:w-[70%] lg:w-[30%]`}>
+                            &&
+                            session
+                            &&
+                            session?.user?.subscription_status === "active") ? 'dark:bg-white/50 bg-black/30' : 'conic'} relative p-px rounded-xl xss:w-full md:w-[70%] lg:w-[30%]`}>
                             {(
                                 session?.subscription?.planId === item.razorpayPlanId
                                 &&
@@ -146,10 +146,21 @@ export const PricingContent = () => {
                                     <h1 className="text-base font-bold">{item.name}</h1>
                                     <p className="xss:text-[11px] md:text-xs text-light-accent dark:text-dark-text-primary italic">{item.description}</p>
                                 </div>
-                                <hr className="dark:border-dark-text-primary/30 border-light-accent border w-full" />
+                                <hr className="dark:border-gray-800 border-light-accent border w-full" />
                                 <div className="flex flex-col gap-3">
                                     {item.features.map((feature, idx) => {
-                                        return <p key={idx} className="xss:text-[10px] lg:text-xs flex items-center gap-3"><CircleCheck className="size-4 text-emerald-600" />{feature}</p>
+                                        return <div
+                                            key={idx}>
+                                            {(feature === "AI Repo Overview" && item.name === "Free Tier") ?
+                                                <div className="xss:text-[10px] lg:text-xs flex items-center gap-3">
+                                                    <Lock className="size-4 text-dark-text-muted/50" strokeWidth={'3px'} />
+                                                    <p className="text-dark-text-muted/50">{feature}</p>
+                                                </div>
+                                                : <div className="xss:text-[10px] lg:text-xs flex items-center  gap-3">
+                                                    <CircleCheck className="size-4 text-emerald-600" />
+                                                    <p>{feature}</p>
+                                                </div>
+                                            }</div>
                                     })}
                                 </div>
                                 {session ? <button onClick={() => handlerazorpay(item.razorpayPlanId)} className={`rounded-md w-full font-extrabold transition-all duration-300 dark:bg-white bg-black text-white dark:text-black p-2 hover:dark:bg-white/90 hover:bg-black/80  flex items-center h-10 justify-center cursor-pointer ${(item.name === "Free Tier" || session.subscription?.planId === item.razorpayPlanId) && 'invisible'}`}> {(issubscribe.planId === item.razorpayPlanId && issubscribe.show) ? <ButtonLoader variant="black" /> : <>Subscribe</>}</button> : <button onClick={() => { router.push("/Signup") }} className="rounded-md w-full font-extrabold transition-all duration-300 dark:bg-white bg-black text-white dark:text-black p-2 hover:dark:bg-white/90 hover:bg-black/80  cursor-pointer">Get Started</button>}

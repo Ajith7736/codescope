@@ -10,7 +10,7 @@ import ProjectHeader from './ProjectHeader'
 import AnalysisPage from './AnalysisPage'
 import { usePage } from '@/context/PageProvider'
 import OverviewPage from '../../Overview/components/OverviewPage'
-import SettingsPage from '../../settings/SettingsPage'
+import SettingsPage from '../../projects/settings/SettingsPage'
 
 
 function AnalysisContent({ id }: { id: string }) {
