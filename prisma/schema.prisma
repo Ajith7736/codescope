@@ -128,7 +128,7 @@ model Account {
   id                    String    @id
   accountId             String
   providerId            String
-  userId                String    @unique
+  userId                String 
   accessToken           String?
   refreshToken          String?
   idToken               String?
