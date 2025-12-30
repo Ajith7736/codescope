@@ -42,7 +42,7 @@ export default function ProfilePage() {
         </div>
 
 
-        <CurrentPlan subscription={{ planName: session?.subscription?.plan.name, activatedAt: session?.subscription?.activated_at, endAt: session?.user?.subscription_end_date }} />
+        <CurrentPlan subscription={{ planName: session?.subscription?.plan.name, activatedAt: session?.subscription?.activated_at, endAt: session?.user?.subscription_end_date ,status: session?.user?.subscription_status}} />
 
 
         <div className=" xl:w-[75vw] w-full">
