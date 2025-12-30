@@ -5,26 +5,32 @@ import { Chrome, Github, Plus } from 'lucide-react'
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-function UnlinkedAccounts({ item , refetch }: { item: string , refetch : Function }) {
+function UnlinkedAccounts({ item, refetch }: { item: string, refetch: Function }) {
     const [linking, setlinking] = useState<{
         show: boolean,
         provider: string
     } | null>(null);
 
     const handlelink = async (provider: string) => {
-        setlinking({
-            provider,
-            show: true
-        })
-        const { error  } = await authClient.linkSocial({
-            provider
-        })
-        if (error) {
-            return toast.error(error.message)
-        }
+        try {
+            setlinking({
+                provider,
+                show: true
+            })
+            const { error } = await authClient.linkSocial({
+                provider,
+                callbackURL : "/Dashboard/Profile",
+            })
+            if (error) {
+                return toast.error(error.message)
+            }
 
-        setlinking(null);
-        await refetch();
+        } catch (err) {
+            toast.error("Something went wrong")
+        } finally {
+            setlinking(null);
+            await refetch();
+        }
     }
 
     return (
@@ -44,7 +50,7 @@ function UnlinkedAccounts({ item , refetch }: { item: string , refetch : Functio
                     <SmallText className="text-gray-500">Connect your account for easier sign-in and code sync</SmallText>
                 </div>
             </div>
-            <button onClick={() => handlelink(item)} className=" border border-indigo-500/40 cursor-pointer hover:text-indigo-600 hover:border-indigo-500/30 transition-all duration-300 text-indigo-400 text-[10px] py-2 w-22 justify-center flex gap-2 items-center">{linking?.show && linking?.provider === item ? <LinkLoader type='Link'/> : <><Plus className="size-4 " />Link</>}</button>
+            <button onClick={() => handlelink(item)} className=" border border-indigo-500/40 cursor-pointer hover:text-indigo-600 hover:border-indigo-500/30 transition-all duration-300 text-indigo-400 text-[10px] py-2 w-22 justify-center flex gap-2 items-center">{linking?.show && linking?.provider === item ? <LinkLoader type='Link' /> : <><Plus className="size-4 " />Link</>}</button>
         </div>
     )
 }

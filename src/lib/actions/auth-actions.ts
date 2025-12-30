@@ -78,12 +78,6 @@ export const UnlinkAccount = async (providerId: string, accountId: string) => {
     }
 }
 
-export const DeleteAccount = async () => {
-    await auth.api.deleteUser({
-        body :{
-            callbackURL : "/Signup"
-        }
-    })
-}
+
 
 

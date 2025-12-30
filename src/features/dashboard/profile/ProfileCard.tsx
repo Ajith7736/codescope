@@ -19,7 +19,7 @@ export const ProfileCard = ({ session }: { session: Session }) => {
                     <svg className="absolute w-22 h-22 text-gray-400 -left-1 top-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
                 </div>}
             <div className="bg-indigo-600 py-[5px] px-[5px] w-fit rounded-lg absolute bottom-0 right-0">
-                <ShieldCheck size={15} />
+                <ShieldCheck size={15} className="text-light-background"/>
             </div>
         </div>
         <div className="text-xs flex flex-col items-center gap-1">
@@ -34,7 +34,7 @@ export const ProfileCard = ({ session }: { session: Session }) => {
                 <h4 className="text-[10px] text-gray-600">MEMBER SINCE</h4>
                 <p className="text-[10px] ">{session?.user?.createdAt.toLocaleDateString()}</p>
             </div>
-            <hr className="border h-10 border-dark-border" />
+            <hr className="border h-10 border-light-border dark:border-dark-border" />
             <div className="flex flex-col items-center gap-2">
                 <h4 className="text-[10px] text-gray-600">ACCOUNT STATUS</h4>
                 <h4 className="text-[10px] text-emerald-500 flex items-center gap-2">active <span className="w-1 h-1 bg-emerald-500 rounded-full"></span></h4>

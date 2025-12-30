@@ -1,6 +1,6 @@
 import SmallText from '@/ui/Text/SmallText'
 import { ArrowUpRight, CreditCard } from 'lucide-react'
-import React from 'react'
+
 
 function CurrentPlan({ subscription }: {
     subscription: {
@@ -32,7 +32,7 @@ function CurrentPlan({ subscription }: {
                 <div>
                     <button className="bg-indigo-600 transition-all duration-300 hover:bg-indigo-700 cursor-pointer flex gap-3 items-center py-2 px-9 rounded-md text-[12px] font-extrabold text-white">Upgrade Plan <ArrowUpRight className="size-4" /></button>
                 </div>
-            </div> : <div className="text-xs text-gray-600 italic">No Active Plans</div>}
+            </div> : <div className="text-xs text-gray-600 italic bg-dark-accent/10 p-5 rounded-md border border-light-accent/20 dark:border-dark-border">No Active Plans</div>}
         </div>
     )
 }

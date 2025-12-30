@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-function LinkedAccounts({ item, refetch}: {
+function LinkedAccounts({ item, refetch }: {
     item: {
         providerId: string,
         accountId: string,
@@ -22,16 +22,23 @@ function LinkedAccounts({ item, refetch}: {
 
 
     const handleunlink = async (providerId: string, accountId: string) => {
-        setlinking({
-            show: true,
-            provider: providerId
-        });
-        const data = await UnlinkAccount(providerId, accountId);
-        if (!data.success) {
-            toast.error(data.message);
+        try {
+            setlinking({
+                show: true,
+                provider: providerId
+            });
+            const data = await UnlinkAccount(providerId, accountId);
+            
+            if (!data.success) {
+                return toast.error(data.message);
+            }
+
+        } catch (err) {
+            toast.error("Something went wrong")
+        } finally {
+            setlinking(null);
+            await refetch();
         }
-        setlinking(null);
-        await refetch();
     }
 
     return (
@@ -51,7 +58,7 @@ function LinkedAccounts({ item, refetch}: {
                     <p className="text-gray-500 text-[10px]">Linked At : {item.createdAt.toLocaleDateString()}</p>
                 </div>
             </div>
-            <button onClick={() => { handleunlink(item.providerId, item.accountId) }} className=" border border-red-600/50 cursor-pointer hover:text-red-600 hover:border-red-500/30 transition-all duration-300 text-red-400 text-[10px] py-2 w-22 justify-center flex gap-2 items-center">{linking?.show && linking.provider === item.providerId ? <LinkLoader type='Unlink'/> : <><Link2Off className="size-4 " />Unlink</>}</button>
+            <button onClick={() => { handleunlink(item.providerId, item.accountId) }} className=" border border-red-600/50 cursor-pointer hover:text-red-600 hover:border-red-500/30 transition-all duration-300 text-red-400 text-[10px] py-2 w-22 justify-center flex gap-2 items-center">{linking?.show && linking.provider === item.providerId ? <LinkLoader type='Unlink' /> : <><Link2Off className="size-4 " />Unlink</>}</button>
         </div>
     )
 }
