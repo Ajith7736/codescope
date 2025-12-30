@@ -13,6 +13,7 @@ import githublinkchecker from '@/lib/githublinkchecker'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import BasicLoader from '@/ui/loaders/BasicLoader'
+import { RadialBar, RadialBarChart } from 'recharts'
 
 
 function ProjectContent() {
@@ -48,7 +49,8 @@ function ProjectContent() {
 
       return data;
     },
-    enabled: !!session?.user?.id
+    enabled: !!session?.user?.id,
+    refetchOnWindowFocus: false
   })
 
   useEffect(() => {
@@ -117,11 +119,13 @@ function ProjectContent() {
         </div>
         {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
-      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'><div className='bg-indigo-500 h-2 rounded-full'
+      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'>
+      <div className='bg-indigo-500 h-2 rounded-full transition-all duration-300'
         style={{
           width: !session?.subscription ? projectdata?.length / 3 * 100 + "%" : projectdata?.length / 10 * 100 + "%"
         }}
       ></div></div><div className='text-dark-text-muted italic'>{projectdata ? projectdata.length : 0} / {session?.subscription?.plan.name === "Basic" ? 10 : 3}</div></div>}
+
       <div className=' xss:w-85 md:w-110 lg:w-190'>
         <div className='border p-5 xss:text-sm rounded-t-md font-extrabold border-light-border dark:border-dark-border'>
           Your Projects

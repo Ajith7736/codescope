@@ -12,6 +12,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useSidebar } from '@/context/SidebarProvider'
 import { cn } from '@/lib/utils'
 import { usePage } from '@/context/PageProvider'
+import { Links, ProductLink } from '@/lib/Sidebarprops'
 
 function Sidebar() {
     const isLargescreen = useMediaQuery({ minWidth: 768 })
@@ -47,49 +48,11 @@ function Sidebar() {
 
 
 
-
-    const Links: Linkprops[] = [
-        {
-            icon: <LayoutDashboard className='xss:size-4 md:size-5' />,
-            name: "dashboard",
-            route: "/Dashboard"
-        }, {
-            icon: <Computer className='xss:size-4 md:size-5' />,
-            name: "projects",
-            route: "/Dashboard/Projects"
-        }, {
-            icon: <CreditCard className='xss:size-4 md:size-5' />,
-            name: "billing",
-            route: "/Pricing"
-        }
-    ]
-
-    const ProductLink: Linkprops[] = [
-        {
-            icon: <LayoutDashboard className='xss:size-4 md:size-5' />,
-            name: "dashboard",
-            route: "/Dashboard"
-        }, {
-            icon: <Computer className='xss:size-4 md:size-5' />,
-            name: "projects",
-            route: "/Dashboard/Projects"
-        }, {
-            icon: <ChartLine className='xss:size-4 md:size-5' />,
-            name: "analysis",
-        }, {
-            icon: <ClipboardList className='xss:size-4 md:size-5' />,
-            name: "overview",
-        }, {
-            icon: <Settings className='xss:size-4 md:size-5' />,
-            name: "settings"
-        }
-    ]
-
     if (isPending) return <Loading />
 
 
     return (
-        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} bg-light-surface dark:bg-gray-950 md:static xss:absolute border-r border-light-border dark:border-dark-border   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
+        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} bg-light-surface dark:bg-gray-950 md:static xss:absolute border-r border-light-border dark:border-dark-border/60   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
             <div>
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
@@ -168,7 +131,7 @@ function Sidebar() {
                 </div>
                 <button ref={userref} className={`overflow-hidden relative ${showsidebar ? ' md:opacity-100' : 'md:opacity-0'} transition-all duration-300 ease-in-out flex flex-col items-start text-xs`}>
                     <ChevronsUpDown className='size-4' onClick={() => setshowuserblock(!showuserblock)} />
-                    <div className='fixed xss:right-3 md:left-70  bottom-20'>
+                    <div className='fixed xss:right-3 md:left-70  bottom-20 w-fit'>
                         <AnimatePresence>
                             {showuserblock && <UserBlock setshowuserblock={setshowuserblock} />}
                         </AnimatePresence>

@@ -155,7 +155,9 @@ export async function handleSubscriptionAuthenticated(subscription: RazorpaySubs
                 status: "authenticated",
                 total_count: subscription.total_count,
                 paid_count: subscription.paid_count,
-                remaining_count: subscription.remaining_count
+                remaining_count: subscription.remaining_count,
+                current_start: new Date(subscription.current_start * 1000),
+                current_end: new Date(subscription.current_end * 1000),
             }
         })
     }
@@ -194,7 +196,9 @@ export async function handleSubscriptionActivated(subscription: RazorpaySubscrip
                 total_count: subscription.total_count,
                 paid_count: subscription.paid_count,
                 remaining_count: subscription.remaining_count,
-                activated_at: new Date()
+                activated_at: new Date(),
+                current_start: new Date(subscription.current_start * 1000),
+                current_end: new Date(subscription.current_end * 1000)
             }
         })
     }

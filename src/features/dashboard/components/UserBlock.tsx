@@ -31,7 +31,7 @@ function UserBlock({ setshowuserblock }: { setshowuserblock: React.Dispatch<Reac
     }
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className='transition-all duration-300 bg-light-surface dark:bg-dark-surface rounded-md border shadow-md border-light-border dark:border-dark-border p-1 w-60 xss:text-xs md:text-sm flex flex-col items-start gap-1'>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className='transition-all duration-300 bg-light-surface dark:bg-dark-surface rounded-md border shadow-md border-light-border dark:border-dark-border p-1 w-fit xss:text-xs md:text-sm flex flex-col items-start gap-1'>
             <div className="p-2 w-full items-center hover:bg-dark-accent/10 flex flex-row gap-3">
                 {session?.user?.image ?
                     <Image

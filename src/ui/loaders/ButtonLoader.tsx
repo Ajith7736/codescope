@@ -2,7 +2,7 @@ import { Ring2 } from 'ldrs/react'
 import { useTheme } from 'next-themes'
 
 
-function ButtonLoader({ size, stroke, invert, variant = "normal" }: { size?: number, stroke?: number, invert?: boolean, variant?: "normal" | "purple" | "black" }) {
+function ButtonLoader({ size, stroke, invert, variant = "normal" }: { size?: number, stroke?: number, invert?: boolean, variant?: "normal" | "purple" | "black" | "white" }) {
     const { resolvedTheme } = useTheme();
     return (
         <>

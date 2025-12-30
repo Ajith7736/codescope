@@ -69,10 +69,10 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
         </div>
     }
 
-    if (!analysis) return <div className={`bg-light-border dark:bg-dark-surface flex flex-col rounded-[3px] border border-dark-border transition-all duration-300`}>
-        <div className='flex justify-between items-center p-5 border-b border-dark-border'>
+    if (!analysis) return <div className={`bg-light-surface dark:bg-dark-surface flex flex-col rounded-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
+        <div className='flex justify-between items-center p-5 border-b border-light-border dark:border-dark-border'>
             <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
-            {loading ? <Button variant='blue'><ButtonLoader />Analyzing</Button> : <Button variant='blue' onClick={handleanalysis}><Play size={12} />Analyse</Button>}
+            {loading ? <Button variant='blue'><ButtonLoader variant='white'/>Analyzing</Button> : <Button variant='blue' onClick={handleanalysis}><Play size={12} />Analyse</Button>}
         </div>
         <div className='p-5'>
             <h1 className='text-[12px] italic text-dark-text-muted'>No Issues</h1>

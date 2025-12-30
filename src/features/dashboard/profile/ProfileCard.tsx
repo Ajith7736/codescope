@@ -25,7 +25,7 @@ export const ProfileCard = ({ session }: { session: Session }) => {
         <div className="text-xs flex flex-col items-center gap-1">
             <div className="flex gap-2 items-center">
                 <h1 className="text-lg font-bold font-sans">{session?.user?.name}</h1>
-                <div>{session?.user?.subscription_status === "active" ? <div className="dark:bg-indigo-600/20 dark:text-indigo-600 border p-1 w-fit  font-extrabold">{session.subscription?.plan.name === "Basic" ? <>Basic</> : <>Pro</>}</div> : <div className="dark:bg-indigo-600/20 dark:text-indigo-600 border p-1 w-fit  font-extrabold">Free Tier</div>}</div>
+                <div>{session?.user?.subscription_status === "active" ? <div className="bg-indigo-600/20 text-indigo-600 border p-1 w-fit  font-extrabold">{session.subscription?.plan.name === "Basic" ? <>Basic</> : <>Pro</>}</div> : <div className="bg-indigo-600/20 text-indigo-600 border p-1 w-fit  font-extrabold">Free Tier</div>}</div>
             </div>
             <p className="flex gap-2 items-center text-[12px] text-gray-600"><Mail size={16} className="text-indigo-600 " />{session?.user?.email}</p>
         </div>
