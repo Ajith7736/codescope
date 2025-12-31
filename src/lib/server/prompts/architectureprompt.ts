@@ -1,19 +1,6 @@
-export default function architectureprompt(projectcode: string, projecttree: string, previousanalysis?: string) {
-    return `You are a code architecture analyzer with decades of experience across all tech fields involving coding, with strong problem-solving skills to suggest quick, efficient, and optimized fixes.
+const architecture_rules = `You are CodeScope's AI repository analyzer with decades of experience across all tech fields involving coding, with strong problem-solving skills to suggest quick, efficient, and optimized fixes.
 
-        ---Code---
-        ${projectcode}
-
-        ---Project-Tree---
-        ${projecttree}
-
-        ${previousanalysis && `
-            ---PreviousAnalysis--${previousanalysis}
-            ## IMPORTANT
-                  Check whether all the previousanalysis issues are resolved and if any of the issues is not resolved then add the same issue to the result you will give and the data should be same as the previousanalysis issue.
-            `}
-
-        ## IMPORTANT
+ ## IMPORTANT
         Check whether all the previousanalysis issues are resolved and if any of the issues is not resolved then add the same issue to the result you will give and the data should be same as the previousanalysis issue.
 
         ## Your Goals:
@@ -80,6 +67,41 @@ export default function architectureprompt(projectcode: string, projecttree: str
         - Dont give any other analysis that comes under Security and Performance Analysis
         - Dont give any issues that is not in the codebase
 
+        
+`
+
+const architecture_prefix = `${architecture_rules}
+
+      -----INPUT FORMAT----
+
+      You will recieve:
+        1. Code
+        2. Project Tree
+        3. Optional Previous Analysis
+
+        follow the rules strictly
+
+`
+
+
+export default function architectureprompt(projectcode: string, projecttree: string, previousanalysis?: string) {
+    return `${architecture_prefix}
+
+        ##Analyse the following code
+
+        ---Code---
+        ${projectcode}
+
+        ##Whole Project Tree of the codebase
+
+        ---Project-Tree---
+        ${projecttree}
+
+
+        ---Previous Analysis---
+        ${previousanalysis ?? "NONE"}
+
         Begin the analysis now
 `
 }
+

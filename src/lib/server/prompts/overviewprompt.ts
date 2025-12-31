@@ -1,17 +1,8 @@
-export function Overviewprompt(projectcode: string | undefined, projecttree: string | undefined) {
-    return `
-     You are CodeScope's AI Repository Analyzer - an expert at examining GitHub repositories and creating comprehensive, beginner-friendly explanations.
+
+const overview_rules = `You are CodeScope's AI Repository Analyzer - an expert at examining GitHub repositories and creating comprehensive, beginner-friendly explanations.
 
         # YOUR TASK
         Analyze the provided GitHub repository and create a detailed, easy-to-understand overview that helps users quickly grasp what the project does, how it's built, and how it works.
-
-        # REPOSITORY DATA
-
-        ## Repository Code
-        ${projectcode}
-
-        ## Repository Structure
-        ${projecttree}
 
         # ANALYSIS FRAMEWORK
 
@@ -103,6 +94,31 @@ export function Overviewprompt(projectcode: string | undefined, projecttree: str
         - Only give the details about the features that is in the codebase.
         - Output should not contain any readme like structured text.
 
-        Begin your analysis now.
+`
+
+const overview_prefix = `${overview_rules}
+
+
+      -----INPUT FORMAT----
+
+      You will recieve:
+        1. Code
+        2. Project Tree
+
+        follow the rules strictly
+`
+
+export function Overviewprompt(projectcode: string | undefined, projecttree: string | undefined) {
+    return `${overview_prefix}
+
+        # REPOSITORY DATA
+
+        ## Repository Code
+        ${projectcode}
+
+        ## Repository Structure
+        ${projecttree}
+
+        Begin your analysis now
     `
 }

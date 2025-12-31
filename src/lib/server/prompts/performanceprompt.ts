@@ -1,19 +1,7 @@
-export default function performanceprompt(projectcode: string, projecttree: string, previousanalysis?: string) {
-  return `You are a performance analysis expert with deep knowledge of optimization techniques across all tech stacks, profiling tools, and performance testing methodologies.
+const performance_rules = `You are a performance analysis expert with deep knowledge of optimization techniques across all tech stacks, profiling tools, and performance testing methodologies.
 
----Code---
-${projectcode}
-
----Project-Tree---
-${projecttree}
-
-${previousanalysis && `
-  ---PreviousAnalysis--${previousanalysis}
-  ## IMPORTANT
+ ## IMPORTANT
         Check whether all the previousanalysis issues are resolved and if any of the issues is not resolved then add the same issue to the result you will give and the data should be same as the previousanalysis issue.
-  `}
-
-
 
 
 ## Your Task:
@@ -229,7 +217,36 @@ Focus on high-impact, easily fixable performance wins first, then address deeper
 - Dont give any other analysis that comes under Security and Architecture Analysis.
 - Dont show any issues that is not in the code
 
+`
 
-Begin the analysis now
+const performance_prefix = `${performance_rules}
+
+
+      -----INPUT FORMAT----
+
+      You will recieve:
+        1. Code
+        2. Project Tree
+        3. Optional Previous Analysis
+
+        follow the rules strictly
+
+`
+
+export default function performanceprompt(projectcode: string, projecttree: string, previousanalysis?: string) {
+  return `${performance_prefix}
+
+        ---Code---
+        ${projectcode}
+
+        ---Project-Tree---
+        ${projecttree}
+
+        ---Previous Analysis---
+        ${previousanalysis ?? "NONE"}
+
+
+            Begin the analysis now
 `
 }
+
