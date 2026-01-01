@@ -71,9 +71,8 @@ export const PUT = tryCatch(async (req: Request) => {
                 },
                 data: {
                     status: "completed",
-                    score: object.score,
-                    summary: object.summary,
-                    totalissues: object.totalissues
+                    score: object.analysis.score,
+                    totalissues: object.analysis.totalissues
                 }
             })
 
@@ -85,7 +84,7 @@ export const PUT = tryCatch(async (req: Request) => {
 
 
             await tx.issues.createMany({
-                data: object.issues.map((issue) => ({
+                data: object.analysis.issues.map((issue) => ({
                     issuedesc: issue.issuedesc,
                     issuelocation: issue.issuelocation,
                     issuetitle: issue.issuetitle,

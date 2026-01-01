@@ -7,7 +7,7 @@ import { PlanProps, razorProps } from "@/types/type"
 import ButtonLoader from "@/ui/loaders/ButtonLoader"
 import { VerificationLoader } from "@/ui/loaders/VerificationLoader"
 import { useQuery } from "@tanstack/react-query"
-import { CircleCheck, Lock, MoveLeft } from "lucide-react"
+import { CircleCheck, CircleX, Lock, MoveLeft } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import Script from "next/script"
@@ -108,7 +108,7 @@ export const PricingContent = () => {
 
     return (
         <div className="py-5 min-h-screen relative">
-            <div className="h-20 w-20 bg-indigo-600 rounded-full blur-3xl absolute top-0 -left-10"></div>
+            <div className="h-20 w-20 bg-indigo-600 invisible dark:visible rounded-full blur-3xl absolute top-0 -left-10"></div>
             <Script
                 src="https://checkout.razorpay.com/v1/checkout.js"
             />
@@ -151,8 +151,8 @@ export const PricingContent = () => {
                                             key={idx}>
                                             {(feature === "AI Repo Overview" && item.name === "Free Tier") ?
                                                 <div className="xss:text-[10px] lg:text-xs flex items-center gap-3">
-                                                    <Lock className="size-4 text-dark-text-muted/50" strokeWidth={'3px'} />
-                                                    <p className="text-dark-text-muted/50">{feature}</p>
+                                                    <CircleX className="size-4 text-red-600"  />
+                                                    <p className="text-gray-600">{feature}</p>
                                                 </div>
                                                 : <div className="xss:text-[10px] lg:text-xs flex items-center  gap-3">
                                                     <CircleCheck className="size-4 text-emerald-600" />

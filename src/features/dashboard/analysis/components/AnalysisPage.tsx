@@ -22,7 +22,7 @@ function AnalysisPage({ projectdata, refetch, isRefetching }: { isRefetching: bo
         </div>
 
         {projectdata && <div className='flex flex-col items-center'>
-          <Overview summary={projectdata?.analysis.find((item) => item.type === currentanalysis)?.summary} />
+          <Overview summary={projectdata?.summary} />
         </div>}
 
       </div>

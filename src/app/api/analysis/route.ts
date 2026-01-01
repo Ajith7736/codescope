@@ -13,10 +13,10 @@ import { failure, success, tryCatch } from "@/lib/server/api/api";
 
 
 type TransactionClient = Parameters<typeof prisma.$transaction>[0] extends (
-  arg: infer T
+    arg: infer T
 ) => any
-  ? T
-  : never;
+    ? T
+    : never;
 
 export const POST = tryCatch(async (req: Request) => {
     const { project, analysistype }: { project: Project, analysistype: "Architecture" | "Security" | "Performance" } = await req.json();
@@ -60,27 +60,35 @@ export const POST = tryCatch(async (req: Request) => {
                 }
             })
 
-            return NextResponse.json({success: false, message: "Couldnt complete Analysis" }, { status: 400 })
+            return NextResponse.json({ success: false, message: "Couldnt complete Analysis" }, { status: 400 })
         }
 
         const outputstring = JSON.stringify(object);
 
-        await prisma.$transaction(async (tx : TransactionClient) => {
+        await prisma.$transaction(async (tx: TransactionClient) => {
             await tx.analysis.update({
                 where: {
                     id: Analysis.id
                 },
                 data: {
                     status: "completed",
-                    score: object.score,
-                    summary: object.summary,
-                    totalissues: object.totalissues,
+                    score: object.analysis.score,
+                    totalissues: object.analysis.totalissues,
                     analysis_output: outputstring
                 }
             })
 
+            await tx.project.update({
+                where: {
+                    id: project.id
+                },
+                data: {
+                    summary: object.summary
+                }
+            })
+
             await tx.issues.createMany({
-                data: object.issues.map((issue) => ({
+                data: object.analysis.issues.map((issue) => ({
                     issuedesc: issue.issuedesc,
                     issuelocation: issue.issuelocation,
                     issuetitle: issue.issuetitle,
@@ -94,7 +102,7 @@ export const POST = tryCatch(async (req: Request) => {
         })
 
 
-        return success({ message: "recieved" },200)
+        return success({ message: "recieved" }, 200)
     } catch (err) {
         await prisma.analysis.update({
             where: { id: Analysis.id },

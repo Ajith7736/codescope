@@ -1,72 +1,27 @@
 import { failure, success, tryCatch } from "@/lib/server/api/api";
-import prisma from "@/lib/server/db/db";
+import { criticalissues } from "@/lib/server/recent-fetch/cirtical";
+import { findanalysis } from "@/lib/server/recent-fetch/findanalysis";
+import { findproject } from "@/lib/server/recent-fetch/findproject";
+import { totalanalysis, totalissues, totalprojects } from "@/lib/server/recent-fetch/total";
 
 
 export const POST = tryCatch(async (req: Request) => {
 
-        const { userId }: { userId: string } = await req.json();
+    const { userId }: { userId: string } = await req.json();
 
-        if (!userId) {
-            return failure({message : "Something went wrong!"},400)
-        }
+    if (!userId) {
+        return failure({ message: "Something went wrong!" }, 400)
+    }
 
-        const projects = await prisma.project.findMany({
-            select: { id: true, projectname: true, totalfiles: true, mostused: true },
-            where: {
-                userId
-            },
-            orderBy: { createdAt: "desc" },
-            take: 3
-        })
-
-        const totalprojects = await prisma.project.count({
-            where: {
-                userId
-            }
-        })
-
-        const totalanalysis = await prisma.analysis.count({
-            where: {
-                project: {
-                    userId
-                }
-            }
-        })
-
-        const issuesobj = await prisma.analysis.aggregate({
-            where: {
-                project: {
-                    userId
-                }
-            },
-            _sum: { totalissues: true }
-        })
-
-        const totalissues = issuesobj._sum.totalissues;
-
-        const criticalissues = await prisma.issues.count({
-            where: {
-                analysis: {
-                    project: {
-                        userId
-                    }
-                },
-                severity: 'high'
-            }
-        })
+    const [projects, total_projects, total_analysis, total_issues, critical_issues , analysis] = await Promise.all([
+        findproject(userId),
+        totalprojects(userId),
+        totalanalysis(userId),
+        totalissues(userId),
+        criticalissues(userId),
+        findanalysis(userId)
+    ])
 
 
-        const analysis = await prisma.analysis.findMany({
-            select: { id: true, project: { select: { projectname: true } }, totalissues: true, type: true },
-            where: {
-                project: {
-                    userId
-                }
-            },
-            orderBy: { updatedAt: "desc" },
-            take: 3
-        })
-
-
-        return success({ message: "Success", projects, totalanalysis, totalprojects, analysis, totalissues, criticalissues })
-    })
+    return success({ message: "Success", projects, total_analysis, total_projects, analysis, total_issues, critical_issues })
+})

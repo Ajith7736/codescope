@@ -128,7 +128,7 @@ model Account {
   id                    String    @id
   accountId             String
   providerId            String
-  userId                String 
+  userId                String
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -165,6 +165,7 @@ model Project {
   totalfiles  Int
   lastcommit  String
   projecttree String
+  summary     String?
   branch      String?
   commitid    String?    @unique
   analysis    Analysis[]
@@ -177,7 +178,6 @@ model Project {
 model Overview {
   id              String   @id @default(uuid())
   projectId       String   @unique
-  summary         String
   techStack       String[]
   keyFeatures     Json
   useCases        Json

@@ -71,6 +71,7 @@ export interface Project {
     lastcommit: string;
     userId: string;
     createdAt: Date;
+    summary: string;
     branch: string;
     analysis: Analysis[];
     overview: Overview;
