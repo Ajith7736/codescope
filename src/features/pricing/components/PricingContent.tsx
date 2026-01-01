@@ -1,13 +1,12 @@
 "use client"
 import Loading from "@/app/loading"
 import { useSession } from "@/lib/auth-client"
-import { delay } from "@/lib/delay"
-import { createsubscription, verifypayment } from "@/lib/server/api/razorpay"
+import { createsubscription } from "@/lib/server/api/razorpay"
 import { PlanProps, razorProps } from "@/types/type"
 import ButtonLoader from "@/ui/loaders/ButtonLoader"
 import { VerificationLoader } from "@/ui/loaders/VerificationLoader"
 import { useQuery } from "@tanstack/react-query"
-import { CircleCheck, CircleX, Lock, MoveLeft } from "lucide-react"
+import { CircleCheck, CircleX, MoveLeft } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import Script from "next/script"
@@ -81,6 +80,7 @@ export const PricingContent = () => {
                     },
                     handler: async function (response: any) {
                         await refetch();
+                        router.refresh();
                     },
                 });
 
@@ -108,7 +108,6 @@ export const PricingContent = () => {
 
     return (
         <div className="py-5 min-h-dvh relative">
-            <div className="h-20 w-20 bg-indigo-600 invisible dark:visible rounded-full blur-3xl absolute top-0 -left-10"></div>
             <Script
                 src="https://checkout.razorpay.com/v1/checkout.js"
             />
@@ -144,15 +143,15 @@ export const PricingContent = () => {
                                     <h1 className="text-base font-bold">{item.name}</h1>
                                     <p className="xss:text-[11px] md:text-xs text-light-accent dark:text-dark-text-primary italic">{item.description}</p>
                                 </div>
-                                <hr className="dark:border-gray-800 border-light-accent border w-full" />
+                                <hr className="dark:border-gray-800/60 border-light-accent border w-full" />
                                 <div className="flex flex-col gap-3">
                                     {item.features.map((feature, idx) => {
                                         return <div
                                             key={idx}>
                                             {(feature === "AI Repo Overview" && item.name === "Free Tier") ?
                                                 <div className="xss:text-[10px] lg:text-xs flex items-center gap-3">
-                                                    <CircleX className="size-4 text-red-600"  />
-                                                    <p className="text-gray-600">{feature}</p>
+                                                    <CircleX className="size-4 text-gray-500" />
+                                                    <p className="text-gray-500">{feature}</p>
                                                 </div>
                                                 : <div className="xss:text-[10px] lg:text-xs flex items-center  gap-3">
                                                     <CircleCheck className="size-4 text-emerald-600" />
@@ -161,7 +160,7 @@ export const PricingContent = () => {
                                             }</div>
                                     })}
                                 </div>
-                                {session ? <button onClick={() => handlerazorpay(item.razorpayPlanId)} className={`rounded-md w-full font-extrabold transition-all duration-300 dark:bg-white bg-black text-white dark:text-black p-2 hover:dark:bg-white/90 hover:bg-black/80  flex items-center h-10 justify-center cursor-pointer ${(item.name === "Free Tier" || session.subscription?.planId === item.razorpayPlanId) && 'invisible'}`}> {(issubscribe.planId === item.razorpayPlanId && issubscribe.show) ? <ButtonLoader variant="black" /> : <>Subscribe</>}</button> : <button onClick={() => { router.push("/Signup") }} className="rounded-md w-full font-extrabold transition-all duration-300 dark:bg-white bg-black text-white dark:text-black p-2 hover:dark:bg-white/90 hover:bg-black/80  cursor-pointer">Get Started</button>}
+                                {session ? <button onClick={() => handlerazorpay(item.razorpayPlanId)} className={`rounded-md w-full font-extrabold transition-all duration-300 dark:bg-white bg-black text-white dark:text-black p-2 hover:dark:bg-white/90 hover:bg-black/80  flex items-center h-10 justify-center cursor-pointer ${(item.name === "Free Tier" || session.subscription?.planId === item.razorpayPlanId) && 'invisible'}`}> {(issubscribe.planId === item.razorpayPlanId && issubscribe.show) ? <ButtonLoader variant="custom" color="black" /> : <>Subscribe</>}</button> : <button onClick={() => { router.push("/Signup") }} className="rounded-md w-full font-extrabold transition-all duration-300 dark:bg-white bg-black text-white dark:text-black p-2 hover:dark:bg-white/90 hover:bg-black/80  cursor-pointer">Get Started</button>}
                             </div>
                         </div>
                     })}

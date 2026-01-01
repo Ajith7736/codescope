@@ -22,7 +22,6 @@ function UserBlock({ setshowuserblock }: { setshowuserblock: React.Dispatch<Reac
         setisloading(true);
         await signOut();
         await refetch();
-        setisloading(false);
     }
     const { data: session } = useSession();
 

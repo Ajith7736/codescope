@@ -2,7 +2,7 @@ import { Ring2 } from 'ldrs/react'
 import { useTheme } from 'next-themes'
 
 
-function ButtonLoader({ size, stroke, invert, variant = "normal" }: { size?: number, stroke?: number, invert?: boolean, variant?: "normal" | "purple" | "black" | "white" }) {
+function ButtonLoader({ size, stroke, invert, variant = "normal", color = "white" }: { size?: number, stroke?: number, invert?: boolean, variant?: "normal" | "custom", color?: "white" | "black" }) {
     const { resolvedTheme } = useTheme();
     return (
         <>
@@ -13,22 +13,14 @@ function ButtonLoader({ size, stroke, invert, variant = "normal" }: { size?: num
                 stroke={stroke ? stroke : 3}
                 strokeLength={0.25}
                 bgOpacity={0.1}
-            /> : variant === "black" ? <Ring2
-                color={'black'}
+            /> : <Ring2
+                color={color}
                 size={size ? size : 17}
                 speed={0.8}
                 stroke={stroke ? stroke : 3}
                 strokeLength={0.25}
                 bgOpacity={0.5}
-            /> :
-                <Ring2
-                    color={'white'}
-                    size={size ? size : 17}
-                    speed={0.8}
-                    stroke={stroke ? stroke : 3}
-                    strokeLength={0.25}
-                    bgOpacity={0.5}
-                />}
+            />}
         </>
     )
 }

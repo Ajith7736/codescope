@@ -7,9 +7,11 @@ import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import { BookOpen, GitBranch, Layers, Lightbulb, Rocket, SparklesIcon, Workflow, Zap } from 'lucide-react'
 import ListContent from './ListContent'
 import BasicLoader from '@/ui/loaders/BasicLoader'
+import { useRouter } from 'next/navigation'
 
 function OverviewPage({ overview, refetch, projectdata, isRefetching }: { refetch: Function, isRefetching: Boolean, projectdata: Pick<Project, "id" | "projectcode" | "projecttree"> | null, overview: Overview | null | undefined }) {
   const { data: session } = useSession();
+  const router = useRouter();
   const { loading, fetchdata: fetchoverview } = useFetch("/api/overview", "POST", { projectId: projectdata?.id, projectcode: projectdata?.projectcode, projecttree: projectdata?.projecttree, userId: session?.user?.id }, refetch)
 
 
@@ -18,7 +20,14 @@ function OverviewPage({ overview, refetch, projectdata, isRefetching }: { refetc
       <div className='dark:bg-dark-surface border rounded-md border-light-border dark:border-dark-border w-full'>
         <div className='p-3 border-b border-light-border dark:border-dark-border flex justify-between'>
           <h1 className='text-xs flex gap-2 items-center text-indigo-500 font-extrabold'><SparklesIcon className='size-4' />AI Explain</h1>
-          {loading || isRefetching ? <Button variant='blue' className='w-30 h-10'><ButtonLoader variant='white'/>Overview</Button> : <Button className='w-30 h-10' onClick={fetchoverview} variant='blue'>Overview</Button>}
+          {loading || isRefetching ? <Button variant='blue' className='w-30 h-10'><ButtonLoader variant='custom' color='white' />Overview</Button> : <Button className='w-30 h-10'
+            onClick={() => {
+              if (session?.subscription && session.user?.subscription_status === "active") {
+                fetchoverview();
+              } else {
+                router.push("/Billing")
+              }
+            }} variant='blue'>Overview</Button>}
         </div>
 
         {loading || isRefetching ? <div className='p-5 flex flex-col text-xs items-center justify-center text-dark-text-muted italic'><BasicLoader /> This may take few seconds.</div> : overview ? <>

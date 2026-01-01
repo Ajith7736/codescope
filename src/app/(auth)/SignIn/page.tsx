@@ -16,7 +16,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 function page() {
-    const { data: session, isPending } = useSession();
+    const { data: session, isPending , refetch } = useSession();
     useEffect(() => {
         if (session) {
             redirect("/Dashboard")
@@ -39,7 +39,7 @@ function page() {
         const { success, message } = await signIn(data.email, data.password);
         if (success) {
             toast.success(message)
-            redirect("/Dashboard")
+            await refetch();
         } else {
             toast.error(message)
         }

@@ -67,6 +67,9 @@ function DashContent() {
     }
   }, [data])
 
+
+  console.log(session);
+
   const card: DashCardProps[] = [
     {
       icon: <Folder />,

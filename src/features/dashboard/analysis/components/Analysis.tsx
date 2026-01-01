@@ -58,7 +58,7 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
         return <div className={`bg-light-surface dark:bg-dark-surface flex flex-col  gap-3 rounded-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
             <div className='flex justify-between items-center p-5 border-b border-light-border dark:border-dark-border'>
                 <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
-                {loading && <Button variant='blue'><ButtonLoader />Analyzing</Button>}
+                {loading && <Button variant='blue'><ButtonLoader variant='custom' color='white' />Analyzing</Button>}
                 {reanalysisloading && <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />Analyzing</Button>}
             </div>
             <div className='p-5 flex flex-col gap-3 items-center justify-center'>
@@ -72,7 +72,7 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
     if (!analysis) return <div className={`bg-light-surface dark:bg-dark-surface flex flex-col rounded-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
         <div className='flex justify-between items-center p-5 border-b border-light-border dark:border-dark-border'>
             <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
-            {loading ? <Button variant='blue'><ButtonLoader variant='white'/>Analyzing</Button> : <Button variant='blue' onClick={handleanalysis}><Play size={12} />Analyse</Button>}
+            <Button variant='blue' onClick={handleanalysis}><Play size={12} />Analyse</Button>
         </div>
         <div className='p-5'>
             <h1 className='text-[12px] italic text-dark-text-muted'>No Issues</h1>
