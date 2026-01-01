@@ -63,7 +63,7 @@ function DashContent() {
     if (data && data.success) {
       setprojects(data.projects)
       setrecentanalysis(data.analysis)
-      settotal({ totalanalysis: data.totalanalysis, totalissues: data.totalissues, totalprojects: data.totalprojects, criticalissues: data.criticalissues })
+      settotal({ totalanalysis: data.total_analysis, totalissues: data.total_issues, totalprojects: data.total_projects, criticalissues: data.critical_issues })
     }
   }, [data])
 

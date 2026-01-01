@@ -52,7 +52,7 @@ function Sidebar() {
 
 
     return (
-        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} bg-light-surface dark:bg-gray-950 md:static xss:absolute border-r border-light-border dark:border-dark-border/60   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed h-screen`}>
+        <motion.div ref={sideref} initial={isLargescreen && { width: 0 }} animate={isLargescreen ? { width: showsidebar ? 320 : 77 } : { width: 320 }} transition={isLargescreen ? { duration: 0.4, ease: "easeInOut" } : {}} className={`z-10 bg-light-gray flex flex-col justify-between xss:p-4 lg:p-4 ${showsidebar ? 'md:px-2' : 'md:p-4'} bg-light-surface dark:bg-gray-950 md:static xss:absolute border-r border-light-border dark:border-dark-border/60   ${isLargescreen ? 'w-[20rem]' : 'w-[300px]'}  ${showsidebar ? 'xss:left-0' : 'xss:-left-80'} md:transition-none xss:transition-all xss:duration-400 overflow-hidden fixed min-h-dvh`}>
             <div>
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
