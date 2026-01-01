@@ -178,6 +178,7 @@ model Project {
 model Overview {
   id              String   @id @default(uuid())
   projectId       String   @unique
+  summary         String
   techStack       String[]
   keyFeatures     Json
   useCases        Json
