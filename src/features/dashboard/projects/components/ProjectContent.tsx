@@ -86,7 +86,7 @@ function ProjectContent() {
 
 
   return (
-    <div className='m-7 h-screen gap-8 flex flex-col items-center'>
+    <div className='m-7 dvh gap-8 flex flex-col items-center'>
       <div>
         <div className='flex flex-col md:flex-row gap-4 items-center'>
           <div>

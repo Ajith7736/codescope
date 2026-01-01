@@ -99,7 +99,7 @@ function DashContent() {
 
 
   return (
-    <div className='flex flex-col outline-none bg-light-background dark:bg-dark-background h-screen overflow-auto transition-all duration-300'>
+    <div className='flex flex-col outline-none bg-light-background dark:bg-dark-background h-dvh overflow-auto transition-all duration-300'>
       <div className='bg-light-white border border-light-border dark:border-dark-border border-t-0 border-x-0 bg-light-surface dark:bg-dark-surface p-5 flex justify-between items-center'>
         <div className='lg:w-[80%] xss:w-[40vw]'>
           <SecondTitle>Dashboard</SecondTitle>

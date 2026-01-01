@@ -8,9 +8,9 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
     const { setshowsidebar, showsidebar } = useSidebar();
 
     return (
-        <div className='flex min-h-screen'>
+        <div className='flex min-h-dvh'>
             <Sidebar />
-            <div className=' flex xss:flex-col xss:w-full md:flex-1  max-h-screen '>
+            <div className=' flex xss:flex-col xss:w-full md:flex-1  max-h-dvh '>
                 <Nav handlesidebar={() => setshowsidebar(!showsidebar)} />
                 {children}
             </div>

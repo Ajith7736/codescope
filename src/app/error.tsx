@@ -7,7 +7,7 @@ function ErrorPage() {
     const {data : session} = useSession();
 
     return (
-        <div className='bg-light-white dark:bg-dark-black flex flex-col gap-3 items-center justify-center h-screen w-screen'>
+        <div className='bg-light-white dark:bg-dark-black flex flex-col gap-3 items-center justify-center min-h-dvh w-screen'>
             <div className='text-6xl font-bold text-red-400'>Oops!</div>
             <div className='text-light-textgray dark:text-dark-textgray text-center mx-10'>Something went wrong.</div>
             {session ? <Link

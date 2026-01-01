@@ -55,7 +55,7 @@ function AnalysisContent({ id }: { id: string }) {
   if (isLoading) return <Loading />
 
   return (
-    <div className='h-screen bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
+    <div className='h-dvh bg-light-background dark:bg-dark-background overflow-auto flex flex-col items-center'>
       <ProjectHeader projectdata={projectdata} refetch={refetch} />
       <Activity mode={currentprojectpage === "analysis" ? 'visible' : 'hidden'}>
         <AnalysisPage projectdata={projectdata} isRefetching={isRefetching} refetch={refetch} />

@@ -64,7 +64,7 @@ function Page() {
   if (isPending) return <Loading />
 
   return (
-    <div className={`relative w-screen h-screen flex flex-col gap-3 justify-center items-center p-8`}>
+    <div className={`relative w-screen min-h-dvh flex flex-col gap-3 justify-center items-center p-8`}>
       <Link href={"/"} className='absolute top-5 left-5 hover:bg-light-surface-hover dark:hover:bg-dark-surface-hover p-2 cursor-pointer rounded-md flex gap-2 items-center transition duration-300 text-sm'><ArrowLeft size={15} />Back</Link>
       <div className='text-xl xss:text-base font-bold'>Create your account</div>
       <div className=' text-light-text-muted dark:text-dark-text-muted text-sm xss:text-xs text-center'>Enter your details below to create your account</div>

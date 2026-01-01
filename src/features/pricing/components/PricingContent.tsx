@@ -107,7 +107,7 @@ export const PricingContent = () => {
 
 
     return (
-        <div className="py-5 min-h-screen relative">
+        <div className="py-5 min-h-dvh relative">
             <div className="h-20 w-20 bg-indigo-600 invisible dark:visible rounded-full blur-3xl absolute top-0 -left-10"></div>
             <Script
                 src="https://checkout.razorpay.com/v1/checkout.js"
