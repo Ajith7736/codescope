@@ -22,10 +22,10 @@ function HowtoUse() {
     ]
 
     return (
-        <div className='xss:flex px-15 mt-10 w-full xss:flex-col md:flex-row xss:items-center md:justify-center md:gap-20 xss:gap-10 '>
-            <div className='xl:w-[40%] flex flex-col gap-4'>
-                <h1 className='text-4xl xss:text-center md:text-start font-extrabold'>Improve your <span className='text-indigo-500'>code quality</span></h1>
-                <p className='xss:text-xs md:text-sm xss:text-center md:text-start text-gray-500'>Stop guessing about code quality. Get deterministic insights that help you ship 5x faster with 90% fewer regressions.</p>
+        <div className='xss:flex px-5 mt-10 w-full xss:flex-col md:flex-row xss:items-center md:justify-center md:gap-20 xss:gap-10 '>
+            <div className='md:w-[40%] flex flex-col xss:items-center gap-4'>
+                <h1 className='xss:text-2xl md:text-4xl xss:text-center md:text-start font-extrabold'>Improve your <span className='text-indigo-500'>code quality</span></h1>
+                <p className='xss:text-[9px] mx-10 md:text-sm xss:text-center md:text-start text-gray-500'>Stop guessing about code quality. Get deterministic insights that help you ship 5x faster with 90% fewer regressions.</p>
                 <div className='flex flex-col gap-5'>
                     {contents.map((content, indx) => {
                         return <div key={indx} className='flex gap-7 group items-start'>
@@ -41,8 +41,8 @@ function HowtoUse() {
                 </div>
 
             </div>
-            <div>
-                <div className='bg-dark-surface border p-10 border-dark-border rounded-md h-[50vh] xss:w-[65vw] md:w-[20vw]'>
+            <div className='xss:hidden md:block'>
+                <div className='bg-dark-surface border p-10 border-dark-border rounded-md h-[50vh] xss:w-[70vw] md:w-[20vw]'>
                     <div className='border border-dark-border rounded-md h-full relative flex items-center justify-center'>
                         <div className='bg-indigo-600 h-25 absolute  w-25 rounded-full blur-3xl animate-pulse'></div>
                         <OctagonAlert className='size-15 text-indigo-600' />
