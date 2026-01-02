@@ -1,0 +1,57 @@
+import ProjectText from '@/ui/Text/ProjectText'
+import SmallText from '@/ui/Text/SmallText'
+import { Octagon, OctagonAlert } from 'lucide-react'
+import React from 'react'
+
+function HowtoUse() {
+
+    const contents = [
+        {
+            title: "PASTE YOUR REPO LINK",
+            desc: "Copy and paste your github repo link and click on add project."
+        }, {
+            title: "SELECT ANALYSIS",
+            desc: "Select an analysis from architecture, security, performance."
+        }, {
+            title: "START ANALYSIS",
+            desc: "Click on analyze to start your analysis."
+        }, {
+            title: "REFETCH ON NEW COMMITS",
+            desc: "Click refetch button to fetch newly committed code."
+        }
+    ]
+
+    return (
+        <div className='xss:flex px-15 mt-10 w-full xss:flex-col md:flex-row xss:items-center md:justify-center md:gap-20 xss:gap-10 '>
+            <div className='xl:w-[40%] flex flex-col gap-4'>
+                <h1 className='text-4xl xss:text-center md:text-start font-extrabold'>Improve your <span className='text-indigo-500'>code quality</span></h1>
+                <p className='xss:text-xs md:text-sm xss:text-center md:text-start text-gray-500'>Stop guessing about code quality. Get deterministic insights that help you ship 5x faster with 90% fewer regressions.</p>
+                <div className='flex flex-col gap-5'>
+                    {contents.map((content, indx) => {
+                        return <div key={indx} className='flex gap-7 group items-start'>
+                            <div className='rounded-full xss:text-sm md:text-base border transition-all duration-300 group-hover:bg-dark-accent/20 border-dark-border h-12 flex items-center justify-center  text-indigo-500 font-extrabold w-12'>
+                                {`0` + (indx + 1)}
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <ProjectText >{content.title}</ProjectText>
+                                <SmallText className='text-gray-500'>{content.desc}</SmallText>
+                            </div>
+                        </div>
+                    })}
+                </div>
+
+            </div>
+            <div>
+                <div className='bg-dark-surface border p-10 border-dark-border rounded-md h-[50vh] xss:w-[65vw] md:w-[20vw]'>
+                    <div className='border border-dark-border rounded-md h-full relative flex items-center justify-center'>
+                        <div className='bg-indigo-600 h-25 absolute  w-25 rounded-full blur-3xl animate-pulse'></div>
+                        <OctagonAlert className='size-15 text-indigo-600' />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    )
+}
+
+export default HowtoUse

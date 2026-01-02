@@ -10,7 +10,8 @@ import SampleAnalysis from "../components/sample/SampleAnalysis"
 import TextHeader from "../components/text/TextHeader"
 import Footer from "./Footer"
 import { useState } from "react"
-import BeamLight from "../components/Beam/BeamLight"
+import SeperatorLine from "../components/seperator/SeperatorLine"
+import HowtoUse from "../components/howtouse/HowtoUse"
 
 function Content({ session }: { session: Session | null }) {
 
@@ -43,7 +44,7 @@ function Content({ session }: { session: Session | null }) {
     return (
         <main className=' relative flex flex-col justify-center items-center gap-3'>
             <p className="text-xs text-indigo-600 px-2 py-1 border border-indigo-500/40 rounded-full w-fit text-center">Powered by Gemini AI</p>
-            <header className='min-h-[50vh]'>
+            <header className='min-h-[50vh] flex flex-col items-center mb-5'>
                 <div className="h-60 w-10 rounded-full bg-indigo-400/30 blur-3xl fixed z-50 -left-15">
                 </div>
                 <div className="h-60 w-10 rounded-full bg-pink-400/30  blur-3xl fixed z-50 -right-15">
@@ -59,19 +60,33 @@ function Content({ session }: { session: Session | null }) {
                         <Link href={"https://github.com/Ajith7736/codescope"} target="_blank"><button className='p-3 rounded-md cursor-pointer hover:bg-light-surface-hover hover:dark:bg-dark-surface-hover/50 transition duration-300 dark:backdrop-blur-2xl xss:text-sm md:text-base'>Github</button></Link>
                     </div>
                 </motion.div>
+
+
+                <SeperatorLine />
             </header>
 
-            <section className='relative p-5 flex flex-col md:flex-wrap gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 w-full'>
+
+
+            <section className='relative flex flex-col md:flex-wrap px-4 gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 w-full'>
                 {cards.map((card) => {
                     return <Card key={card.title} logo={card.logo} title={card.title} desc={card.desc} />
                 })}
             </section>
 
-            <motion.section initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="flex relative  flex-col lg:flex-row lg:gap-3 items-center lg:items-baseline justify-between">
-                <SampleCode />
-                <SampleAnalysis showcode={showcode} setshowcode={setshowcode}/>
-                {!showcode.show && <BeamLight />}
+            <motion.section initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="relative  flex flex-col gap-8 mt-8">
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-center font-extrabold text-4xl">Analyze your Code</h1>
+                    <p className="text-xs px-10 text-gray-500 text-center">Analyze your whole codebase and find issues that are missed</p>
+                </div>
+                <div className="flex flex-col lg:flex-row lg:gap-3 items-center lg:items-baseline justify-between">
+                    <SampleCode />
+                    <SampleAnalysis showcode={showcode} setshowcode={setshowcode} />
+                </div>
             </motion.section>
+
+            <section className="w-full">
+                <HowtoUse />
+            </section>
 
 
             <section>

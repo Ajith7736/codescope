@@ -9,7 +9,7 @@ function Navbar() {
 
 
     return (
-        <nav className='sticky top-0 z-20 dark:bg-dark-background/80 bg-light-background/80  backdrop-blur-xl'>
+        <nav className='sticky top-0 z-20 backdrop-blur-xl bg-dark-background/60'>
             <Container className='min-h-[10vh] flex items-center justify-between'>
                 <Link href={"/"} className=' flex items-center gap-3 font-family-bebas'>
                     <span><Code className='bg-indigo-600 xss:size-6 lg:size-7 p-1 rounded-[3px] text-white h-7 w-7' strokeWidth={3} /></span>
