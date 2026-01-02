@@ -45,7 +45,7 @@ model Subscription {
   id                       String             @id @default(uuid())
   userId                   String
   planId                   String             @db.VarChar(50)
-  status                   SubscriptionStatus @default(pending)
+  status                   SubscriptionStatus? @default(pending)
   createdAt                DateTime           @default(now())
   updatedAt                DateTime           @updatedAt
   activated_at             DateTime?

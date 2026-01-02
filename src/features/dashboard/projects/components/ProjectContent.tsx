@@ -13,7 +13,6 @@ import githublinkchecker from '@/lib/githublinkchecker'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import BasicLoader from '@/ui/loaders/BasicLoader'
-import { RadialBar, RadialBarChart } from 'recharts'
 
 
 function ProjectContent() {
@@ -79,6 +78,24 @@ function ProjectContent() {
     }
   }, [resdata])
 
+  const handlesubscription = (projectlength: number) => {
+    if (session?.user?.subscription_status === "active" && session?.subscription?.status === "active") {
+      if (session.subscription.plan.name === "Basic") {
+        if (projectlength < 10) {
+          getgithubdata();
+        } else {
+          toast.error("Project Limit Reached")
+        }
+      }
+    } else {
+      if (projectlength < 1) {
+        getgithubdata();
+      } else {
+        router.push("/Billing")
+      }
+    }
+  }
+
   if (isLoading) return <Loading />
 
   if (isError) return <ErrorPage />
@@ -109,22 +126,18 @@ function ProjectContent() {
               className='text-sm bg-light-black text-light-white bg-indigo-600 shadow-sm  shadow-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 cursor-pointer p-2 rounded-[3px]'
               disabled={errorText.length > 0 || link === ""}
               onClick={() => {
-                if (projectdata?.length < 1 && session?.user?.subscription_status === "active") {
-                  getgithubdata();
-                } else {
-                  router.push("/Billing")
-                }
+                handlesubscription(projectdata.length);
               }}
             />}
         </div>
         {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
-      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'>
-      <div className='bg-indigo-500 h-2 rounded-full transition-all duration-300'
-        style={{
-          width: !session?.subscription ? projectdata?.length / 1 * 100 + "%" : projectdata?.length / 10 * 100 + "%"
-        }}
-      ></div></div><div className='text-dark-text-muted italic'>{projectdata ? projectdata.length : 0} / {session?.subscription?.plan.name === "Basic" ? 10 : 1}</div></div>}
+      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic" && session.subscription.status === "active")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'>
+        <div className='bg-indigo-500 h-2 rounded-full transition-all duration-300'
+          style={{
+            width: !session?.subscription ? projectdata?.length / 1 * 100 + "%" : projectdata?.length / 10 * 100 + "%"
+          }}
+        ></div></div><div className='text-dark-text-muted italic'>{projectdata ? projectdata.length : 0} / {session?.subscription?.plan.name === "Basic" ? 10 : 1}</div></div>}
 
       <div className=' xss:w-85 md:w-110 lg:w-190'>
         <div className='border p-5 xss:text-sm rounded-t-md font-extrabold border-light-border dark:border-dark-border'>

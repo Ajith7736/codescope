@@ -2,7 +2,7 @@ import { RazorpayInvoice, RazorpayPayment, RazorpaySubscription } from "@/types/
 import prisma from "../db/db";
 
 const AllowedTransitions: Record<string, string[]> = {
-    created: ['authenticated'],
+    pending: ['authenticated', 'active'],
     authenticated: ['active'],
     active: ['paused', 'halted', 'cancelled', 'completed'],
     paused: ['active', 'cancelled', 'completed'],
@@ -11,7 +11,8 @@ const AllowedTransitions: Record<string, string[]> = {
     completed: []
 }
 
-function canTransition(from: string, to: string) {
+function canTransition(from: string | null, to: string) {
+    if (!from || !to) return false;
     return AllowedTransitions[from].includes(to);
 }
 
@@ -40,6 +41,8 @@ export async function handlePaymentCapture(payment: RazorpayPayment) {
             method: payment.method
         }
     })
+
+
 }
 
 export async function handleInvoice(invoice: RazorpayInvoice) {
@@ -133,34 +136,31 @@ export async function handleSubscriptionAuthenticated(subscription: RazorpaySubs
         }
     })
 
-    if (previous_subscription) {
-        await prisma.subscription.update({
-            where: {
-                razorpay_subscription_id: subscription.id
-            },
-            data: {
-                status: canTransition(previous_subscription.status, "authenticated") ? "authenticated" : previous_subscription.status,
-                quantity: subscription.quantity,
-                paid_count: subscription.paid_count,
-                remaining_count: subscription.remaining_count
-            }
-        })
-    } else {
-        await prisma.subscription.create({
-            data: {
-                razorpay_subscription_id: subscription.id,
-                quantity: subscription.quantity,
-                userId: subscription.notes.userId,
-                planId: subscription.plan_id,
-                status: "authenticated",
-                total_count: subscription.total_count,
-                paid_count: subscription.paid_count,
-                remaining_count: subscription.remaining_count,
-                current_start: new Date(subscription.current_start * 1000),
-                current_end: new Date(subscription.current_end * 1000),
-            }
-        })
-    }
+
+    await prisma.subscription.upsert({
+        where: {
+            razorpay_subscription_id: subscription.id
+        },
+        create: {
+            razorpay_subscription_id: subscription.id,
+            quantity: subscription.quantity,
+            userId: subscription.notes.userId,
+            planId: subscription.plan_id,
+            status: "authenticated",
+            total_count: subscription.total_count,
+            paid_count: subscription.paid_count,
+            remaining_count: subscription.remaining_count,
+            current_start: new Date(subscription.current_start * 1000),
+            current_end: new Date(subscription.current_end * 1000),
+        },
+        update: {
+            status: canTransition(previous_subscription && previous_subscription.status , "authenticated") ? "authenticated" : previous_subscription?.status,
+            quantity: subscription.quantity,
+            paid_count: subscription.paid_count,
+            remaining_count: subscription.remaining_count
+        }
+    })
+
 
 }
 
@@ -175,33 +175,30 @@ export async function handleSubscriptionActivated(subscription: RazorpaySubscrip
         }
     })
 
-    if (previous_subscription) {
-        await prisma.subscription.update({
-            where: {
-                razorpay_subscription_id: subscription.id
-            },
-            data: {
-                activated_at: new Date(),
-                status: canTransition(previous_subscription.status, "active") ? "active" : previous_subscription.status
-            }
-        })
-    } else {
-        await prisma.subscription.create({
-            data: {
-                razorpay_subscription_id: subscription.id,
-                quantity: subscription.quantity,
-                userId: subscription.notes.userId,
-                planId: subscription.plan_id,
-                status: "active",
-                total_count: subscription.total_count,
-                paid_count: subscription.paid_count,
-                remaining_count: subscription.remaining_count,
-                activated_at: new Date(),
-                current_start: new Date(subscription.current_start * 1000),
-                current_end: new Date(subscription.current_end * 1000)
-            }
-        })
-    }
+
+
+    await prisma.subscription.upsert({
+        where: {
+            razorpay_subscription_id: subscription.id
+        },
+        update: {
+            activated_at: new Date(),
+            status: canTransition(previous_subscription && previous_subscription.status, "active") ? "active" : previous_subscription?.status
+        },
+        create: {
+            razorpay_subscription_id: subscription.id,
+            quantity: subscription.quantity,
+            userId: subscription.notes.userId,
+            planId: subscription.plan_id,
+            status: "active",
+            total_count: subscription.total_count,
+            paid_count: subscription.paid_count,
+            remaining_count: subscription.remaining_count,
+            activated_at: new Date(),
+            current_start: new Date(subscription.current_start * 1000),
+            current_end: new Date(subscription.current_end * 1000)
+        }
+    })
 
 
     await prisma.user.update({
@@ -210,7 +207,8 @@ export async function handleSubscriptionActivated(subscription: RazorpaySubscrip
         },
         data: {
             subscription_status: "active",
-            subscription_end_date: new Date(subscription.current_end * 1000)
+            subscription_end_date: new Date(subscription.current_end * 1000),
+            razorpay_customer_id: subscription.customer_id
         }
     })
 }
@@ -230,7 +228,7 @@ export async function handlePaymentFailed(payment: RazorpayPayment) {
             amount: payment.amount,
             status: "failed",
             email: payment.email,
-            currency: payment.contact!,
+            currency: payment.currency,
             error_code: payment.error_code!,
             error_desc: payment.error_description!,
             method: payment.method

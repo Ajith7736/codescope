@@ -75,16 +75,18 @@ export const POST = tryCatch(async (req: Request) => {
         return failure({ message: "subscription failed" })
     }
 
-    await prisma.user.update({
-        where: {
-            id: userId
-        },
-        data: {
-            razorpay_customer_id: subscription.customer_id
+    console.log(subscription)
+
+    await prisma.subscription.create({
+        data : {
+            paid_count : subscription.paid_count,
+            quantity : subscription.quantity!,
+            userId,
+            remaining_count : Number(subscription.remaining_count),
+            razorpay_subscription_id : subscription.id,
+            planId
         }
     })
-
-
 
     return success({ id: subscription.id, key: process.env.RAZORPAY_KEY_ID, entity: subscription.entity });
 
