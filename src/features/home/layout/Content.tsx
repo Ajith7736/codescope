@@ -1,24 +1,19 @@
 "use client"
 import { Code, Github, Shield, TrendingUp } from "lucide-react"
 import Card from '../components/card/Card'
-import SampleCode from "../components/sample/SampleCode"
-import { CardProps, Session, showcodeprops } from '@/types/type'
+import { CardProps, Session } from '@/types/type'
 import Link from 'next/link'
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
-import SampleAnalysis from "../components/sample/SampleAnalysis"
 import TextHeader from "../components/text/TextHeader"
 import Footer from "./Footer"
-import { useState } from "react"
 import SeperatorLine from "../components/seperator/SeperatorLine"
 import HowtoUse from "../components/howtouse/HowtoUse"
+import Questions from "../components/faq/Questions"
+import Sample from "../components/sample/Sample"
 
 function Content({ session }: { session: Session | null }) {
 
-    const [showcode, setshowcode] = useState<showcodeprops>({
-        id: null,
-        show: false
-    })
 
     const cards: CardProps[] = [
         {
@@ -42,7 +37,7 @@ function Content({ session }: { session: Session | null }) {
 
 
     return (
-        <main className=' relative flex flex-col justify-center items-center gap-3'>
+        <main className='relative flex flex-col justify-center items-center gap-3'>
             <p className="text-xs text-indigo-600 px-2 py-1 border border-indigo-500/40 rounded-full w-fit text-center">Powered by Gemini AI</p>
             <header className='min-h-[50vh] flex flex-col items-center mb-5'>
                 <div className="h-60 w-10 rounded-full bg-indigo-400/30 blur-3xl fixed z-50 -left-15">
@@ -60,8 +55,6 @@ function Content({ session }: { session: Session | null }) {
                         <Link href={"https://github.com/Ajith7736/codescope"} target="_blank"><button className='p-3 rounded-md cursor-pointer hover:bg-light-surface-hover hover:dark:bg-dark-surface-hover/50 transition duration-300 dark:backdrop-blur-2xl xss:text-sm md:text-base'>Github</button></Link>
                     </div>
                 </motion.div>
-
-
                 <SeperatorLine />
             </header>
 
@@ -73,19 +66,16 @@ function Content({ session }: { session: Session | null }) {
                 })}
             </section>
 
-            <motion.section initial={{ opacity: 0, translateY: 50 }} whileInView={{ opacity: 1, translateY: 0 }} transition={{ duration: 0.5, ease: "easeInOut" }} className="relative  flex flex-col gap-8 mt-8">
-                <div className="flex flex-col gap-2">
-                    <h1 className="text-center font-extrabold xss:text-2xl md:text-4xl">Analyze your Code</h1>
-                    <p className="xss:text-[10px] md:text-xs px-10 text-gray-500 text-center">Analyze your whole codebase and find issues that are missed</p>
-                </div>
-                <div className="flex flex-col lg:flex-row lg:gap-3 items-center lg:items-baseline justify-between">
-                    <SampleCode />
-                    <SampleAnalysis showcode={showcode} setshowcode={setshowcode} />
-                </div>
-            </motion.section>
+            <section className="relative  flex flex-col gap-8 mt-8">
+                <Sample />
+            </section>
 
-            <section className="w-full">
+            <section>
                 <HowtoUse />
+            </section>
+
+            <section className="mt-10">
+                <Questions />
             </section>
 
 
