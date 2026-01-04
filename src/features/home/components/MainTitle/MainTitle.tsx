@@ -12,9 +12,9 @@ function MainTitle({ session }: { session: Session | null }) {
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-80 w-full h-full '>
             <div className='text-center'>
                 {words.map((word, indx) => {
-                    return <motion.p key={indx} initial={{ filter: "blur(8px)", y: 20 }} animate={{ filter: "blur(0px)", y: 0 }} transition={{ duration: .4, delay: .1 * indx, ease: "easeOut" }} viewport={{ once: true }} className={`font-extrabold xss:text-4xl inline-block  md:text-7xl mr-4 ${word === "Github" && 'text-dark-accent'}`}>
+                    return <motion.h1 key={indx} initial={{ filter: "blur(8px)", y: 20 }} animate={{ filter: "blur(0px)", y: 0 }} transition={{ duration: .4, delay: .1 * indx, ease: "easeOut" }} viewport={{ once: true }} className={`font-extrabold xss:text-4xl inline-block  md:text-7xl mr-4 ${word === "Github" && 'text-dark-accent'}`}>
                         {word}
-                    </motion.p>
+                    </motion.h1>
                 })}
             </div>
             <div className='text-center font-family-sans text-light-activeborder font-semibold xss:text-xs lg:text-sm'>Detect architecture flaws, security risks, and bottlenecks instantly. Get <span className=' text-indigo-600 italic text-base font-family-bebas'>AI-powered</span> refactoring suggestions directly in your repo.</div>

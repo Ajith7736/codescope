@@ -22,14 +22,14 @@ function HowtoUse() {
     ]
 
     return (
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeInOut" }} className='xss:flex xss:px-5 md:px-0 mt-10 w-full xss:flex-col md:flex-row xss:items-center md:justify-center md:gap-15 xss:gap-10 '>
-            <div className='md:w-[60%] flex flex-col xss:items-center gap-4'>
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeInOut" }} className='xss:flex mt-10  xss:flex-col md:flex-row xss:items-center md:justify-center md:gap-15 xss:gap-10 '>
+            <div className='xss:w-[90%] md:w-[60%] flex flex-col xss:items-center gap-4'>
                 <h1 className='xss:text-2xl md:text-4xl xss:text-center md:text-start font-extrabold'>Improve your <span className='text-indigo-500'>code quality</span></h1>
-                <SmallText className=' xss:w-100 md:w-auto xss:text-center md:text-start text-gray-500'>Stop thinking about code bugs and issues codescope will help you with that.</SmallText>
+                <SmallText className=' xss:text-center md:text-start text-gray-500'>Stop thinking about code bugs and issues codescope will help you with that.</SmallText>
                 <div className='flex flex-col gap-5'>
                     {contents.map((content, indx) => {
                         return <div key={indx} className='flex gap-5 group xss:items-center md:items-start'>
-                            <div className='rounded-full xss:text-sm md:text-base border transition-all duration-300 group-hover:bg-dark-accent/20 border-light-border dark:border-dark-border h-12 flex items-center justify-center  text-indigo-500 font-extrabold min-w-12'>
+                            <div className='rounded-full xss:text-xs sm:text-sm md:text-base border transition-all duration-300 group-hover:bg-dark-accent/20 border-light-border dark:border-dark-border h-12 flex items-center justify-center  text-indigo-500 font-extrabold min-w-12'>
                                 {`0` + (indx + 1)}
                             </div>
                             <div className='flex flex-col gap-2'>

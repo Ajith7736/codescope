@@ -1,0 +1,24 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 40 40"
+>
+
+  <rect width="40" height="40" rx="6" fill="#4f46e5" />
+
+
+  <g
+    transform="translate(8 8)"
+    fill="none"
+    stroke="white"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+
+    <polyline points="16 20 26 12 16 4" />
+
+
+    <polyline points="8 4 -2 12 8 20" />
+  </g>
+</svg>
+

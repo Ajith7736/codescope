@@ -42,12 +42,12 @@ model Session {
 }
 
 model Subscription {
-  id                       String             @id @default(uuid())
+  id                       String              @id @default(uuid())
   userId                   String
-  planId                   String             @db.VarChar(50)
+  planId                   String              @db.VarChar(50)
   status                   SubscriptionStatus? @default(pending)
-  createdAt                DateTime           @default(now())
-  updatedAt                DateTime           @updatedAt
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
   activated_at             DateTime?
   cancelled_at             DateTime?
   charge_at                DateTime?
@@ -59,12 +59,12 @@ model Subscription {
   paid_count               Int
   paused_at                DateTime?
   quantity                 Int
-  razorpay_subscription_id String?            @unique @db.VarChar(100)
+  razorpay_subscription_id String?             @unique @db.VarChar(100)
   remaining_count          Int
   resumed_at               DateTime?
   total_count              Int?
-  plan                     Plan               @relation(fields: [planId], references: [razorpayPlanId])
-  user                     User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                     Plan                @relation(fields: [planId], references: [razorpayPlanId])
+  user                     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([razorpay_subscription_id])
   @@map("subscriptions")
@@ -222,6 +222,14 @@ model Issues {
   analysis               Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
 
   @@map("issues")
+}
+
+model Messages {
+  id       String @id @default(uuid())
+  fullname String
+  email    String
+  subject  String
+  message  String
 }
 
 enum SubscriptionStatus {

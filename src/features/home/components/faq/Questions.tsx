@@ -26,14 +26,14 @@ function Questions() {
 
 
     return (
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeInOut" }} className='flex flex-col gap-5 px-10'>
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeInOut" }} className='flex flex-col gap-5'>
             <h1 className='xss:text-2xl md:text-4xl font-extrabold text-center'>OUESTIONS & ANSWERS</h1>
             {questions.map((item) => {
-                return <motion.div key={item.id} className='border overflow-hidden border-light-border dark:border-gray-600/50 rounded-lg xl:w-[40vw] xss:w-[80vw] flex flex-col'>
+                return <motion.div key={item.id} className='border transition-all duration-300 overflow-hidden border-light-border dark:border-gray-600/50 cursor-pointer font-bold hover:text-dark-accent rounded-lg xl:w-[40vw] xss:w-[80vw] flex flex-col'>
                     <div onClick={() => handleclick(item.id)} className=' flex justify-between items-center p-5'>
-                        <button className='xl:text-sm xss:text-xs text-start w-85'>{item.question}</button>
+                        <button className='xl:text-sm xss:text-xs text-start xss:w-[80%] md:w-full '>{item.question}</button>
                         <motion.div initial={{ rotate: 0 }} animate={questionshow.id === item.id && questionshow.show ? { rotate: 180 } : { rotate: 0 }}>
-                            <ChevronDown className='size-4' />
+                            <ChevronDown className='size-4 text-white' />
                         </motion.div>
                     </div>
                     <AnimatePresence>
