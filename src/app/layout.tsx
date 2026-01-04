@@ -1,5 +1,4 @@
-import type { Metadata } from "next";
-import { Dela_Gothic_One, Fugaz_One, Germania_One, Inter, JetBrains_Mono, Texturina, Unica_One } from "next/font/google";
+import {  Inter, JetBrains_Mono, Texturina } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
