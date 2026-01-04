@@ -1,5 +1,82 @@
 import BackButton from "@/ui/Buttons/BackButton"
 
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://codescopegit.vercel.app"),
+  title: {
+    default: "Terms of Service | Codescope - Terms & Conditions",
+    template: "%s | Codescope",
+  },
+  description:
+    "Read the Terms of Service for Codescope AI. Understand your rights, responsibilities, and restrictions when using our AI-powered code analysis and review services.",
+  keywords: [
+    "Codescope Terms",
+    "Terms of Service",
+    "Terms and Conditions",
+    "User agreement",
+    "Legal",
+    "Use license",
+    "Privacy",
+    "Liability",
+    "Limitations",
+    "Disclaimer",
+    "AI analysis terms",
+    "Code analysis terms",
+    "Razorpay Terms",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.svg",
+  },
+  alternates: {
+    canonical: "https://codescopegit.vercel.app/Terms",
+  },
+  openGraph: {
+    title: "Terms of Service | Codescope AI",
+    description:
+      "Review the complete Terms of Service for using Codescope AI-powered analysis tools. Stay informed about user guidelines, privacy, and disclaimers.",
+    siteName: "codescopegit.vercel.app",
+    images: [
+      {
+        url: "/og-icon.png",
+        alt: "Codescope Logo",
+        width: 200,
+        height: 200,
+      },
+    ],
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Service | Codescope AI",
+    description:
+      "Read Codescope AI's Terms & Conditions. Learn about usage policies, privacy, limitations, and legal obligations.",
+    site: "@codescopegit",
+    creator: "@codescopegit",
+    images: [
+      {
+        url: "/og-icon.png",
+        alt: "Codescope Logo",
+        width: 200,
+        height: 200,
+      },
+    ],
+  },
+};
+
 const Page = () => {
 
     const Terms: { title: string, desc: string, points?: string[] }[] = [
