@@ -8,7 +8,7 @@ function useFetch(url: string, method: string, body?: any, refetch?: Function) {
     const [loading, setloading] = useState<boolean>(false);
     const [error, seterror] = useState<string | null>(null);
 
-    const fetchdata = async () => {
+    const fetchdata = async (functionbody?: any) => {
         try {
             setloading(true)
             const res = await fetch(url, {
@@ -16,7 +16,7 @@ function useFetch(url: string, method: string, body?: any, refetch?: Function) {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(body)
+                body: JSON.stringify(functionbody ?? body)
             })
 
             const resdata = await res.json();

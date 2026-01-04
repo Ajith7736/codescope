@@ -53,7 +53,9 @@ export const metadata: Metadata = {
     follow: true,
     nocache: false
   },
-
+  icons: {
+    icon: "/favicon.svg"
+  },
   alternates: {
     canonical: "https://codescopegit.vercel.app",
   },
