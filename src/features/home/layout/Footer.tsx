@@ -48,7 +48,7 @@ function Footer() {
             <Link href={"/"} className='text-2xl xss:text-xs flex items-center gap-3 font-extrabold'>CodeScope AI © 2025</Link>
             <div className='flex flex-row gap-3 text-light-text-on-hover dark:text-dark-text-on-hover items-center'>
                 {links.map((item, index) => {
-                    return <ul key={index} className='text-xs'>
+                    return <ul key={index} className='xss:text-[10px] md:text-xs'>
                         <li><Link href={item.link} target={item.type === "blank" ? '_blank' : ''} className='text-dark-accent/50 hover:text-dark-accent transition-all duration-300'>{item.name}</Link></li>
                     </ul>
                 })}

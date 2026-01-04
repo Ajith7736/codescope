@@ -50,7 +50,7 @@ const Page = () => {
 
     return (
         <div className="">
-            <BackButton href={"/"} className="m-5" />
+            <BackButton href={"/"} className="m-4" />
             <div className="flex flex-col p-5 gap-5 mx-auto lg:w-[60%]">
                 <div className="flex flex-col items-start w-full">
                     <h1 className="text-2xl font-family-sans font-extrabold">TERMS AND CONDITIONS</h1>

@@ -35,7 +35,7 @@ const Page = () => {
 
     return (
         <div>
-            <BackButton href={"/"} className="m-5" />
+            <BackButton href={"/"} className="m-4" />
             <div className="flex xss:flex-col lg:flex-row xss:items-center lg:items-start">
                 <div className="p-5 xss:w-full flex flex-col gap-3  xl:w-[50%]">
                     <p className="text-xs font-extralight text-dark-accent">GET IN TOUCH</p>

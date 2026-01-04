@@ -3,7 +3,7 @@ import BackButton from "@/ui/Buttons/BackButton";
 const Page = () => {
     return (
         <div>
-            <BackButton href={"/"} className="m-5" />
+            <BackButton href={"/"} className="m-4" />
             <div className="p-5 flex flex-col items-center gap-5">
                 <h6 className="text-center text-xs font-extralight text-dark-accent">OUR IDENTITY</h6>
                 <h1 className="xss:text-3xl lg:text-5xl font-family-sans font-extrabold text-center">Redefining code intelligence.</h1>
@@ -20,7 +20,7 @@ const Page = () => {
                         </p>
                     </div>
                 </div>
-                <div className="border border-dark-accent/20 rounded-lg bg-linear-to-bl from-indigo-600/20 via-dark-background to-dark-background p-10 w-[60%] mt-10">
+                <div className="border border-dark-border-strong/50 rounded-lg bg-linear-to-bl from-indigo-600/20 via-dark-background to-dark-background p-10  md:w-[60%] mt-10">
                     <h1 className="font-family-sans font-extrabold text-2xl">Build Projects without issues</h1>
                     <p className="text-xs mt-2 text-dark-text-muted/80 italic">
                         CodeScope AI empowers you to focus on building, not debugging. With intelligent analysis and actionable insights, your team can avoid hidden pitfalls and resolve issues before they grow—ensuring smoother, more reliable project delivery.
