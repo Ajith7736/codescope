@@ -23,44 +23,6 @@ const bebas = Texturina({
   variable: '--font-bebas'
 });
 
-
-export const metadata: Metadata = {
-  metadataBase: new URL("https://codescopegit.vercel.app"),
-  title: {
-    default: "Codescope - AI Powered GitHub Code Analyzer & Review Tool",
-    template: '%s | Codescope'
-  },
-  description: "Codescope is an AI-powered GitHub code analyzer and review tool. Instantly scan your repositories for security, architecture and performance issues.",
-  keywords: [
-    "GitHub Analyzer",
-    "AI code analysis",
-    "code review",
-    "repository insights",
-    "code quality",
-    "static analysis",
-    "code scanner",
-    "security vulnerabilities",
-    "architecture analysis",
-    "performance analysis",
-    "AI-powered code review",
-    "codescopegit",
-    "codescope",
-    "automated code inspection"
-  ],
-
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false
-  },
-  icons: {
-    icon: "/favicon.svg"
-  },
-  alternates: {
-    canonical: "https://codescopegit.vercel.app",
-  },
-};
-
 export default async function RootLayout({
   children,
 }: Readonly<{
