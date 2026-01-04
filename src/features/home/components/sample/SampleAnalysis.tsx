@@ -1,5 +1,5 @@
 "use client"
-import React, { SetStateAction, useState } from 'react'
+import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import StatusIcon from '@/ui/icon/StatusIcon'
@@ -20,26 +20,26 @@ function sample({ showcode, setshowcode }: { showcode: showcodeprops, setshowcod
             sampletitle: "Poor Separation of Concerns",
             sampledesc: "The function mixes routing, business logic, and database operations in a single file, making the code harder to maintain and test.",
             suggestedcode: `
-    // Separate route handler, service, and db access
+                // Separate route handler, service, and db access
 
-    // controller.ts
-    export async function getUserController(req, res) {
-      const data = await userService.getUser(req.query.id);
-      res.json(data);
-    }
+                // controller.ts
+                export async function getUserController(req, res) {
+                const data = await userService.getUser(req.query.id);
+                res.json(data);
+                }
 
-    // userService.ts
-    export const userService = {
-      async getUser(id) {
-        return userRepo.findUserById(id);
-      }
-    };
+                // userService.ts
+                export const userService = {
+                async getUser(id) {
+                    return userRepo.findUserById(id);
+                }
+                };
 
-    // userRepo.ts
-    export async function findUserById(id) {
-      return db.query("SELECT * FROM users WHERE id = ?", [id]);
-    }
-  `,
+                // userRepo.ts
+                export async function findUserById(id) {
+                return db.query("SELECT * FROM users WHERE id = ?", [id]);
+                }
+            `,
             samplelocation: "userservice.ts",
             suggesstedcodelanguage: "typescript"
         },
@@ -50,10 +50,10 @@ function sample({ showcode, setshowcode }: { showcode: showcodeprops, setshowcod
             sampletitle: "SQL Injection Vulnerability",
             sampledesc: "User input is directly inserted into the SQL query without sanitization, allowing attackers to inject malicious SQL.",
             suggestedcode: `
-    // FIX: Use parameterized queries
-    const query = "SELECT * FROM users WHERE id = ?";
-    const user = await db.query(query, [userId]);
-  `,
+            // FIX: Use parameterized queries
+            const query = "SELECT * FROM users WHERE id = ?";
+            const user = await db.query(query, [userId]);
+            `,
             samplelocation: "userservice.ts",
             suggesstedcodelanguage: "typescript"
         },
@@ -64,9 +64,9 @@ function sample({ showcode, setshowcode }: { showcode: showcodeprops, setshowcod
             sampletitle: "Inefficient Loop Causing Unnecessary Computation",
             sampledesc: "A loop runs 100000 times doing meaningless work, impacting performance under load.",
             suggestedcode: `
-    // FIX: Remove the loop or derive logs only when needed
-    const logs = []; // or compute only when required
-  `,
+                // FIX: Remove the loop or derive logs only when needed
+                const logs = []; // or compute only when required
+            `,
             samplelocation: "userservice.ts",
             suggesstedcodelanguage: "typescript"
         }
@@ -81,7 +81,7 @@ function sample({ showcode, setshowcode }: { showcode: showcodeprops, setshowcod
                     <div onClick={() => setshowcode({ show: sample.id === showcode.id ? !showcode.show : true, id: sample.id })} className='flex justify-between p-5 select-none cursor-pointer'>
                         <div className='flex gap-3 items-center'>
                             <StatusIcon type={sample.type} variant={sample.severity} />
-                            <div className='xss:text-[7px] md:text-xs'>{sample.sampletitle}</div>
+                            <h2 className='xss:text-[7px] md:text-xs'>{sample.sampletitle}</h2>
                         </div>
                         <div className='flex items-center xss:gap-1 md:gap-3'>
                             <RiskText variant={sample.severity}>{sample.severity}</RiskText>
@@ -91,7 +91,7 @@ function sample({ showcode, setshowcode }: { showcode: showcodeprops, setshowcod
                     <AnimatePresence>
                         {showcode.show && showcode.id === sample.id && <motion.div layout initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }}>
                             <div className='pb-5 px-5 flex flex-col gap-3'>
-                                <p className=' dark:text-dark-text-muted xss:text-[9px] md:text-xs'>{sample.sampledesc}</p>
+                                <h3 className=' dark:text-dark-text-muted xss:text-[9px] md:text-xs'>{sample.sampledesc}</h3>
                                 <p className='text-[10px] lg:text-[11px]'>{sample.samplelocation}</p>
                                 <div className='dark:bg-dark-surface bg-light-surface border-light-border p-4 rounded-[3px] border dark:border-dark-accent/40 '>
                                     <p className='xss:text-[10px] lg:text-xs flex gap-2 items-center'><CircleCheckBig className='text-emerald-500 xss:size-3 lg:size-4 ' />Suggested fix</p>

@@ -26,9 +26,12 @@ const bebas = Texturina({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://codescopegit.vercel.app"),
-  title: "Codescope - AI Powered GitHub Code Analyzer & Review Tool",
+  title: {
+    default: "Codescope - AI Powered GitHub Code Analyzer & Review Tool",
+    template: '%s | Codescope'
+  },
   description: "Codescope is an AI-powered GitHub code analyzer and review tool. Instantly scan your repositories for security, architecture and performance issues.",
-   keywords: [
+  keywords: [
     "GitHub Analyzer",
     "AI code analysis",
     "code review",
@@ -40,14 +43,15 @@ export const metadata: Metadata = {
     "architecture analysis",
     "performance analysis",
     "AI-powered code review",
-    "Codescope",
+    "codescopegit",
+    "codescope",
     "automated code inspection"
   ],
 
-  robots : {
-    index : true,
-    follow : true,
-    nocache : false
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false
   },
 
   alternates: {

@@ -13,6 +13,7 @@
   "dependencies": {
     "@ai-sdk/google": "^2.0.39",
     "@ai-sdk/react": "^2.0.97",
+    "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.19.0",
     "@react-spring/web": "^10.0.3",
     "@tanstack/react-query": "^5.90.9",

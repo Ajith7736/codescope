@@ -3,7 +3,7 @@ import Content from "../features/home/layout/Content";
 import Navbar from "../features/home/layout/Navbar";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Metadata } from "next";
+
 
 
 export default async function Home() {
