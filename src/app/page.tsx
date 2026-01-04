@@ -5,28 +5,30 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://codescopegit.vercel.app"),
   title: {
-    default: "About | Codescope - AI Powered Code Analysis",
-    template: "%s | Codescope",
+    default: "Codescope - AI Powered GitHub Code Analyzer & Review Tool",
+    template: '%s | Codescope'
   },
-  description:
-    "Learn about Codescope AI: our vision for redefining code intelligence, our technology, and how we're empowering developers and teams to build and contribute to open source with confidence.",
+  description: "Codescope is an AI-powered GitHub code analyzer and review tool. Instantly scan your repositories for security, architecture and performance issues.",
   keywords: [
-    "About Codescope",
-    "Our mission",
+    "GitHub Analyzer",
     "AI code analysis",
-    "Code intelligence",
-    "Open source contribution",
-    "Development teams",
-    "Software engineering vision",
-    "Code review process",
+    "code review",
+    "repository insights",
+    "code quality",
     "static analysis",
-    "intelligent code analysis",
+    "code scanner",
+    "security vulnerabilities",
+    "architecture analysis",
+    "performance analysis",
+    "AI-powered code review",
+    "codescopegit",
     "codescope",
-    "purpose",
-    "team"
+    "automated code inspection",
+    "best github analyzer"
   ],
 
   robots: {
@@ -38,35 +40,33 @@ export const metadata: Metadata = {
       follow: true,
       "max-snippet": -1,
       "max-image-preview": "large",
-      "max-video-preview": -1,
-    },
+      "max-video-preview": -1
+    }
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.svg"
   },
   alternates: {
-    canonical: "https://codescopegit.vercel.app/About",
+    canonical: "https://codescopegit.vercel.app",
   },
   openGraph: {
-    title: "About Codescope AI",
-    description:
-      "Discover the mission, technology, and vision behind Codescope AI. We're dedicated to making code analysis smarter, faster, and more accessible for the global developer community.",
+    title: "Codescope - AI Powered GitHub Code Analyzer & Review Tool",
+    description: "Codescope is an AI-powered GitHub code analyzer and review tool. Instantly scan your repositories for security, architecture and performance issues.",
     siteName: "codescopegit.vercel.app",
     images: [
       {
         url: "/og-icon.png",
-        alt: "Codescope Logo",
+        alt: "CodescopE Logo",
         width: 200,
         height: 200,
-      },
+      }
     ],
-    locale: "en_IN",
+    locale: "en_IN"
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Codescope AI",
-    description:
-      "Get to know Codescope AI—our journey, our mission, and how we're using AI to empower developers and improve code quality everywhere.",
+    title: "Codescope - AI Powered GitHub Code Analyzer & Review Tool",
+    description: "Codescope is an AI-powered GitHub code analyzer and review tool. Instantly scan your repositories for security, architecture and performance issues.",
     site: "@codescopegit",
     creator: "@codescopegit",
     images: [
@@ -75,9 +75,9 @@ export const metadata: Metadata = {
         alt: "Codescope Logo",
         width: 200,
         height: 200,
-      },
-    ],
-  },
+      }
+    ]
+  }
 };
 
 export default async function Home() {
