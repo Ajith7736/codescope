@@ -48,7 +48,7 @@ function Content({ session }: { session: Session | null }) {
             </header>
 
 
-            <section className='relative flex flex-col md:flex-wrap px-4 gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 w-full'>
+            <section className='relative flex flex-col md:flex-wrap px-4 py-4 gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 w-full'>
                 {cards.map((card) => {
                     return <Card key={card.title} logo={card.logo} title={card.title} desc={card.desc} />
                 })}
