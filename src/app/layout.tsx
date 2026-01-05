@@ -1,6 +1,7 @@
 import {  Inter, JetBrains_Mono, Texturina } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Metadata } from "next";
 
 
 const jetBrainsMono = JetBrains_Mono({
@@ -21,6 +22,15 @@ const bebas = Texturina({
   weight: ['900'],
   variable: '--font-bebas'
 });
+
+export const metadata: Metadata = {
+  title: {
+    default: "Codescope – AI GitHub Code Analyzer",
+    template: "%s | Codescope",
+  },
+  description:
+    "Codescope is an AI-powered GitHub code analyzer that detects security, architecture, and performance issues in repositories.",
+};
 
 export default async function RootLayout({
   children,
