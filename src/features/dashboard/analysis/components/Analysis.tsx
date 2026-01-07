@@ -1,13 +1,13 @@
 
-import { Analysis } from '@/types/type'
+import { Analysis, Issues } from '@/types/type'
 import Button from '@/ui/Buttons/Button'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
 import useFetch from '@/hooks/useFetch'
 import { useProject } from '@/context/ProjectProvider'
-import { ChevronDown, CircleCheckBig, Play, RefreshCcw } from 'lucide-react'
+import { Check, ChevronDown, CircleCheckBig, Copy, Play, RefreshCcw } from 'lucide-react'
 import Syntax from '@/ui/SyntaxHighlighter/Syntax'
 import { AnimatePresence, motion } from "framer-motion"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import RiskText from '@/ui/Text/RiskText'
 import StatusIcon from '@/ui/icon/StatusIcon'
 import { cn } from '@/lib/utils'
@@ -17,12 +17,47 @@ import AnalysisLoader from '@/ui/loaders/AnalysisLoader'
 
 
 function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching: boolean, analysis: Analysis | undefined, refetch: Function, type: "Architecture" | "Security" | "Performance" }) {
-
+    const [copied, setcopied] = useState(false);
     const { projectdata } = useProject();
     const [showcode, setshowcode] = useState<{ show: boolean, id: string | null | undefined }>({
         show: false,
         id: null
     });
+
+
+    useEffect(() => {
+        if (copied) {
+            setTimeout(() => {
+                setcopied(false);
+            }, 3000);
+        }
+    }, [copied])
+
+    const getcolor = (s: number) => {
+        if (s >= 80) return '#10b981';
+        if (s >= 50) return '#f59e0b';
+        return '#ef4444';
+    }
+
+    const handlecopy = (issue: Pick<Issues, 'issuedesc' | 'issuelocation' | 'issuetitle' | 'suggesstedcode'>) => {
+
+        const text = `Issue Title : \n
+            ${issue.issuetitle}\n\n
+            
+            Issue Location : \n
+            ${issue.issuelocation}\n\n
+
+            Issue Description : \n
+            ${issue.issuedesc}\n\n
+
+            Suggested Code : \n
+
+            ${issue.suggesstedcode}\n\n
+            `
+
+        navigator.clipboard.writeText(text);
+        setcopied(true)
+    }
 
 
     // first analysis fetch call
@@ -79,11 +114,6 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
         </div>
     </div>
 
-    const getcolor = (s: number) => {
-        if (s >= 80) return '#10b981';
-        if (s >= 50) return '#f59e0b';
-        return '#ef4444';
-    }
 
 
     return (
@@ -112,7 +142,9 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
                                 </div>
                             </div>
                             <AnimatePresence>
-                                {showcode.show && showcode.id === issue.id && <motion.div layout initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }}>
+                                {showcode.show && showcode.id === issue.id && <motion.div layout initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }} className='relative flex flex-col gap-2 items-end'>
+                                <div className=' peer mr-5'> {copied ? <Check size={10} /> : <Copy size={10} className='cursor-pointer' onClick={() => handlecopy(issue)} />}</div>
+                                <div className='absolute peer-hover:opacity-100 opacity-0 transition-all duration-300 text-[10px] bg-dark-surface text-dark-text-muted -top-10 p-2 border border-dark-border rounded-md'>Copy the issue and paste it in Chatgpt</div>
                                     <div className='pb-5 px-5 flex flex-col gap-3'>
                                         <p className=' text-dark-text-muted text-xs'>{issue.issuedesc}</p>
                                         <p className='text-[10px] lg:text-[11px]'>{issue.issuelocation}</p>
