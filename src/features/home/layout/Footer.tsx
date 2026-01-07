@@ -1,9 +1,7 @@
 "use client"
-import { Linkprops } from '@/types/type'
-import { Code } from 'lucide-react'
+
 import Link from 'next/link'
-import React from 'react'
-import { UrlObject } from 'url'
+
 
 function Footer() {
 
@@ -44,7 +42,8 @@ function Footer() {
     ]
 
     return (
-        <div className='md:px-20 overflow-hidden bg-light-surface relative dark:bg-dark-border/30 border-t border-light-border dark:border-dark-border  p-5 w-full flex xss:flex-col md:flex-row xss:items-center md:justify-between xss:gap-3 md:gap-0'>
+
+        <footer className='md:px-20 w-full overflow-hidden bg-light-surface relative dark:bg-dark-border/30 border-t border-light-border dark:border-dark-border  p-5 flex xss:flex-col md:flex-row xss:items-center md:justify-between xss:gap-3 md:gap-0'>
             <Link href={"/"} className='text-2xl xss:text-xs flex items-center gap-3 font-extrabold'>CodeScope AI © 2025</Link>
             <div className='flex flex-row gap-3 text-light-text-on-hover dark:text-dark-text-on-hover items-center'>
                 {links.map((item, index) => {
@@ -55,7 +54,7 @@ function Footer() {
             </div>
             <div className='h-8 w-20 -z-10 dark:bg-indigo-600/60  rounded-full blur-2xl absolute left-0'></div>
             <div className='h-8 w-20 -z-10 dark:bg-indigo-600/60 rounded-full blur-2xl absolute right-0'></div>
-        </div>
+        </footer>
     )
 }
 

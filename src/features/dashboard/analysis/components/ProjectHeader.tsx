@@ -39,7 +39,7 @@ function ProjectHeader({ projectdata, refetch }: { projectdata: Pick<Project, "l
                 </div>
             </div>
             <div>
-                {updateloader ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />fetching</Button> : <Button variant='blue' onClick={handleupdate}><RefreshCcw size={15} />Re-fetch</Button>}
+                {updateloader ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />fetching</Button> : <Button variant='blue' onClick={() => handleupdate()}><RefreshCcw size={15} />Re-fetch</Button>}
             </div>
         </div>
     )

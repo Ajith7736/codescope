@@ -8,8 +8,8 @@ function Card({ logo, title, desc }: { logo: React.ReactElement, title: string, 
                 <div className="h-20 w-20 rounded-full dark:bg-indigo-600  blur-3xl absolute -left-5 -bottom-5">
                 </div>
                 <div className='bg-linear-to-br from-indigo-600/20 via-indigo-600/10 to-indigo-600/10 border border-indigo-600/50 text-indigo-600/80 shadow-light-activeborder/90 shadow-md dark:shadow-lg dark:shadow-black group-hover:border-light-activeborder/50 transition-all duration-700 rounded-sm sm:rounded-md dark:bg-dark-activeborder/10 xss:p-2 sm:p-4  '>{logo}</div>
-                <div className=' font-bold xss:text-[12px] sm:text-[14px]'>{title}</div>
-                <div className='xss:text-[9px] sm:text-[11px] text-light-text-muted italic'>{desc}</div>
+                <h4 className=' font-bold xss:text-[12px] sm:text-[14px]'>{title}</h4>
+                <p className='xss:text-[9px] sm:text-[11px] text-light-text-muted italic'>{desc}</p>
             </div>
         </motion.div>
     )

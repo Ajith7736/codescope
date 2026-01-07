@@ -72,7 +72,7 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
     if (!analysis) return <div className={`bg-light-surface dark:bg-dark-surface flex flex-col rounded-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
         <div className='flex justify-between items-center p-5 border-b border-light-border dark:border-dark-border'>
             <h1 className='text-sm font-extrabold'>{type} Analysis</h1>
-            <Button variant='blue' onClick={handleanalysis}><Play size={12} />Analyse</Button>
+            <Button variant='blue' onClick={() => handleanalysis()}><Play size={12} />Analyse</Button>
         </div>
         <div className='p-5'>
             <h1 className='text-[12px] italic text-dark-text-muted'>No Issues</h1>
@@ -91,7 +91,7 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
             <div className={`bg-light-surface dark:bg-dark-surface flex flex-col rounded-b-[3px] border border-light-border dark:border-dark-border transition-all duration-300`}>
                 <div className='flex justify-between p-5 border border-t-0 border-x-0 border-light-border dark:border-dark-border items-center'>
                     <h1 className='xss:text-[13px] md:text-sm font-extrabold'>{type} Analysis</h1>
-                    {reanalysisloading ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />Analyzing</Button> : <Button variant='blue' onClick={handlereanalysis} ><RefreshCcw size={15} />Re-Analyse</Button>}
+                    {reanalysisloading ? <Button variant='blue'><RefreshCcw size={15} className='animate-spin' />Analyzing</Button> : <Button variant='blue' onClick={() => handlereanalysis()} ><RefreshCcw size={15} />Re-Analyse</Button>}
                 </div>
                 <div className='flex flex-col gap-1 p-5'>
                     <h1 className='xss:text-xs md:text-sm flex gap-2'>Score : <span className='font-extrabold' style={{ color: getcolor(analysis.score) }}><Number n={analysis.score} /></span></h1>

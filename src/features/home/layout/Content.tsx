@@ -37,7 +37,9 @@ function Content({ session }: { session: Session | null }) {
 
     return (
         <main className='relative flex flex-col justify-center items-center gap-3'>
+            
             <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.2, ease: "easeInOut" }} className="text-xs text-indigo-600 px-2 py-1 border border-indigo-500/40 rounded-full w-fit text-center">Powered by Gemini AI</motion.p>
+            
             <header className='min-h-[50vh] flex flex-col items-center mb-5'>
                 <div className="h-60 w-10 rounded-full bg-indigo-400/30 blur-3xl fixed z-50 -left-15">
                 </div>
@@ -47,32 +49,31 @@ function Content({ session }: { session: Session | null }) {
                 <SeperatorLine />
             </header>
 
-
+            {/* Cards Section */}
             <section className='relative flex flex-col md:flex-wrap px-4 py-4 gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 w-full'>
                 {cards.map((card) => {
                     return <Card key={card.title} logo={card.logo} title={card.title} desc={card.desc} />
                 })}
             </section>
 
-            <section className="relative  flex flex-col gap-8 mt-8">
-                <Sample />
-            </section>
+            {/* Sample code and Analysis */}
+            <Sample />
 
-            <section>
-                <HowtoUse />
-            </section>
 
-            <section className="mt-10">
-                <Questions />
-            </section>
+            {/* How to use */}
+            <HowtoUse />
 
-            <section>
-                <TextHeader />
-            </section>
 
-            <footer className="w-full">
-                <Footer />
-            </footer>
+            {/* FAQ */}
+            <Questions />
+
+
+
+            <TextHeader />
+
+
+            <Footer />
+
 
         </main>
 

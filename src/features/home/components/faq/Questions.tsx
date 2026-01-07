@@ -26,8 +26,8 @@ function Questions() {
 
 
     return (
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeInOut" }} className='flex flex-col gap-5'>
-            <h1 className='xss:text-2xl md:text-4xl font-extrabold text-center'>OUESTIONS & ANSWERS</h1>
+        <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, ease: "easeInOut" }} className='flex flex-col  mt-10 gap-5'>
+            <h2 className='xss:text-2xl md:text-4xl font-extrabold text-center'>OUESTIONS & ANSWERS</h2>
             {questions.map((item) => {
                 return <motion.div key={item.id} className='border transition-all duration-300 overflow-hidden border-light-border dark:border-gray-600/50 cursor-pointer font-bold hover:text-dark-accent rounded-lg xl:w-[40vw] xss:w-[80vw] flex flex-col'>
                     <div onClick={() => handleclick(item.id)} className=' flex justify-between items-center p-5'>
@@ -45,7 +45,7 @@ function Questions() {
                     </AnimatePresence>
                 </motion.div>
             })}
-        </motion.div>
+        </motion.section>
     )
 }
 
