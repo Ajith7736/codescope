@@ -9,22 +9,34 @@ datasource db {
 }
 
 model User {
-  id                    String              @id
-  name                  String
-  email                 String              @unique
-  emailVerified         Boolean             @default(false)
-  image                 String?
-  createdAt             DateTime            @default(now())
-  updatedAt             DateTime            @default(now()) @updatedAt
-  razorpay_customer_id  String?             @unique
-  subscription_status   SubscriptionStatus?
-  subscription_end_date DateTime?
-  projects              Project[]
-  accounts              Account[]
-  sessions              Session[]
-  subscription          Subscription[]
+  id                   String              @id
+  name                 String
+  email                String              @unique
+  emailVerified        Boolean             @default(false)
+  image                String?
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @default(now()) @updatedAt
+  razorpay_customer_id String?             @unique
+  subscription_status  SubscriptionStatus?
+  projects             Project[]
+  accounts             Account[]
+  sessions             Session[]
+  subscription         Subscription[]
+  usage                Usage[]
 
   @@map("user")
+}
+
+model Usage {
+  id                     String    @id @default(uuid())
+  userId                 String    @unique
+  ProjectUsed            Int?      @default(0)
+  Projectlimit           Int?      @default(1)
+  subscrption_start_date DateTime?
+  subscription_end_date  DateTime?
+  user                   User      @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  @@map("usage")
 }
 
 model Session {
@@ -66,7 +78,7 @@ model Subscription {
   plan                     Plan                @relation(fields: [planId], references: [razorpayPlanId])
   user                     User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([razorpay_subscription_id])
+  @@index([razorpay_subscription_id,userId])
   @@map("subscriptions")
 }
 
@@ -230,6 +242,8 @@ model Messages {
   email    String
   subject  String
   message  String
+
+  @@map("messages")
 }
 
 enum SubscriptionStatus {

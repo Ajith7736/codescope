@@ -1,5 +1,6 @@
 import { RazorpayInvoice, RazorpayPayment, RazorpaySubscription } from "@/types/razorpaytypes";
 import prisma from "../db/db";
+import { getPlan } from "../plan/plan-helper";
 
 const AllowedTransitions: Record<string, string[]> = {
     pending: ['authenticated', 'active'],
@@ -122,6 +123,19 @@ export async function handleSubscriptionCharged(subscription: RazorpaySubscripti
         }
     })
 
+    const planName = await getPlan(subscription.plan_id);
+
+    if (planName === "Basic") {
+        await prisma.usage.update({
+            where: {
+                userId: subscription.notes.userId
+            },
+            data: {
+                ProjectUsed: 0
+            }
+        })
+    }
+
 }
 
 export async function handleSubscriptionAuthenticated(subscription: RazorpaySubscription) {
@@ -154,7 +168,7 @@ export async function handleSubscriptionAuthenticated(subscription: RazorpaySubs
             current_end: new Date(subscription.current_end * 1000),
         },
         update: {
-            status: canTransition(previous_subscription && previous_subscription.status , "authenticated") ? "authenticated" : previous_subscription?.status,
+            status: canTransition(previous_subscription && previous_subscription.status, "authenticated") ? "authenticated" : previous_subscription?.status,
             quantity: subscription.quantity,
             paid_count: subscription.paid_count,
             remaining_count: subscription.remaining_count
@@ -201,16 +215,47 @@ export async function handleSubscriptionActivated(subscription: RazorpaySubscrip
     })
 
 
+
+
     await prisma.user.update({
         where: {
             id: subscription.notes.userId
         },
         data: {
             subscription_status: "active",
-            subscription_end_date: new Date(subscription.current_end * 1000),
             razorpay_customer_id: subscription.customer_id
         }
     })
+
+    const plan = await prisma.plan.findUnique({
+        where: {
+            razorpayPlanId: subscription.plan_id
+        },
+        select: {
+            name: true
+        }
+    })
+
+    await prisma.usage.upsert({
+        where: {
+            userId: subscription.notes.userId
+        },
+        create: {
+            userId: subscription.notes.userId,
+            Projectlimit: plan?.name === "Basic" ? 10 : plan?.name === "Free Tier" ? 1 : null,
+            subscription_end_date: new Date(subscription.current_end * 1000),
+            subscrption_start_date: new Date(subscription.current_start * 1000)
+
+        },
+        update: {
+            Projectlimit: plan?.name === "Basic" ? 10 : plan?.name === "Free Tier" ? 1 : null,
+            subscription_end_date: new Date(subscription.current_end * 1000),
+            subscrption_start_date: new Date(subscription.current_start * 1000)
+        }
+    })
+
+
+
 }
 
 export async function handlePaymentFailed(payment: RazorpayPayment) {
@@ -252,10 +297,20 @@ export async function handleSubscriptionCancelled(subscription: RazorpaySubscrip
             razorpay_customer_id: subscription.customer_id!,
         },
         data: {
-            subscription_status: "cancelled",
-            subscription_end_date: null
+            subscription_status: "cancelled"
         }
     });
+
+    await prisma.usage.update({
+        where: {
+            userId: subscription.notes.userId
+        },
+        data: {
+            Projectlimit: 1,
+            subscription_end_date: null,
+            subscrption_start_date: null
+        }
+    })
 
 }
 
@@ -276,8 +331,18 @@ export async function handleSubscriptionHalted(subscription: RazorpaySubscriptio
             razorpay_customer_id: subscription.customer_id!
         },
         data: {
-            subscription_status: "halted",
-            subscription_end_date: new Date(subscription.current_end * 1000)
+            subscription_status: "halted"
+        }
+    })
+
+    await prisma.usage.update({
+        where: {
+            userId: subscription.notes.userId
+        },
+        data: {
+            Projectlimit: 1,
+            subscription_end_date: new Date(subscription.current_end * 1000),
+            subscrption_start_date: null
         }
     })
 
@@ -300,11 +365,20 @@ export async function handleSubscriptionCompleted(subscription: RazorpaySubscrip
             razorpay_customer_id: subscription.customer_id!
         },
         data: {
-            subscription_status: "completed",
-            subscription_end_date: null
+            subscription_status: "completed"
         }
     })
 
+    await prisma.usage.update({
+        where: {
+            userId: subscription.notes.userId
+        },
+        data: {
+            Projectlimit: 1,
+            subscription_end_date: null,
+            subscrption_start_date: null
+        }
+    })
 }
 
 export async function handleSubscriptionPaused(subscription: RazorpaySubscription) {
@@ -325,7 +399,17 @@ export async function handleSubscriptionPaused(subscription: RazorpaySubscriptio
         },
         data: {
             subscription_status: "paused",
-            subscription_end_date: new Date(subscription.current_end * 1000)
+        }
+    })
+
+    await prisma.usage.update({
+        where: {
+            userId: subscription.notes.userId
+        },
+        data: {
+            Projectlimit: 1,
+            subscription_end_date: new Date(subscription.current_end * 1000),
+            subscrption_start_date: null
         }
     })
 
@@ -348,8 +432,18 @@ export async function handleSubscriptionResumed(subscription: RazorpaySubscripti
             razorpay_customer_id: subscription.customer_id!
         },
         data: {
-            subscription_status: "active",
-            subscription_end_date: new Date(subscription.current_end * 1000)
+            subscription_status: "active"
+        }
+    })
+
+    await prisma.usage.update({
+        where: {
+            userId: subscription.notes.userId
+        },
+        data: {
+            Projectlimit: 1,
+            subscription_end_date: new Date(subscription.current_end * 1000),
+            subscrption_start_date: new Date(subscription.current_start * 1000)
         }
     })
 

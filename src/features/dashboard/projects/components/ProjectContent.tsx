@@ -1,10 +1,10 @@
 "use client"
 import { useSession } from '@/lib/auth-client'
 import ButtonLoader from '@/ui/loaders/ButtonLoader'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, User } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { Project } from '@/types/type'
+import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Project, Usage } from '@/types/type'
 import Loading from '@/app/loading'
 import ErrorPage from '@/app/error'
 import Link from 'next/link'
@@ -13,6 +13,7 @@ import githublinkchecker from '@/lib/githublinkchecker'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import BasicLoader from '@/ui/loaders/BasicLoader'
+import { api } from '@/lib/client/fetch/api'
 
 
 function ProjectContent() {
@@ -22,11 +23,13 @@ function ProjectContent() {
   const [Repo, setRepo] = useState("")
   const [projectdata, setprojectdata] = useState<Project[]>([])
   const { data: session } = useSession();
-  const router = useRouter();
+  const [usage, setusage] = useState<Usage>();
+  const QueryClient = useQueryClient();
+  const router = useRouter()
 
 
   const { data, isLoading, isRefetching, isError, refetch } = useQuery({
-    queryKey: ["projects"],
+    queryKey: ["projects", session?.user?.id],
     queryFn: async () => {
       const res = await fetch("/api/fetch-project", {
         method: "POST",
@@ -49,14 +52,31 @@ function ProjectContent() {
       return data;
     },
     enabled: !!session?.user?.id,
+    refetchOnMount: false,
     refetchOnWindowFocus: false
+  })
+
+
+  const { data: Usagedata, refetch: UsageRefetch, isLoading: UsageLoading } = useQuery({
+    queryKey: ["usage", session?.user?.id],
+    queryFn: async () => {
+
+      const data = await api.post("/api/getusage", { userId: session?.user?.id })
+
+      return data;
+    },
+    enabled: !!session?.user?.id
   })
 
   useEffect(() => {
     if (data && data.success) {
       setprojectdata(data.project)
     }
-  }, [data])
+    if (Usagedata && Usagedata.success) {
+      setusage(Usagedata.usage);
+    }
+  }, [data, Usagedata])
+
 
 
   useEffect(() => {
@@ -74,29 +94,18 @@ function ProjectContent() {
   useEffect(() => {
     if (resdata?.success) {
       refetch();
+      UsageRefetch();
+      QueryClient.invalidateQueries({ queryKey: ["projects", session?.user?.id] })
+      QueryClient.invalidateQueries({ queryKey: ["usage", session?.user?.id] })
       setlink('');
+    } else {
+      if (resdata?.message.includes('Project Limit Reached')) {
+        router.push("/Billing");
+      }
     }
   }, [resdata])
 
-  const handlesubscription = (projectlength: number) => {
-    if (session?.user?.subscription_status === "active" && session?.subscription?.status === "active") {
-      if (session.subscription.plan.name === "Basic") {
-        if (projectlength < 10) {
-          getgithubdata();
-        } else {
-          toast.error("Project Limit Reached")
-        }
-      }
-    } else {
-      if (projectlength < 1) {
-        getgithubdata();
-      } else {
-        router.push("/Billing")
-      }
-    }
-  }
-
-  if (isLoading) return <Loading />
+  if (isLoading || UsageLoading) return <Loading />
 
   if (isError) return <ErrorPage />
 
@@ -125,19 +134,17 @@ function ProjectContent() {
               value="Add Project"
               className='text-sm bg-light-black text-light-white bg-indigo-600 shadow-sm  shadow-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 cursor-pointer p-2 rounded-[3px]'
               disabled={errorText.length > 0 || link === ""}
-              onClick={() => {
-                handlesubscription(projectdata.length);
-              }}
+              onClick={() => getgithubdata()}
             />}
         </div>
         {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
-      {(!session?.subscription || (session?.user?.subscription_status === "active" && session.subscription.plan.name === "Basic" && session.subscription.status === "active")) && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'>
+      {usage?.Projectlimit && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'>
         <div className='bg-indigo-500 h-2 rounded-full transition-all duration-300'
           style={{
-            width: !session?.subscription ? projectdata?.length / 1 * 100 + "%" : projectdata?.length / 10 * 100 + "%"
+            width: (usage?.ProjectUsed ?? 0) / (usage?.Projectlimit ?? 0) * 100 + "%"
           }}
-        ></div></div><div className='text-dark-text-muted italic'>{projectdata ? projectdata.length : 0} / {session?.subscription?.plan.name === "Basic" ? 10 : 1}</div></div>}
+        ></div></div><div className='text-dark-text-muted italic'>{usage.ProjectUsed} / {usage.Projectlimit}</div></div>}
 
       <div className=' xss:w-85 md:w-110 lg:w-190'>
         <div className='border p-5 xss:text-sm rounded-t-md font-extrabold border-light-border dark:border-dark-border'>

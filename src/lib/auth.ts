@@ -4,6 +4,7 @@ import { nextCookies } from "better-auth/next-js";
 import { SendEmail } from "./actions/email-actions";
 import prisma from "./server/db/db";
 import { customSession } from "better-auth/plugins";
+import { getActiveUserSubscription, getUserdata } from "./server/user/user-helper";
 
 
 export const auth = betterAuth({
@@ -50,54 +51,19 @@ export const auth = betterAuth({
     plugins: [nextCookies(),
     customSession(async ({ user: userdata, session }) => {
 
-        const user = await prisma.user.findUnique({
+        const [user, subscription] = await Promise.all([getUserdata(userdata.id), getActiveUserSubscription(userdata.id)])
+
+        await prisma.usage.upsert({
             where: {
-                id: userdata.id
+                userId: userdata.id
             },
-            select: {
-                id: true,
-                createdAt: true,
-                updatedAt: true,
-                email: true,
-                emailVerified: true,
-                name: true,
-                image: true,
-                razorpay_customer_id: true,
-                subscription_end_date: true,
-                subscription_status: true,
-                accounts: {
-                    select: {
-                        providerId: true,
-                        createdAt: true,
-                        accountId: true
-                    }
-                }
-            }
-        })
-
-
-        const subscription = await prisma.subscription.findFirst({
-            where: {
+            update: {},
+            create: {
                 userId: userdata.id,
-                status: "active"
-            },
-            select: {
-                id: true,
-                planId: true,
-                plan: {
-                    select: {
-                        razorpayPlanId: true,
-                        name: true
-                    }
-                },
-                status: true,
-                createdAt: true,
-                activated_at: true,
-                current_end: true,
-                paid_count: true,
-                remaining_count: true
+                Projectlimit: 1
             }
         })
+
 
         return {
             user,

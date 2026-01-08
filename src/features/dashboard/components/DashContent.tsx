@@ -68,8 +68,6 @@ function DashContent() {
   }, [data])
 
 
-  console.log(session);
-
   const card: DashCardProps[] = [
     {
       icon: <Folder />,
@@ -81,7 +79,7 @@ function DashContent() {
 
       icon: <File />,
       number: total.totalanalysis || 0,
-      title: "Files Analyzed",
+      title: "Total Analysis",
       style: "bg-blue-500/30 text-blue-600"
     },
     {

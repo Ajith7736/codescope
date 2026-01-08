@@ -166,3 +166,22 @@ export interface razorProps {
     key: string;
     entity: string;
 }
+
+export interface Usage {
+    id: string;
+    userId: string;
+    ProjectUsed: number | null;
+    Projectlimit: number | null;
+    subscrption_start_date: Date | null;
+    subscription_end_date: Date | null;
+}
+
+export interface UsageLimits {
+    Projectlimit: number | null;
+    ProjectUsed: number | null;
+}
+
+export interface UsageWithPlan {
+    usage: UsageLimits | null;
+    planname: string | null | undefined;
+}

@@ -1,10 +1,18 @@
 import { failure, success, tryCatch } from "@/lib/server/api/api";
 import prisma from "@/lib/server/db/db";
 import github from "@/lib/server/github-fetch/github";
+import { canCreateProject, incrementProjectUsage } from "@/lib/server/usage/usage-helper";
 import { NextResponse } from "next/server";
 
 export const POST = tryCatch(async (req: Request) => {
     const { owner, repo, userId }: { owner: string, repo: string, userId: string } = await req.json();
+
+
+    const LimitReached = await canCreateProject(userId);
+
+    if (!LimitReached) {
+        return failure({ message: "Project Limit Reached" })
+    }
 
     const existingproject = await prisma.project.findFirst({
         where: {
@@ -41,6 +49,8 @@ export const POST = tryCatch(async (req: Request) => {
                 commitid
             }
         })
+
+        await incrementProjectUsage(userId);
 
         return success({ message, project })
 
