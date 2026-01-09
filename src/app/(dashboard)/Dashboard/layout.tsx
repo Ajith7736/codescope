@@ -1,3 +1,4 @@
+import SidebarProvider from "@/context/SidebarProvider";
 import ClientLayout from "./ClientLayout";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -13,5 +14,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
         redirect("/Signup")
     }
 
-    return <ClientLayout>{children}</ClientLayout>
+    return (
+        <SidebarProvider>
+            <ClientLayout>
+                {children}
+            </ClientLayout>
+        </SidebarProvider>
+    )
 }

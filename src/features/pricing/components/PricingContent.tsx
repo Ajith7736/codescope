@@ -80,8 +80,8 @@ export const PricingContent = () => {
                         email: session?.user?.email,
                     },
                     handler: async function (response: any) {
-                        console.log("Response : ", response.subscription_id)
-                        await pollingsubscription(response.subscription_id);
+                        console.log("Response : ", response)
+                        await pollingsubscription(response.razorpay_subscription_id);
                     },
                     modal: {
                         ondismiss: function () {
@@ -106,13 +106,15 @@ export const PricingContent = () => {
 
     // Polling for subscription verfication which gets triggered on each 2 seconds
     const pollingsubscription = async (subscriptionId: string) => {
+        console.log("Polling Started : ")
         const maxAttempt = 30;
         const EachAttemptTiming = 2000;
         let attempts = 0;
 
         const poll = async (): Promise<void> => {
             try {
-                const data = await api.post("/api/check-subscription-status", { subscriptionId });
+                console.log("attempts : ", attempts)
+                const data = await api.post("/api/check-subscription-status", { subscriptionId , userId : session?.user?.id});
 
                 if (data.success) {
                     if (data.status === "active") {
@@ -140,6 +142,7 @@ export const PricingContent = () => {
                         planId: null,
                         show: false
                     })
+                    return;
                 }
 
                 if (attempts < maxAttempt) {
@@ -170,6 +173,8 @@ export const PricingContent = () => {
                 }
             }
         }
+
+        setTimeout(poll, 2000);
     }
 
 

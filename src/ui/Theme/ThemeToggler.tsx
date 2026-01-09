@@ -16,7 +16,7 @@ function ThemeToggler() {
     if (!mounted) return <button className='w-8 h-8 dark:w-[31px] dark:h-[31px]'></button>;
 
     return (
-        <button aria-label='theme changer' className='p-1 dark:p-1.5 cursor-pointer rounded-xl transition-transform duration-300'>
+        <button aria-label='theme changer' className='p-1  cursor-pointer rounded-xl transition-transform duration-300'>
             <motion.div
                 key={theme}
                 initial={{ rotate: 90, opacity: 0 }}

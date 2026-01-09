@@ -38,10 +38,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${jetBrainsMono.variable} ${inter.variable} ${bebas.variable}`}>
-      <body suppressHydrationWarning
-        className={`${jetBrainsMono.className} antialiased bg-light-background dark:bg-dark-background`}
-      >
+    <html lang="en" suppressHydrationWarning  className={`${jetBrainsMono.variable} ${inter.variable} ${bebas.variable}`}>
+      <body className={`${jetBrainsMono.className} antialiased bg-light-background dark:bg-dark-background`}>
         <Providers>
           {children}
         </Providers>
