@@ -21,7 +21,6 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
             }, 3000)
         } else if (loading) {
             const json = JSON.parse(loading);
-            console.log(json);
             if (json.show) {
                 setisloading({
                     provider: json.provider,

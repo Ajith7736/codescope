@@ -75,8 +75,6 @@ export const POST = tryCatch(async (req: Request) => {
         return failure({ message: "subscription failed" })
     }
 
-    console.log(subscription)
-
     await prisma.subscription.create({
         data : {
             paid_count : subscription.paid_count,

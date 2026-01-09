@@ -13,8 +13,6 @@ function CurrentPlan({ subscription }: {
 }) {
 
 
-    console.log(subscription?.planName)
-
     return (
         <div className="xl:w-[75vw] w-full">
             <div className="text-[11px] mb-5 text-indigo-400 gap-2 font-bold flex items-center"><h1>CURRENT SUBSCRIPTION</h1> <span className="w-1 h-1 bg-indigo-400/60 rounded-full"></span></div>

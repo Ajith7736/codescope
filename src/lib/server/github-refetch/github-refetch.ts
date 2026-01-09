@@ -1,4 +1,3 @@
-import { AI_EXCLUSION_MEGA_REGEX } from "../utils/regex";
 import getbranch from "../github-fetch/getbranch";
 import getcommit from "../github-fetch/getcommit";
 import gettree from "../github-fetch/gettree";

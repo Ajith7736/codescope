@@ -52,7 +52,6 @@ function ProjectContent() {
       return data;
     },
     enabled: !!session?.user?.id,
-    refetchOnMount: false,
     refetchOnWindowFocus: false
   })
 
@@ -65,7 +64,8 @@ function ProjectContent() {
 
       return data;
     },
-    enabled: !!session?.user?.id
+    enabled: !!session?.user?.id,
+    refetchOnWindowFocus: false
   })
 
   useEffect(() => {
@@ -139,7 +139,7 @@ function ProjectContent() {
         </div>
         {errorText && link !== "" && <div className='text-xs pt-2 text-red-500'>{errorText}</div>}
       </div>
-      {usage?.Projectlimit && <div className='text-xs  flex justify-start items-center gap-3'>Total projects : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'>
+      {usage?.Projectlimit && session?.subscription?.plan.name !== "Pro" && <div className='text-xs  flex justify-start items-center gap-3'>Project Limit : <div className='bg-light-text-muted/10 dark:bg-dark-input-border w-40 h-2 rounded-full'>
         <div className='bg-indigo-500 h-2 rounded-full transition-all duration-300'
           style={{
             width: (usage?.ProjectUsed ?? 0) / (usage?.Projectlimit ?? 0) * 100 + "%"

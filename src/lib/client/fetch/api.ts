@@ -22,6 +22,50 @@ export const api = {
             toast.error("Network Error");
             throw Error("Network Error");
         }
+    },
+    update : async (url: string, body: any) => {
+        try {
+            const res = await fetch(url, {
+                method: "UPDATE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            })
 
-    }
+            const data = await res.json();
+
+            if (!res.ok) {
+                toast.error(data.message)
+            }
+
+            return data;
+        } catch (err) {
+            toast.error("Network Error");
+            throw Error("Network Error");
+        }
+    },
+    delete : async (url: string, body: any) => {
+        try {
+            const res = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            })
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                toast.error(data.message)
+            }
+
+            return data;
+        } catch (err) {
+            toast.error("Network Error");
+            throw Error("Network Error");
+        }
+    },
+
 }

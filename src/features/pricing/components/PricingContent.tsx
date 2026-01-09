@@ -1,6 +1,7 @@
 "use client"
 import Loading from "@/app/loading"
 import { useSession } from "@/lib/auth-client"
+import { api } from "@/lib/client/fetch/api"
 import { createsubscription } from "@/lib/server/api/razorpay"
 import { PlanProps, razorProps } from "@/types/type"
 import ButtonLoader from "@/ui/loaders/ButtonLoader"
@@ -79,9 +80,19 @@ export const PricingContent = () => {
                         email: session?.user?.email,
                     },
                     handler: async function (response: any) {
-                        await refetch();
-                        router.refresh();
+                        console.log("Response : ", response.subscription_id)
+                        await pollingsubscription(response.subscription_id);
                     },
+                    modal: {
+                        ondismiss: function () {
+                            setverifying(false);
+                            setissubscribe({
+                                planId: null,
+                                show: false
+                            })
+                        }
+
+                    }
                 });
 
                 rzp.open();
@@ -89,15 +100,78 @@ export const PricingContent = () => {
         } catch (err) {
             console.error(err);
             toast.error("Server Error");
-        } finally {
-            setverifying(false);
-            setissubscribe({
-                planId: null,
-                show: false
-            });
         }
 
     }
+
+    // Polling for subscription verfication which gets triggered on each 2 seconds
+    const pollingsubscription = async (subscriptionId: string) => {
+        const maxAttempt = 30;
+        const EachAttemptTiming = 2000;
+        let attempts = 0;
+
+        const poll = async (): Promise<void> => {
+            try {
+                const data = await api.post("/api/check-subscription-status", { subscriptionId });
+
+                if (data.success) {
+                    if (data.status === "active") {
+                        await refetch();
+                        router.refresh();
+                        setverifying(false);
+                        setissubscribe({
+                            planId: null,
+                            show: false
+                        })
+                        toast.success("Subscription Activated Successfully");
+                        return;
+                    }
+                    if (data.status === "cancelled" || data.status === "failed") {
+                        setverifying(false);
+                        setissubscribe({
+                            planId: null,
+                            show: false
+                        })
+                        toast.error("Subscription Activation Failed")
+                    }
+                } else {
+                    setverifying(false)
+                    setissubscribe({
+                        planId: null,
+                        show: false
+                    })
+                }
+
+                if (attempts < maxAttempt) {
+                    attempts++;
+                    setTimeout(poll, EachAttemptTiming);
+                } else {
+                    setverifying(false);
+                    setissubscribe({
+                        planId: null,
+                        show: false
+                    })
+                    toast.info("Payment Processing.Your Subscription will be activated shortly.")
+                }
+            } catch (err) {
+                console.error("Polling error : ", err);
+
+                if (attempts < maxAttempt) {
+                    attempts++
+                    setTimeout(poll, EachAttemptTiming);
+                } else {
+                    setverifying(false);
+                    setissubscribe({
+                        planId: null,
+                        show: false
+                    })
+                    toast.info("Unable to Verify subscription status")
+                    return;
+                }
+            }
+        }
+    }
+
 
     if (isLoading || isPending || isRefetching) return <Loading />
 

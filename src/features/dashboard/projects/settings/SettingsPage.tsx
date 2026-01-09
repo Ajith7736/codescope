@@ -2,6 +2,7 @@
 import useFetch from "@/hooks/useFetch";
 import { useSession } from "@/lib/auth-client";
 import ButtonLoader from "@/ui/loaders/ButtonLoader";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -9,12 +10,16 @@ function SettingsPage({ projectId, refetch }: { projectId: string | undefined, r
   const { data: session } = useSession();
   const [isloading, setisloading] = useState<boolean>(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { fetchdata: handledelete } = useFetch("/api/delete-project", "DELETE", { projectId, userId: session?.user?.id })
 
   const handleproject = async () => {
     setisloading(true);
     await handledelete();
+    queryClient.invalidateQueries({
+      queryKey: ["projects", session?.user?.id]
+    })
     router.replace("/Dashboard/Projects");
   }
 
