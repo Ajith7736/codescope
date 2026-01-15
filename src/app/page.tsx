@@ -30,7 +30,9 @@ export const metadata: Metadata = {
     "automated code inspection",
     "best github analyzer"
   ],
-
+  icons: {
+    icon: "/favicon.svg"
+  },
   robots: {
     index: true,
     follow: true,
@@ -42,9 +44,6 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-video-preview": -1
     }
-  },
-  icons: {
-    icon: "/favicon.svg"
   },
   alternates: {
     canonical: "https://codescopegit.vercel.app",
@@ -78,8 +77,8 @@ export const metadata: Metadata = {
       }
     ]
   },
-  verification : {
-    google : "t3-IvRLMvCUnUgA8RFPb_9rBchvqIlaIFnr1qYqJY94"
+  verification: {
+    google: "t3-IvRLMvCUnUgA8RFPb_9rBchvqIlaIFnr1qYqJY94"
   }
 };
 

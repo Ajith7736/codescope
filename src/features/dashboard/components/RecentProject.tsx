@@ -18,7 +18,7 @@ function RecentProject({ projects, isLoading }: { projects: Project[], isLoading
         <div className='dark:bg-dark-gray bg-light-gray border xss:w-xs md:w-sm lg:w-1/2 border-light-border dark:border-dark-border rounded-md w-md'>
             <div className='border dark:border-dark-border border-t-0 border-x-0 p-8 border-light-border flex justify-between items-center '>
                 <SecondTitle>Recent Projects</SecondTitle>
-                <ActionText href="/Dashboard/Projects">View All</ActionText>
+                <ActionText href="/Dashboard/Projects" className='uppercase text-indigo-500 font-extrabold tracking-widest'>View All</ActionText>
             </div>
             {isLoading ? <div className='p-5 flex justify-center'><BasicLoader /></div> :
                 <div>
