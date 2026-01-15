@@ -131,10 +131,10 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
                     {analysis.issues.map((issue) => {
                         return <motion.div key={issue.id} transition={{ duration: 1, ease: "easeInOut" }} className='bg-light-accent/5 dark:bg-indigo-500/5 border overflow-hidden relative border-light-border dark:border-dark-border flex  flex-col hover:border-light-accent/30 hover:dark:border-dark-accent/30  rounded-[9px] '>
                             <div className={cn(`h-full w-[3px] absolute left-0 top-0 rounded-l-2xl ${issue.severity === "low" ? 'bg-blue-500' : issue.severity === "medium" ? 'bg-orange-500' : 'bg-red-500'}`)}></div>
-                            <div onClick={() => setshowcode({ show: issue.id === showcode.id ? !showcode.show : true, id: issue.id })} className='flex justify-between p-5 select-none cursor-pointer'>
+                            <div onClick={() => setshowcode({ show: issue.id === showcode.id ? !showcode.show : true, id: issue.id })} className='flex justify-between xss:p-4 md:p-5 select-none cursor-pointer'>
                                 <div className='flex gap-2 md:gap-3 items-center'>
                                     <StatusIcon type={type} variant={issue.severity} />
-                                    <div className='xss:text-[9px] md:text-[11px]'>{issue.issuetitle}</div>
+                                    <div className='xss:text-[9px] md:text-[11px] text-wrap'>{issue.issuetitle}</div>
                                 </div>
                                 <div className='flex items-center xss:gap-1 md:gap-3'>
                                     <RiskText variant={issue.severity}>{issue.severity}</RiskText>
@@ -142,11 +142,11 @@ function AnalysisCard({ analysis, refetch, type, isRefetching }: { isRefetching:
                                 </div>
                             </div>
                             <AnimatePresence>
-                                {showcode.show && showcode.id === issue.id && <motion.div layout initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }} className='relative flex flex-col gap-2 items-end'>
-                                <div className=' peer mr-5'> {copied ? <Check size={10} /> : <Copy size={10} className='cursor-pointer' onClick={() => handlecopy(issue)} />}</div>
-                                <div className='absolute peer-hover:opacity-100 opacity-0 transition-all duration-300 text-[10px] bg-dark-surface text-dark-text-muted -top-10 p-2 border border-dark-border rounded-md'>Copy the issue and paste it in Chatgpt</div>
+                                {showcode.show && showcode.id === issue.id && <motion.div layout initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }} className='relative flex flex-col gap-2 '>
+                                <div className=' peer w-full flex justify-end pr-5'> {copied ? <Check size={10} /> : <Copy size={10} className='cursor-pointer' onClick={() => handlecopy(issue)} />}</div>
+                                <div className='absolute peer-hover:visible invisible text-[8px] bg-dark-surface text-white tracking-widest capitalize  font-family-sans -top-10 p-2 border border-dark-border rounded-md'>Copy the whole issue details</div>
                                     <div className='pb-5 px-5 flex flex-col gap-3'>
-                                        <p className=' text-dark-text-muted text-xs'>{issue.issuedesc}</p>
+                                        <p className=' text-dark-text-muted text-[11px]'>{issue.issuedesc}</p>
                                         <p className='text-[10px] lg:text-[11px]'>{issue.issuelocation}</p>
                                         {issue.suggesstedcode && issue.suggesstedcode !== "N/A" && <div className='bg-light-accent/10 dark:bg-dark-surface p-4 rounded-[3px] border border-light-border dark:border-dark-accent/40 '>
                                             <p className='xss:text-[10px] lg:text-xs flex gap-2 items-center'><CircleCheckBig className='text-emerald-500 xss:size-3 lg:size-4 ' />Suggested fix</p>
