@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-icon.png",
-        alt: "CodescopE Logo",
+        alt: "Codescope Logo",
         width: 200,
         height: 200,
       }

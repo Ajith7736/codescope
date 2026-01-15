@@ -9,7 +9,7 @@ import { VerificationLoader } from "@/ui/loaders/VerificationLoader"
 import { useQuery } from "@tanstack/react-query"
 import { CircleCheck, CircleX, MoveLeft } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import Script from "next/script"
 import { useState } from "react"
 import { toast } from "sonner"
@@ -70,15 +70,21 @@ export const PricingContent = () => {
                     return;
                 }
 
-                const rzp = new (window as any).Razorpay({
+                const options = {
                     key: data.key,
                     subscription_id: data.id,
                     name: "CodeScope",
                     description: "Monthly Subscription",
+                    image: "/favicon.svg",
                     prefill: {
                         name: session?.user?.name,
                         email: session?.user?.email,
                     },
+                    theme: {
+                        color: "#6366f1",
+                        backdrop_color: "#000000"
+                    },
+                    redirect: true,
                     handler: async function (response: any) {
                         console.log("Response : ", response)
                         await pollingsubscription(response.razorpay_subscription_id);
@@ -90,10 +96,13 @@ export const PricingContent = () => {
                                 planId: null,
                                 show: false
                             })
-                        }
-
+                        },
+                        animation: true,
+                        backdropClose: false
                     }
-                });
+                }
+
+                const rzp = new (window as any).Razorpay(options);
 
                 rzp.open();
             }
@@ -114,7 +123,7 @@ export const PricingContent = () => {
         const poll = async (): Promise<void> => {
             try {
                 console.log("attempts : ", attempts)
-                const data = await api.post("/api/check-subscription-status", { subscriptionId , userId : session?.user?.id});
+                const data = await api.post("/api/check-subscription-status", { subscriptionId, userId: session?.user?.id });
 
                 if (data.success) {
                     if (data.status === "active") {
