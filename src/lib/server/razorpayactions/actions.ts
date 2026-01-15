@@ -214,6 +214,8 @@ export async function handleSubscriptionActivated(subscription: RazorpaySubscrip
         }
     })
 
+    console.log("Activation : ", subscription);
+
     await prisma.user.update({
         where: {
             id: subscription.notes.userId
@@ -277,7 +279,7 @@ export async function handlePaymentFailed(payment: RazorpayPayment) {
         }
     })
 
-   
+
 }
 
 export async function handleSubscriptionCancelled(subscription: RazorpaySubscription) {

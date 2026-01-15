@@ -1,5 +1,6 @@
 "use client"
 
+import { auth } from '@/lib/auth';
 import { authClient, useSession } from '@/lib/auth-client';
 import ButtonLoader from '@/ui/loaders/ButtonLoader';
 import React, { useEffect, useState } from 'react'
@@ -7,28 +8,48 @@ import { toast } from 'sonner';
 
 
 function Authcard({ img, provider }: { img: React.ReactElement, provider: "google" | "github" }) {
-    const { data: session } = useSession();
+    const { data: session, isPending } = useSession();
     const [isloading, setisloading] = useState<{ provider: "google" | "github" | null, show: boolean }>({
         provider: null,
         show: false
     });
 
     useEffect(() => {
-        const loading = localStorage.getItem("auth-loading");
-        if (!session && loading) {
+        const json = localStorage.getItem("auth-loading");
+
+        if (!json) {
+            return
+        }
+
+        const loading = JSON.parse(json);
+
+        if (loading.show) {
+            setisloading({
+                provider: loading.provider,
+                show: true
+            })
+        }
+
+        if (session) {
+            localStorage.removeItem("auth-loading");
+            setisloading({
+                provider: null,
+                show: false
+            })
+        }
+
+        if (!session || !isPending) {
             setTimeout(() => {
                 localStorage.removeItem("auth-loading");
-            }, 3000)
-        } else if (loading) {
-            const json = JSON.parse(loading);
-            if (json.show) {
                 setisloading({
-                    provider: json.provider,
-                    show: json.show
+                    provider: null,
+                    show: false
                 })
-            }
+            }, 3000);
         }
-    }, [])
+
+    }, [session, isPending])
+
 
 
     const handlesocial = async () => {
@@ -48,23 +69,23 @@ function Authcard({ img, provider }: { img: React.ReactElement, provider: "googl
             if (error) {
                 toast.error("SignIn Failed");
                 localStorage.removeItem("auth-loading");
-                setisloading({provider : null , show : false});
+                setisloading({ provider: null, show: false });
             }
 
         } catch (err) {
             console.log(err);
             toast.error("Server Error")
             localStorage.removeItem("auth-loading")
-            setisloading({provider : null , show : false});
+            setisloading({ provider: null, show: false });
         }
     }
 
 
-
+    console.log(isloading)
 
     return (
         <div>
-            {!session && isloading.show && isloading.provider === provider ? <button
+            {(isloading.show && isloading.provider === provider) || isPending ? <button
                 className="group h-12 px-6 border cursor-pointer  bg-light-gray dark:bg-dark-surface/70 bg-light-text-muted/10 border-light-border dark:border-dark-border rounded-md w-[20rem] transition duration-300 hover:border-light-accent/50 flex items-center justify-center dark:hover:border-dark-accent/50 ">
                 <ButtonLoader />
             </button>
