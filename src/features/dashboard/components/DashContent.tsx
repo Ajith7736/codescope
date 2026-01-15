@@ -104,7 +104,7 @@ function DashContent() {
       <div className='bg-light-white border border-light-border dark:border-dark-border border-t-0 border-x-0 bg-light-surface dark:bg-dark-surface p-5 flex justify-between items-center'>
         <div className='lg:w-[80%] xss:w-[40vw]'>
           <SecondTitle>Dashboard</SecondTitle>
-          <SmallText className='text-stone-600 font-semibold'>Welcome Back! Here's your code analysis overview.</SmallText>
+          <SmallText className='text-light-text-muted font-semibold'>Welcome Back! Here's your code analysis overview.</SmallText>
         </div>
         <div>
           <Button variant='blue' onClick={() => redirect("/Dashboard/Projects")} icons={<Plus className='size-4' />} className='shadow-xl shadow-indigo-600/20'>New Project</Button>
