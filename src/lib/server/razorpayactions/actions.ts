@@ -19,18 +19,18 @@ function canTransition(from: string | null, to: string) {
 
 export async function handlePaymentCapture(payment: RazorpayPayment) {
 
-    const existingpayment = await prisma.payment.findUnique({
+
+    await prisma.payment.upsert({
         where: {
             razorpay_payment_id: payment.id
-        }
-    })
-
-    if (existingpayment) {
-        return;
-    }
-
-    await prisma.payment.create({
-        data: {
+        },
+        update: {
+            amount: payment.amount / 100,
+            status: payment.status,
+            error_code: payment.error_code,
+            error_desc: payment.error_description,
+        },
+        create: {
             amount: payment?.amount / 100,
             status: payment.status,
             razorpay_payment_id: payment?.id,
@@ -48,18 +48,20 @@ export async function handlePaymentCapture(payment: RazorpayPayment) {
 
 export async function handleInvoice(invoice: RazorpayInvoice) {
 
-    const existinginvoice = await prisma.invoice.findUnique({
+
+    await prisma.invoice.upsert({
         where: {
             razorpay_invoice_id: invoice.id
-        }
-    })
+        },
+        update: {
+            amount: invoice.amount / 100,
+            currency: invoice.currency,
+            razorpay_payment_id: invoice.payment_id,
+            status: invoice.status,
+            paidAt: new Date(invoice.paid_at! * 1000)
 
-    if (existinginvoice) {
-        return
-    }
-
-    await prisma.invoice.create({
-        data: {
+        },
+        create: {
             amount: invoice.amount / 100,
             currency: invoice.currency,
             razorpay_invoice_id: invoice.id,
@@ -214,7 +216,6 @@ export async function handleSubscriptionActivated(subscription: RazorpaySubscrip
         }
     })
 
-    console.log("Activation : ", subscription);
 
     await prisma.user.update({
         where: {

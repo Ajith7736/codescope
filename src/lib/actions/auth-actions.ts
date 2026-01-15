@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { auth } from "../auth"
-import { success } from "zod";
+
 
 
 export const signUp = async (email: string, password: string, name: string): Promise<{ success: boolean, message: string }> => {
@@ -77,6 +77,18 @@ export const UnlinkAccount = async (providerId: string, accountId: string) => {
         }
     }
 }
+
+
+export const getSession = async () => {
+
+    return await auth.api.getSession({
+        headers: await headers()
+    })
+
+}
+
+
+
 
 
 

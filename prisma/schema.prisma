@@ -25,6 +25,7 @@ model User {
   usage                Usage[]
 
   @@map("user")
+  @@index([email])
 }
 
 model Usage {
@@ -37,6 +38,7 @@ model Usage {
   user                   User      @relation(references: [id], fields: [userId], onDelete: Cascade)
 
   @@map("usage")
+  @@index([userId])
 }
 
 model Session {
@@ -51,6 +53,7 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("session")
+  @@index([userId,token])
 }
 
 model Subscription {
@@ -153,6 +156,7 @@ model Account {
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
+  @@index([userId])
 }
 
 model Verification {
@@ -164,6 +168,7 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+  @@index([identifier])
 }
 
 model Project {
@@ -185,6 +190,7 @@ model Project {
   user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("project")
+  @@index([id,userId])
 }
 
 model Overview {
@@ -201,6 +207,7 @@ model Overview {
   project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@map("overview")
+  @@index([projectId])
 }
 
 model Analysis {
@@ -218,6 +225,7 @@ model Analysis {
   issues          Issues[]
 
   @@map("analysis")
+  @@index([projectId])
 }
 
 model Issues {
@@ -234,6 +242,7 @@ model Issues {
   analysis               Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
 
   @@map("issues")
+  @@index([analysisId])
 }
 
 model Messages {

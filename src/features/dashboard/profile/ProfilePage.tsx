@@ -1,6 +1,5 @@
 "use client"
 
-
 import { useSession } from "@/lib/auth-client";
 import { ProfileCard } from "./ProfileCard";
 import LinkedAccounts from "./LinkedAccounts";
@@ -9,6 +8,7 @@ import UnlinkedAccounts from "./UnlinkedAccounts";
 import CurrentPlan from "./CurrentPlan";
 import Loading from "@/app/loading";
 import DeleteUser from "./DeleteUser"
+import { useEffect, useState } from "react";
 
 
 export default function ProfilePage() {
@@ -16,9 +16,14 @@ export default function ProfilePage() {
     const { data: session, refetch, isRefetching } = useSession();
     const currentprovider = new Set(session?.user?.accounts.map((item) => item.providerId))
 
+    const [mounted, setmounted] = useState(false)
+
+    useEffect(() => {
+        setmounted(true);
+    }, [])
 
 
-    if (isRefetching) return <Loading />
+   if(!mounted || isRefetching) return <Loading />
 
     return <div className="overflow-auto p-5 flex flex-col xl:items-center w-full gap-5 ">
         <div className="flex xss:flex-col gap-4">
@@ -41,7 +46,7 @@ export default function ProfilePage() {
         </div>
 
 
-        <CurrentPlan subscription={{ planName: session?.subscription?.plan.name, activatedAt: session?.subscription?.activated_at, endAt: session?.subscription?.current_end, status: session?.user?.subscription_status , subscriptionstatus : session?.subscription?.status}} />
+        <CurrentPlan subscription={{ planName: session?.subscription?.plan.name, activatedAt: session?.subscription?.activated_at, endAt: session?.subscription?.current_end, status: session?.user?.subscription_status, subscriptionstatus: session?.subscription?.status }} />
 
 
         <DeleteUser />
