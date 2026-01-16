@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 
 function Card({ logo, title, desc }: { logo: React.ReactElement, title: string, desc: string }) {
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ ease: "easeInOut" }} viewport={{ once: true }} className=' bg-light-gray/30 relative backdrop-blur-2xl overflow-hidden p-5 dark:bg-dark-gray/20 rounded-[17px]  w-full  md:w-[45%] border hover:border-light-accent/50 border-light-border transition-all duration-300 z-20 dark:border-dark-border'>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ ease: "easeInOut" }} viewport={{ once: true }} className=' bg-light-gray/30 relative backdrop-blur-2xl overflow-hidden p-5 dark:bg-dark-gray/20 rounded-[17px]  border hover:border-light-accent/50 border-light-border transition-all duration-300 z-20 dark:border-dark-border'>
             <div className='flex flex-col gap-3 items-start'>
                 <div className="h-20 w-20 rounded-full dark:bg-indigo-600  blur-3xl absolute -left-5 -bottom-5">
                 </div>

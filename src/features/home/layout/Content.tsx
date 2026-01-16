@@ -50,7 +50,7 @@ function Content({ session }: { session: Session | null }) {
             </header>
 
             {/* Cards Section */}
-            <section className='relative flex flex-col md:flex-wrap px-4 py-4 gap-5 md:flex-row z-10 md:items-center justify-center bg-light-border/20 dark:bg-dark-surface-hover/10 w-full'>
+            <section className='relative max-w-6xl mx-auto xss:gap-5 px-3 grid w-screen grid-cols-[repeat(auto-fit,minmax(370px,1fr))] z-10 bg-light-border/20 dark:bg-dark-surface-hover/10'>
                 {cards.map((card) => {
                     return <Card key={card.title} logo={card.logo} title={card.title} desc={card.desc} />
                 })}
