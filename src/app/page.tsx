@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "codescopegit.vercel.app",
     images: [
       {
-        url: "/og-icon.png",
+        url: "/LandingPage.png",
         alt: "Codescope Logo",
         width: 200,
         height: 200,
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     creator: "@codescopegit",
     images: [
       {
-        url: "/og-icon.png",
+        url: "/LandingPage.png",
         alt: "Codescope Logo",
         width: 200,
         height: 200,

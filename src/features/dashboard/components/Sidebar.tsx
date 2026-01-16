@@ -56,7 +56,7 @@ function Sidebar() {
                 <div className='flex justify-between w-full items-center '>
                     <div className='flex gap-4 items-center transition-all duration-300 '>
                         <Code strokeWidth={4} className='xss:size-8 md:size-9 bg-indigo-600 text-white rounded-xl  p-2' />
-                        <div className={` overflow-hidden ${showsidebar ? 'md:visible md:opacity-100' : 'md:invisible md:opacity-0'} transition-all duration-400 ease-in-out`}>Codescope</div>
+                        <div className={` overflow-hidden ${showsidebar ? 'md:visible md:opacity-100' : 'md:invisible md:opacity-0'} transition-all duration-400 ease-in-out tracking-widest `}>Codescope</div>
                     </div>
                     {!isLargescreen && <CircleX size={16} className='cursor-pointer' onClick={() => setshowsidebar(false)} />}
                 </div>
@@ -99,7 +99,7 @@ function Sidebar() {
                     })}
                 </div>
             </div>
-            <div className={`text-center flex items-center xss:gap-4 md:gap-3 ${showsidebar && 'hover:bg-dark-accent/10 lg:gap-6  hover:dark:bg-dark-hovergray justify-center'} min-w-4 rounded-lg cursor-pointer transition-all duration-300 xss:p-2 md:p-1.5 lg:p-2`}>
+            <div className={`text-center flex justify-between items-center xss:gap-4 md:gap-3 ${showsidebar && 'hover:bg-dark-accent/10 lg:gap-6  hover:dark:bg-dark-hovergray justify-center'} min-w-4 rounded-lg cursor-pointer transition-all duration-300 xss:p-2 md:p-1.5 lg:p-2`}>
                 {session?.user?.image ?
                     <Image
                         height={15}
