@@ -12,7 +12,7 @@ function MainTitle({ session }: { session: Session | null }) {
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className='relative z-10 flex flex-col gap-6 justify-center items-center p-10 lg:px-50 xl:px-80 w-full h-full '>
             <div className='text-center'>
                 {words.map((word, indx) => {
-                    return <motion.h1 key={indx} initial={{ filter: "blur(8px)", scale : .8 , opacity : 0 }} animate={{ filter: "blur(0px)", scale : 1 , opacity : 1}} transition={{ duration: .6, delay: Math.random(), ease: "easeInOut" }} viewport={{ once: true }} className={`font-bold  xss:text-4xl inline-block tracking-wide md:text-7xl mr-4 ${word === "Github" && 'text-dark-accent'}`}>
+                    return <motion.h1 key={indx} initial={{ filter: "blur(8px)", scale : .8 , opacity : 0 }} animate={{ filter: "blur(0px)", scale : 1 , opacity : 1}} transition={{ duration: .6, delay: Math.random(), ease: "easeInOut" }} viewport={{ once: true }} className={`font-bold  xss:text-3xl inline-block tracking-wide md:text-7xl mr-4 ${word === "Github" && 'text-dark-accent'}`}>
                         {word}
                     </motion.h1>
                 })}

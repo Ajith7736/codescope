@@ -38,7 +38,7 @@ function Content({ session }: { session: Session | null }) {
     return (
         <main className='relative flex flex-col justify-center items-center gap-3'>
             
-            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.2, ease: "easeInOut" }} className="text-xs text-indigo-600 px-2 py-1 border border-indigo-500/40 rounded-full w-fit text-center">Powered by Gemini AI</motion.p>
+            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.2, ease: "easeInOut" }} className="xss:text-[10px] md:text-xs text-indigo-600 px-2 py-1 border border-indigo-500/40 rounded-full w-fit text-center">Powered by Gemini AI</motion.p>
             
             <header className='min-h-[50vh] flex flex-col items-center mb-5'>
                 <div className="h-60 w-10 rounded-full bg-indigo-400/30 blur-3xl fixed z-50 -left-15">
